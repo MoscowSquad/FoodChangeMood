@@ -1,5 +1,5 @@
 package org.example.utils
 
-class CsvParser{
+interface CsvParser{
 
 }
