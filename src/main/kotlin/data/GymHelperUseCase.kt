@@ -1,15 +1,16 @@
 package org.example.data
 
+import org.example.logic.MealRepository
 import org.example.model.Meal
 import org.example.model.Nutrition
 import org.example.model.NutritionRequest
 
 import kotlin.math.abs
 
-class GymHelperUseCase(private val mockDataRepository: MockDataRepository) {
+class GymHelperUseCase(private val mealRepository:MealRepository) {
 
     fun findMatchingMeals(request: NutritionRequest): List<Meal> {
-        return mockDataRepository.getAllMeals()
+        return mealRepository.getAllMeals()
             .filter { it.nutrition != null }
             .filter { meal ->
                 meal.nutrition?.let { nutrition ->
