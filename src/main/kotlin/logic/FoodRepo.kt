@@ -1,6 +1,6 @@
 package org.example.logic
 
-import models.Food
+import model.Food
 
 
 interface FoodRepo {
