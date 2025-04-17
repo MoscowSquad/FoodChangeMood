@@ -1,8 +1,7 @@
 package data
 
 import logic.FoodRepo
-import models.Food
-import java.io.File
+import model.Food
 
 class CsvFileData(
     val readLines: ReadLines,

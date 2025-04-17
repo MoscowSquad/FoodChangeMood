@@ -1,6 +1,4 @@
-package models
-
-import java.util.Date
+package model
 
 data class Food (
     val mealName:String,

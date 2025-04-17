@@ -1,6 +1,6 @@
 package logic
 
-import models.Food
+import model.Food
 
 interface FoodRepo {
     fun getAllFood():List<Food>
