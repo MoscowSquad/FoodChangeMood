@@ -1,0 +1,10 @@
+package org.example.model
+
+data class Meal(
+    val name: String,
+    val description: String,
+    // val nutrition: List<Double>,
+    val fat: Double,
+    val protein: Double,
+    val carbs: Double
+)
