@@ -1,8 +1,6 @@
 package data
 
-import models.Food
-import models.Nutrition
-import java.util.*
+import model.Food
 
 class FoodFileParser {
     fun parseOneLine(line:String):Food{
