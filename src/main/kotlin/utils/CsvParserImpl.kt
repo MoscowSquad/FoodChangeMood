@@ -13,28 +13,31 @@ class CsvParserImpl: CsvParser{
         val meals = mutableListOf<Meal>()
 
         for ((index, line) in lines.withIndex()) {
-            try {
-                val cols = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)".toRegex())
+           try {
+               val cols = Regex(""",(?![^\[]*\])""")
+                   .split(line)
+                   .map { it.trim() }
 
-                if (cols.size < 7) {
+                if (cols.size < 12) {
                     //println("Skipping line ${index + 2}: Not enough columns.")
                     continue
-                }
+                 }
 
                 val name = cols.getOrNull(0)?.trim() ?: "Unknown Meal"
                 val nutritionStr = cols.getOrNull(6)?.trim() ?: continue
                 val description = cols.getOrNull(9)?.trim() ?: "No description"
 
                 val nutrition = parseNutrition(nutritionStr)
-                val fat = nutrition.getOrElse(1) { 0.0 }
-                val protein = nutrition.getOrElse(4) { 0.0 }
+                val fat = nutrition.getOrElse(0) { 0.0 }
+                val protein = nutrition.getOrElse(3) { 0.0 }
+                //val carbsmm = nutrition.getOrElse(1) { 0.0 }
                 val carbs = nutrition.lastOrNull() ?: 0.0
 
                 meals.add(Meal(name, description, fat, protein, carbs))
                 //println("Loaded: $name | Fat: $fat, Protein: $protein, Carbs: $carbs")
 
             } catch (e: Exception) {
-                println("Error parsing line ${index + 2}: ${e.message}")
+                //println("Error parsing line ${index + 2}: ${e.message}")
             }
         }
 
