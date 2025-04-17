@@ -1,7 +1,7 @@
 package data
 
 import org.example.logic.FoodRepo
-import models.Food
+import model.Food
 
 class CsvFileData(
     val readLines: ReadLines,

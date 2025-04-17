@@ -1,6 +1,6 @@
 package org.example.logic
 
-import models.Food
+import model.Food
 
 /*
 11- Ingredient Game: Display a meal name and three ingredient options
