@@ -1,5 +1,8 @@
 package org.example.utils
 
-class CsvParserImpl: CsvParser{
+import org.example.model.Nutrition
+import org.example.model.Meal
+import utils.CsvParser
 
+class CsvParserImpl: CsvParser {
 }
