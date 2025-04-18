@@ -6,7 +6,9 @@ fun main() {
 
     val mock= MockDataRepository()
      mock.getIraqiMeals().forEach {
-     println(it.name)
+         println("\n\n Display Iraqi Menu Meals Please :)")
+
+         println("the common meals in iraq is ${it.name}")
      }
 
 }
