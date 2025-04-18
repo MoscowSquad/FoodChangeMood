@@ -13,7 +13,7 @@ class MockDataRepository : MealRepository {
                 name = "arriba   baked winter squash mexican style",
                 minutes = 55,
                 contributorId = 47892,
-                submitted = 20050916,
+                submitted = "20050916",
                 tags = listOf(
                     "60-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine",
                     "preparation", "occasion", "north-american", "side-dishes", "vegetables",
@@ -54,7 +54,7 @@ class MockDataRepository : MealRepository {
                 name = "a bit different  breakfast pizza",
                 minutes = 30,
                 contributorId = 26278,
-                submitted = 20020617,
+                submitted = "20020617",
                 tags = listOf(
                     "30-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine",
                     "preparation", "occasion", "north-american", "breakfast", "main-dish",
@@ -93,7 +93,7 @@ class MockDataRepository : MealRepository {
                 name = "chinese  chop suey",
                 minutes = 70,
                 contributorId = 4481,
-                submitted = 20010127,
+                submitted = "20010127",
                 tags = listOf(
                     "weeknight",
                     "time-to-make",
@@ -160,7 +160,7 @@ class MockDataRepository : MealRepository {
                 name = "cream  of cauliflower soup  vegan",
                 minutes = 110,
                 contributorId = 3288,
-                submitted = 20020328,
+                submitted = "20020328",
                 tags = listOf(
                     "lactose",
                     "weeknight",
@@ -238,7 +238,7 @@ class MockDataRepository : MealRepository {
                 name = "get the sensation  brownies",
                 minutes = 70,
                 contributorId = 37305,
-                submitted = 20020503,
+                submitted = "20020503",
                 tags = listOf(
                     "weeknight",
                     "time-to-make",
@@ -309,7 +309,7 @@ class MockDataRepository : MealRepository {
                 name = "global gourmet  taco casserole",
                 minutes = 55,
                 contributorId = 28604,
-                submitted = 20030416,
+                submitted = "20030416",
                 tags = listOf(
                     "60-minutes-or-less",
                     "time-to-make",
@@ -382,7 +382,7 @@ class MockDataRepository : MealRepository {
                 name = "grilled  ranch bread",
                 minutes = 13,
                 contributorId = 91081,
-                submitted = 20040611,
+                submitted = "20040611",
                 tags = listOf(
                     "15-minutes-or-less",
                     "time-to-make",
@@ -421,7 +421,7 @@ class MockDataRepository : MealRepository {
                 name = "momma s special  marinade",
                 minutes = 10,
                 contributorId = 41480,
-                submitted = 20020603,
+                submitted = "20020603",
                 tags = listOf(
                     "15-minutes-or-less",
                     "time-to-make",
@@ -483,7 +483,7 @@ class MockDataRepository : MealRepository {
                 name = "mr  grant you took half veal prince orloff",
                 minutes = 120,
                 contributorId = 28201,
-                submitted = 20021014,
+                submitted = "20021014",
                 tags = listOf(
                     "weeknight",
                     "time-to-make",
@@ -565,7 +565,7 @@ class MockDataRepository : MealRepository {
                 name = "munch without guilt  tomatoes",
                 minutes = 10,
                 contributorId = 6164,
-                submitted = 20020604,
+                submitted = "20020604",
                 tags = listOf(
                     "15-minutes-or-less",
                     "time-to-make",
@@ -632,7 +632,7 @@ class MockDataRepository : MealRepository {
                 name = "red hot  applesauce",
                 minutes = 135,
                 contributorId = 15572,
-                submitted = 20020208,
+                submitted = "20020208",
                 tags = listOf(
                     "weeknight",
                     "time-to-make",
@@ -676,7 +676,7 @@ class MockDataRepository : MealRepository {
                 name = "red  macaroni salad",
                 minutes = 1470,
                 contributorId = 82367,
-                submitted = 20030611,
+                submitted = "20030611",
                 tags = listOf(
                     "weeknight",
                     "time-to-make",
@@ -735,7 +735,7 @@ class MockDataRepository : MealRepository {
                 name = "rich  hot fudge cake",
                 minutes = 45,
                 contributorId = 34272,
-                submitted = 20020802,
+                submitted = "20020802",
                 tags = listOf(
                     "60-minutes-or-less",
                     "time-to-make",
@@ -803,7 +803,7 @@ class MockDataRepository : MealRepository {
                 name = "symphony  brownies",
                 minutes = 45,
                 contributorId = 51224,
-                submitted = 20021029,
+                submitted = "20021029",
                 tags = listOf(
                     "60-minutes-or-less",
                     "time-to-make",
@@ -854,7 +854,7 @@ class MockDataRepository : MealRepository {
                 name = "the best  banana bread  or muffins",
                 minutes = 70,
                 contributorId = 51579,
-                submitted = 20020903,
+                submitted = "20020903",
                 tags = listOf(
                     "weeknight",
                     "time-to-make",
@@ -922,7 +922,7 @@ class MockDataRepository : MealRepository {
                 name = "the best  chocolate chip cheesecake ever",
                 minutes = 90,
                 contributorId = 82367,
-                submitted = 20030517,
+                submitted = "20030517",
                 tags = listOf(
                     "time-to-make",
                     "course",
@@ -976,7 +976,7 @@ class MockDataRepository : MealRepository {
                 name = "the elvis  smoothie",
                 minutes = 2,
                 contributorId = 37584,
-                submitted = 20050224,
+                submitted = "20050224",
                 tags = listOf(
                     "15-minutes-or-less",
                     "time-to-make",
@@ -1025,7 +1025,7 @@ class MockDataRepository : MealRepository {
                 name = "the man s  taco dip",
                 minutes = 40,
                 contributorId = 55690,
-                submitted = 20021007,
+                submitted = "20021007",
                 tags = listOf(
                     "60-minutes-or-less",
                     "time-to-make",
@@ -1064,7 +1064,7 @@ class MockDataRepository : MealRepository {
                 name = "the woiks  dilly burgers",
                 minutes = 32,
                 contributorId = 23302,
-                submitted = 20020724,
+                submitted = "20020724",
                 tags = listOf(
                     "bacon",
                     "60-minutes-or-less",
@@ -1149,7 +1149,7 @@ class MockDataRepository : MealRepository {
                 name = "tide me over   indian chaat  simple veggie salad",
                 minutes = 2,
                 contributorId = 12657,
-                submitted = 20030605,
+                submitted = "20030605",
                 tags = listOf(
                     "15-minutes-or-less",
                     "time-to-make",
@@ -1223,7 +1223,7 @@ class MockDataRepository : MealRepository {
                 name = "to your health  muffins",
                 minutes = 40,
                 contributorId = 33823,
-                submitted = 20030512,
+                submitted = "20030512",
                 tags = listOf(
                     "60-minutes-or-less",
                     "time-to-make",
@@ -1272,7 +1272,7 @@ class MockDataRepository : MealRepository {
                 name = "truth serum  margaritas",
                 minutes = 30,
                 contributorId = 59756,
-                submitted = 20021113,
+                submitted = "20021113",
                 tags = listOf(
                     "30-minutes-or-less",
                     "time-to-make",
@@ -1315,7 +1315,7 @@ class MockDataRepository : MealRepository {
                 name = "turtle  squares",
                 minutes = 30,
                 contributorId = 35635,
-                submitted = 20030407,
+                submitted = "20030407",
                 tags = listOf(
                     "30-minutes-or-less",
                     "time-to-make",
@@ -1381,7 +1381,7 @@ class MockDataRepository : MealRepository {
                 name = "twisted american chop suey",
                 minutes = 60,
                 contributorId = 42337,
-                submitted = 20030414,
+                submitted = "20030414",
                 tags = listOf(
                     "60-minutes-or-less",
                     "time-to-make",
@@ -1433,7 +1433,7 @@ class MockDataRepository : MealRepository {
                 name = "rathu isso curry  sri lankan red prawn curry",
                 minutes = 35,
                 contributorId = 518707,
-                submitted = 20080722,
+                submitted = "20080722",
                 tags = listOf(
                     "curries",
                     "60-minutes-or-less",
@@ -1488,7 +1488,7 @@ class MockDataRepository : MealRepository {
                 name = "thetis queen  albacore tuna tacones with spicy spot p",
                 minutes = 45,
                 contributorId = 34879,
-                submitted = 20090827,
+                submitted = "20090827",
                 tags = listOf(
                     "weeknight",
                     "60-minutes-or-less",
@@ -1556,7 +1556,7 @@ class MockDataRepository : MealRepository {
                 name = "three cheese  cheese ball",
                 minutes = 375,
                 contributorId = 37636,
-                submitted = 20031126,
+                submitted = "20031126",
                 tags = listOf(
                     "weeknight",
                     "time-to-make",
@@ -1616,7 +1616,7 @@ class MockDataRepository : MealRepository {
                 name = "tofu noodle  tuna casserole",
                 minutes = 40,
                 contributorId = 446143,
-                submitted = 20070714,
+                submitted = "20070714",
                 tags = listOf(
                     "60-minutes-or-less",
                     "time-to-make",
