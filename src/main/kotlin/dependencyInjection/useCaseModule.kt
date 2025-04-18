@@ -1,18 +1,22 @@
 package org.example.dependencyInjection
-import org.example.logic.SearchMealByNameUseCase
-import org.example.logic.SweetsWithNoEggUseCase
-import org.example.logic.GetHealthyFastFoodMealsUseCase
-import org.koin.dsl.module
-import org.example.data.MockDataRepository
-import org.example.logic.RandomMealNameProvider
-import org.example.logic.UserInputGuessImpl
 
+import logic.EasyFoodSug
+import org.example.logic.*
+import org.koin.dsl.module
 
 val useCaseModule = module {
     single { SearchMealByNameUseCase(get(), get()) }
+    single { GetRandomMealsHavePotatoes(get()) }
     single { SweetsWithNoEggUseCase(get()) }
     single { GetHealthyFastFoodMealsUseCase(get()) }
-    single{ MockDataRepository() }
+    single { KetoDietMealHelper(get()) }
+    single { GetSeafoodByProteinContent(get()) }
+    single { GetMealsByDateUseCase(get()) }
+    single { GetMealByIdUseCase(get()) }
+    single { SearchMealByCountryUseCase(get()) }
+    single { FindItalianMealsForLargeGroupsUseCase(get()) }
+    single { EasyFoodSug(get()) }
+    single { IngredientGame(get()) }
     single{ RandomMealNameProvider(get()) }
     single{ UserInputGuessImpl() }
 }

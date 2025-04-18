@@ -1,4 +1,4 @@
-package com.moscow.squad
+package org.example.data
 
 import org.example.logic.NOT_MATCHED
 import org.example.logic.SearchMatcher

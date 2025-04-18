@@ -1,18 +1,28 @@
 package org.example.presentation
 
+
+import org.example.exceptions.Exceptions
 import org.example.logic.GetHealthyFastFoodMealsUseCase
+import org.example.logic.GetMealByIdUseCase
+import org.example.logic.GetMealsByDateUseCase
+import org.example.logic.SearchMealByCountryUseCase
 import org.example.model.Meal
+import java.text.SimpleDateFormat
+import java.util.*
 
 class FoodChangeMoodConsoleUI(
     private val getHealthyFastFoodMealsUseCase: GetHealthyFastFoodMealsUseCase,
-    // You can add more use cases here as you implement more features
-)
-{
+    private val searchMealsByCountry: SearchMealByCountryUseCase,
+    private val getMealsByDate: GetMealsByDateUseCase,
+    private val getMealById: GetMealByIdUseCase
+) {
+
+
     fun start() {
         showWelcome()
         presentFeatures()
     }
-
+    private val scanner = Scanner(System.`in`)
     private fun presentFeatures() {
         showOptions()
         val input = getUserInput()
@@ -34,6 +44,7 @@ class FoodChangeMoodConsoleUI(
         println("1- Get healthy fast food meals (15 minutes or less with low fat and carbs)")
         println("2- Search for meals by name")
         println("3- Get high protein meals for fitness")
+        println("4- Search meals by date (yyyyMMdd)")
         print("here: ")
     }
 
@@ -64,6 +75,54 @@ class FoodChangeMoodConsoleUI(
         // This would call a GetHighProteinMealsUseCase
     }
 
+    fun exploreFoodCulture() {
+        print("Enter a country name to explore its food culture: ")
+        val country = readln()
+        val meals = searchMealsByCountry.searchMealsByCountry(country)
+
+        if (meals.isEmpty()) {
+            println("No meals found for $country")
+        } else {
+            println("Found ${meals.size} meals related to $country:")
+            meals.forEachIndexed { index, meal ->
+                println("${index + 1}. ${meal.name}")
+            }
+        }
+    }
+
+    private fun searchMealsByDate() {
+        println("Enter a date in format yyyyMMdd:")
+        val input = scanner.nextLine()
+        val dateInt = try {
+            val format = SimpleDateFormat("yyyyMMdd")
+            format.isLenient = false
+            format.parse(input)
+            input.toInt()
+        } catch (e: Exception) {
+            throw Exceptions.InvalidDateFormat("Invalid date format. Use yyyyMMdd.")
+        }
+
+        try {
+            val meals = getMealsByDate.getMealsByDate(dateInt)
+            println("Meals found:")
+            meals.forEach { println("ID: ${it.id}, Name: ${it.name}") }
+
+            println("Enter the ID of the meal you want details for:")
+            val id = scanner.nextLine().toInt()
+            val meal = getMealById.getMealById(id)
+            if (meal != null) {
+                println("\n--- Meal Details ---")
+                println("Name: ${meal.name}")
+                println("Description: ${meal.description}")
+                println("Ingredients: ${meal.ingredients?.joinToString()}")
+            } else {
+                println("Meal not found.")
+            }
+        } catch (e: Exceptions.NoMealsFound) {
+            println(e.message)
+        }
+    }
+
     private fun displayMeals(meals: List<Meal>) {
         meals.forEachIndexed { index, meal ->
             println("\n${index + 1}. ${meal.name}")
@@ -76,6 +135,7 @@ class FoodChangeMoodConsoleUI(
                     "Carbs: ${meal.nutrition.carbohydrates}g")
         }
     }
+
 
     private fun getUserInput(): Int? {
         return readlnOrNull()?.toIntOrNull()
