@@ -1678,7 +1678,7 @@ class MockDataRepository : MealRepository {
     }
 
     override fun getMealById(id: Int): Meal? {
-        TODO("Not yet implemented")
+        return getAllMeals().find { it.id == id }
     }
 
 
