@@ -9,4 +9,5 @@ val useCaseModule = module {
     single { SweetsWithNoEggUseCase(get()) }
     single { GetHealthyFastFoodMealsUseCase(get()) }
     single { GetSeafoodByProteinContent(get()) }
+    single { GetRandomMealsHavePotatoes(get()) }
 }
