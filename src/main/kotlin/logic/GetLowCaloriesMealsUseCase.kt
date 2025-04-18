@@ -11,7 +11,7 @@ class GetHighCaloriesMealsUseCase(private val repository: MealRepository) {
         repository.getAllMeals()
             .filter(::byHighCalories)
             .forEach { meal ->
-                if (suggestedList.contains(meal)) {
+                if (!suggestedList.contains(meal)) {
                     suggestedList.add(meal)
                     return meal
                 }
