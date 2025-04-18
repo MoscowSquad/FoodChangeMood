@@ -1,6 +1,5 @@
 package org.example.logic
 
-
 import org.example.model.Meal
 
 class FindItalianMealsForLargeGroupsUseCase(
@@ -27,7 +26,7 @@ class FindItalianMealsForLargeGroupsUseCase(
         if (tagsLower != null) {
             return tagsLower.contains("italian") || meal.description?.lowercase()?.contains("italian") ?: false
         }
-        return true
+        return false
     }
 
     private fun isGroupSuitableMeal(meal: Meal): Boolean {
@@ -39,6 +38,4 @@ class FindItalianMealsForLargeGroupsUseCase(
         }
         return false
     }
-
-
 }
