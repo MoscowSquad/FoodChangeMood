@@ -1,17 +1,20 @@
 package org.example.presentation
 
 
-import org.example.logic.GetHealthyFastFoodMealsUseCase
 import org.example.exceptions.Exceptions
-import org.example.logic.MealRepository
-import java.util.Scanner
+import org.example.logic.GetHealthyFastFoodMealsUseCase
+import org.example.logic.GetMealByIdUseCase
+import org.example.logic.GetMealsByDateUseCase
+import org.example.logic.SearchMealByCountryUseCase
 import org.example.model.Meal
 import java.text.SimpleDateFormat
 import java.util.*
 
 class FoodChangeMoodConsoleUI(
     private val getHealthyFastFoodMealsUseCase: GetHealthyFastFoodMealsUseCase,
-    private val mealRepository: MealRepository
+    private val searchMealsByCountry: SearchMealByCountryUseCase,
+    private val getMealsByDate: GetMealsByDateUseCase,
+    private val getMealById: GetMealByIdUseCase
 ) {
 
 
@@ -72,6 +75,21 @@ class FoodChangeMoodConsoleUI(
         // This would call a GetHighProteinMealsUseCase
     }
 
+    fun exploreFoodCulture() {
+        print("Enter a country name to explore its food culture: ")
+        val country = readln()
+        val meals = searchMealsByCountry.searchMealsByCountry(country)
+
+        if (meals.isEmpty()) {
+            println("No meals found for $country")
+        } else {
+            println("Found ${meals.size} meals related to $country:")
+            meals.forEachIndexed { index, meal ->
+                println("${index + 1}. ${meal.name}")
+            }
+        }
+    }
+
     private fun searchMealsByDate() {
         println("Enter a date in format yyyyMMdd:")
         val input = scanner.nextLine()
@@ -85,13 +103,13 @@ class FoodChangeMoodConsoleUI(
         }
 
         try {
-            val meals = mealRepository.getMealsByDate(dateInt)
+            val meals = getMealsByDate.getMealsByDate(dateInt)
             println("Meals found:")
             meals.forEach { println("ID: ${it.id}, Name: ${it.name}") }
 
             println("Enter the ID of the meal you want details for:")
             val id = scanner.nextLine().toInt()
-            val meal = mealRepository.getMealById(id)
+            val meal = getMealById.getMealById(id)
             if (meal != null) {
                 println("\n--- Meal Details ---")
                 println("Name: ${meal.name}")
@@ -111,12 +129,13 @@ class FoodChangeMoodConsoleUI(
             meal.description?.let { println("   Description: $it") } ?: println("   Description: N/A")
             println("   Prep Time: ${meal.minutes} minutes")
             println("   Nutrition: " +
-                "Calories: ${meal.nutrition.calories}, " +
-                "Total Fat: ${meal.nutrition.totalFat}g, " +
-                "Saturated Fat: ${meal.nutrition.saturatedFat}g, " +
-                "Carbs: ${meal.nutrition.carbohydrates}g")
+                    "Calories: ${meal.nutrition.calories}, " +
+                    "Total Fat: ${meal.nutrition.totalFat}g, " +
+                    "Saturated Fat: ${meal.nutrition.saturatedFat}g, " +
+                    "Carbs: ${meal.nutrition.carbohydrates}g")
         }
     }
+
 
     private fun getUserInput(): Int? {
         return readlnOrNull()?.toIntOrNull()
