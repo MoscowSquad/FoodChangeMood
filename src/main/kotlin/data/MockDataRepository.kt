@@ -1,6 +1,5 @@
 package org.example.data
 
-import org.example.exceptions.Exceptions
 import org.example.logic.MealRepository
 import org.example.model.Meal
 import org.example.model.Nutrition
@@ -1670,16 +1669,4 @@ class MockDataRepository : MealRepository {
             )
         )
     }
-
-    override fun getMealsByDate(date: Int): List<Meal> {
-        val matchedMeals = getAllMeals().filter { it.submitted == date }
-        if (matchedMeals.isEmpty()) throw Exceptions.NoMealsFound("No meals found on this date.")
-        return matchedMeals
-    }
-
-    override fun getMealById(id: Int): Meal? {
-        return getAllMeals().find { it.id == id }
-    }
-
-
 }

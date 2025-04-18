@@ -1,6 +1,6 @@
 package org.example
 
-import org.example.dependencyInjection.appModule
+import dependencyInjection.appModule
 import org.example.dependencyInjection.useCaseModule
 import org.example.logic.SearchMealByNameUseCase
 import org.example.model.BlankKeywordException
