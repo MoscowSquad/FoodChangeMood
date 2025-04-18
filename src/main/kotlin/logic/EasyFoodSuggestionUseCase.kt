@@ -10,10 +10,11 @@ A meal is considered easy if it requires 30 minutes or less,
  and can be prepared in 6 steps or fewer.
  */
 
-class EasyFoodSug (private val mealRepository: MealRepository){
+class EasyFoodSuggestionUseCase (private val mealRepository: MealRepository){
     fun foodSuggestion():List<String>{
         return mealRepository.getAllMeals()
             .filter {currentMeal->
+
                 currentMeal.minutes != null
                         && currentMeal.nIngredients != null
                         && currentMeal.nSteps != null
