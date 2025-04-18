@@ -24,15 +24,24 @@ class GymHelperUseCase(private val mealRepository:MealRepository) {
     }
 
     private fun isNutritionMatch(nutrition: Nutrition, request: NutritionRequest): Boolean {
-        val calorieTolerance = request.desiredCalories * 0.1 // ±10%
-        val proteinTolerance = request.desiredProtein * 0.1 // ±10%
-        return abs(nutrition.calories - request.desiredCalories) <= calorieTolerance &&
-                abs(nutrition.protein - request.desiredProtein) <= proteinTolerance
+        val calories = nutrition.calories ?: return false
+        val protein = nutrition.protein ?: return false
+
+        val calorieTolerance = request.desiredCalories * 0.1
+        val proteinTolerance = request.desiredProtein * 0.1
+
+        return abs(calories - request.desiredCalories) <= calorieTolerance &&
+                abs(protein - request.desiredProtein) <= proteinTolerance
     }
 
     private fun calculateDistance(nutrition: Nutrition, request: NutritionRequest): Double {
-        val calorieDiff = abs(nutrition.calories - request.desiredCalories)
-        val proteinDiff = abs(nutrition.protein - request.desiredProtein)
-        return calorieDiff + proteinDiff // Simple distance metric
+        val calories = nutrition.calories ?: return Double.MAX_VALUE
+        val protein = nutrition.protein ?: return Double.MAX_VALUE
+
+        val calorieDiff = abs(calories - request.desiredCalories)
+        val proteinDiff = abs(protein - request.desiredProtein)
+
+        return calorieDiff + proteinDiff
     }
+
 }

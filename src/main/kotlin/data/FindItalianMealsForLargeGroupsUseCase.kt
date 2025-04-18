@@ -24,15 +24,22 @@ class FindItalianMealsForLargeGroupsUseCase(
     }
 
     private fun isItalianMeal(meal: Meal): Boolean {
-        val tagsLower = meal.tags.map { it.lowercase() }
-        return tagsLower.contains("italian") || meal.description?.lowercase()?.contains("italian")?:false
+        val tagsLower = meal.tags?.map { it.lowercase() }
+        if (tagsLower != null) {
+            return tagsLower.contains("italian") || meal.description?.lowercase()?.contains("italian") ?: false
+        }
+        return true
     }
 
     private fun isGroupSuitableMeal(meal: Meal): Boolean {
-        val tagsLower = meal.tags.map { it.lowercase() }
-        return tagsLower.contains("for-large-groups") ||
-                tagsLower.contains("dinner-party") ||
-                tagsLower.contains("potluck")
+        val tagsLower = meal.tags?.map { it.lowercase() }
+        if (tagsLower != null) {
+            return tagsLower.contains("for-large-groups") ||
+                    tagsLower.contains("dinner-party") ||
+                    tagsLower.contains("potluck")
+        }
+        return false
     }
+
 
 }
