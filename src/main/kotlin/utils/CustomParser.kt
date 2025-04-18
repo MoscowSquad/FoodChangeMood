@@ -1,5 +1,7 @@
 package org.example.utils
 
+import org.example.model.Meal
+import org.example.model.Nutrition
 import java.io.File
 
 class CustomParser {
@@ -12,21 +14,20 @@ class CustomParser {
 
     fun parseMealsCsv(file: File): List<Meal> {
         val lines = file.readLines()
-        val header = lines.first().split(",")
         return lines.drop(1).mapNotNull { line ->
             try {
                 val parts = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)".toRegex())
 
-                val name = parts.getOrNull(0)?.ifBlank { null }
-                val id = parts.getOrNull(1)?.toIntOrNull()
-                val minutes = parts.getOrNull(2)?.toIntOrNull()
-                val contributorId = parts.getOrNull(3)?.toIntOrNull()
-                val submitted = parts.getOrNull(4)?.ifBlank { null }
+                val name = parts.getOrNull(MealTokens.NAME)?.ifBlank { null }
+                val id = parts.getOrNull(MealTokens.ID)?.toIntOrNull()
+                val minutes = parts.getOrNull(MealTokens.MINUTES)?.toIntOrNull()
+                val contributorId = parts.getOrNull(MealTokens.CONTRIBUTOR_ID)?.toIntOrNull()
+                val submitted = parts.getOrNull(MealTokens.SUBMITTED)?.ifBlank { null }
 
-                val tags = parts.getOrNull(5)?.removeSurrounding("[", "]")
+                val tags = parts.getOrNull(MealTokens.TAGS)?.removeSurrounding("[", "]")
                     ?.split(",")?.map { it.trim().removeSurrounding("'") }?.takeIf { it.isNotEmpty() }
 
-                val nutritionArray = parts.getOrNull(6)
+                val nutritionArray = parts.getOrNull(MealTokens.NUTRITION)
                     ?.removeSurrounding("\"[", "]\"")
                     ?.split(",")
                     ?.map { it.trim().toDoubleOrNull() }
@@ -34,26 +35,26 @@ class CustomParser {
 
                 val nutrition = nutritionArray?.let {
                     Nutrition(
-                        calories = it.getOrNull(0),
-                        totalFat = it.getOrNull(1),
-                        sugar = it.getOrNull(2),
-                        sodium = it.getOrNull(3),
-                        protein = it.getOrNull(4),
-                        saturatedFat = it.getOrNull(5),
-                        carbohydrates = it.getOrNull(6)
+                        calories = it.getOrNull(NutritionTokens.CALORIES),
+                        totalFat = it.getOrNull(NutritionTokens.TOTAL_FAT),
+                        sugar = it.getOrNull(NutritionTokens.SUGAR),
+                        sodium = it.getOrNull(NutritionTokens.SODIUM),
+                        protein = it.getOrNull(NutritionTokens.PROTEIN),
+                        saturatedFat = it.getOrNull(NutritionTokens.SATURATED_FAT),
+                        carbohydrates = it.getOrNull(NutritionTokens.CARBOHYDRATES)
                     )
                 }
 
-                val nSteps = parts.getOrNull(7)?.toIntOrNull()
-                val steps = parts.getOrNull(8)?.removeSurrounding("[", "]")
+                val nSteps = parts.getOrNull(MealTokens.N_STEPS)?.toIntOrNull()
+                val steps = parts.getOrNull(MealTokens.STEPS)?.removeSurrounding("[", "]")
                     ?.split(",")?.map { it.trim().removeSurrounding("'") }
 
-                val description = parts.getOrNull(9)?.ifBlank { null }
+                val description = parts.getOrNull(MealTokens.DESCRIPTION)?.ifBlank { null }
 
-                val ingredients = parts.getOrNull(10)?.removeSurrounding("[", "]")
+                val ingredients = parts.getOrNull(MealTokens.INGREDIENTS)?.removeSurrounding("[", "]")
                     ?.split(",")?.map { it.trim().removeSurrounding("'") }?.takeIf { it.isNotEmpty() }
 
-                val nIngredients = parts.getOrNull(11)?.toIntOrNull()
+                val nIngredients = parts.getOrNull(MealTokens.N_INGREDIENTS)?.toIntOrNull()
 
                 Meal(
                     name, id, minutes, contributorId, submitted,
@@ -66,47 +67,3 @@ class CustomParser {
     }
 
 }
-
-data class Meal(
-    val name: String?,
-    val id: Int?,
-    val minutes: Int?,
-    val contributorId: Int?,
-    val submitted: String?,
-    val tags: List<String>?,
-    val nutrition: Nutrition?,
-    val nSteps: Int?,
-    val steps: List<String>?,
-    val description: String?,
-    val ingredients: List<String>?,
-    val nIngredients: Int?
-){
-    override fun toString(): String {
-        super.toString()
-        return """
-            id: ${this.id}
-            name: ${this.name}
-            minutes: ${this.minutes}
-            contributor_id: ${this.contributorId}
-            submitted: ${this.submitted}
-            tags: ${this.tags}
-            nutrition: ${this.nutrition}
-            n_steps: ${this.nSteps}
-            steps: ${this.steps}
-            description: ${this.description}
-            ingredients: ${this.ingredients}
-            n_ingredients: ${this.nIngredients}
-            
-        """.trimIndent()
-    }
-}
-
-data class Nutrition(
-    val calories: Double?,
-    val totalFat: Double?,
-    val sugar: Double?,
-    val sodium: Double?,
-    val protein: Double?,
-    val saturatedFat: Double?,
-    val carbohydrates: Double?
-)
