@@ -1,14 +1,15 @@
 package org.example.data
 
+
 import org.example.model.Meal
 import org.example.model.NutritionRequest
 
-class InvalidInputException(message: String) : Exception(message)
-class NoMealsFoundException : Exception("No meals found matching your criteria.")
+// Create a sealed class to hold all custom exceptions
+
 
 class GymHelperController(private val useCase: GymHelperUseCase) {
 
-    @Throws(InvalidInputException::class, NoMealsFoundException::class)
+    @Throws(GymHelperException::class)
     fun runGymHelper(caloriesInput: String, proteinInput: String): List<Meal> {
         val request = try {
             NutritionRequest(
@@ -28,7 +29,7 @@ class GymHelperController(private val useCase: GymHelperUseCase) {
 
         return meals
     }
-
+}
 
 
     private fun displayMeals(meals: List<Meal>): List<String> {
@@ -37,5 +38,10 @@ class GymHelperController(private val useCase: GymHelperUseCase) {
                 "${meal.name} (Calories: ${nutrition.calories}, Protein: ${nutrition.protein})"
             }
         }
-    }}
+    }
+
+sealed class GymHelperException(message: String) : Exception(message)
+
+class InvalidInputException(message: String) : GymHelperException(message)
+class NoMealsFoundException : GymHelperException("No meals found matching your criteria.")
 
