@@ -1,5 +1,8 @@
 package org.example.dependencyInjection
 
+import com.moscow.squad.FuzzySearchMatcher
+import com.moscow.squad.KMPSearchMatcher
+import org.example.logic.SearchMatcher
 import org.example.data.MockDataRepository
 
 import org.example.data.FoodCsvParser
@@ -12,7 +15,7 @@ import org.koin.dsl.module
 import java.io.File
 
 val appModule = module {
-    single<MealRepository> { MockDataRepository() }
+    single<SearchMatcher> { KMPSearchMatcher() }
     // Data layer
     single { File("food.csv") }
     single { FoodCsvParser() }
