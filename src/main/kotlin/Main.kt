@@ -1,20 +1,28 @@
 package org.example
 
+import org.example.data.MockDataRepository
 import org.example.logic.userInputGuess
-import org.example.utils.CsvParser
-import org.example.utils.CsvParserImpl
 
 fun main() {
     try {
-        val csvParser: CsvParser = CsvParserImpl()
-        val randomLine = csvParser.getRandomFoodLine()
-        val (foodName, timeString) = randomLine.split(",").map { it.trim() }
-        val actualTime = timeString.toInt()
+        // Get the repository instance
+        val mealRepository = MockDataRepository()
 
+        // Get a random meal with all its details
+        val randomMeal = mealRepository.getAllMeals().random()
+
+        // Extract the name and actual preparation time
+        val foodName = randomMeal.name
+        val preparationTime = randomMeal.minutes
+
+        println("Guess details about: $foodName")
+        // Start the guessing game with both values
         userInputGuess().apply {
-            userGuessingInput(foodName, actualTime)
+            guessPreparationTime(foodName, preparationTime)
         }
+
     } catch (e: Exception) {
         println("Error: ${e.message}")
+        e.printStackTrace()
     }
 }
