@@ -1,7 +1,5 @@
 package org.example.model
 
-import java.util.Date
-
 data class Meal(
     val id: Int,
     val name: String,
@@ -14,6 +12,5 @@ data class Meal(
     val steps: List<String>,
     val description: String?,
     val ingredients: List<String>,
-    val prepTimeMinutes: Int,
     val nIngredients: Int,
 )
