@@ -1,5 +1,6 @@
 package org.example.dependencyInjection
 
+import org.example.data.MockDataRepository
 
 import org.example.data.FoodCsvParser
 import org.example.data.CsvFoodReader
@@ -11,6 +12,7 @@ import org.koin.dsl.module
 import java.io.File
 
 val appModule = module {
+    single<MealRepository> { MockDataRepository() }
     // Data layer
     single { File("food.csv") }
     single { FoodCsvParser() }
