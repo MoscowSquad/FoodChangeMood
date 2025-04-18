@@ -5,9 +5,10 @@ import org.example.dependencyInjection.useCaseModule
 import org.example.logic.SearchMealByNameUseCase
 import org.example.model.BlankKeywordException
 import org.example.model.KeywordNotFoundException
-import org.example.utils.CustomParser
 import org.koin.core.context.startKoin
 import org.koin.mp.KoinPlatform
+import org.example.utils.CustomParser
+
 
 fun main() {
     println("Hello World!")
@@ -28,7 +29,7 @@ fun main() {
     }
 }
 
-fun mainParsingTest() {
+fun mainParsingTest(){
     val parser = CustomParser()
     val file = parser.getResourceFile("food.csv")
     val list = parser.parseMealsCsv(file)
