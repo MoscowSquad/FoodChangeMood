@@ -26,8 +26,11 @@ class CustomParser {
                 val tags = parts.getOrNull(5)?.removeSurrounding("[", "]")
                     ?.split(",")?.map { it.trim().removeSurrounding("'") }?.takeIf { it.isNotEmpty() }
 
-                val nutritionArray = parts.getOrNull(6)?.removeSurrounding("[", "]")
-                    ?.split(",")?.map { it.trim().toDoubleOrNull() }
+                val nutritionArray = parts.getOrNull(6)
+                    ?.removeSurrounding("\"[", "]\"")
+                    ?.split(",")
+                    ?.map { it.trim().toDoubleOrNull() }
+
 
                 val nutrition = nutritionArray?.let {
                     Nutrition(
