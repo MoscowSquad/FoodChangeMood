@@ -1,12 +1,12 @@
 package org.example.logic
 
-import org.example.utils.Meal
+import org.example.model.Meal
 
 class GetRandomMealsHavePotatoes(
-    private val meals: List<Meal>
+    private val mealRepository: MealRepository
 ) {
-    fun getRandomPotatoMeals(): List<Meal> = meals
-        .filter {
+    fun getRandomPotatoMeals(): List<Meal> =
+        mealRepository.getAllMeals().filter {
             it.ingredients?.contains("potatoes") ?: false
         }.shuffled().take(10)
 }
