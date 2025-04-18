@@ -68,7 +68,7 @@ class FoodChangeMoodConsoleUI(
         meals.forEachIndexed { index, meal ->
             println("\n${index + 1}. ${meal.name}")
             meal.description?.let { println("   Description: $it") } ?: println("   Description: N/A")
-            println("   Prep Time: ${meal.prepTimeMinutes} minutes")
+            println("   Prep Time: ${meal.minutes} minutes")
             println("   Nutrition: " +
                     "Calories: ${meal.nutrition.calories}, " +
                     "Total Fat: ${meal.nutrition.totalFat}g, " +
