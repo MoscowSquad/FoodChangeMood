@@ -7,7 +7,7 @@ class GetIraqiMeals(
 ) {
     fun getIraqiMeals(): List<Meal> {
         return repository.getAllMeals().filter { meal ->
-            meal.tags.any { it.equals("iraqi", ignoreCase = true) } ||
+            meal.tags?.any { it.equals("iraqi", ignoreCase = true) } ?:  false
                     meal.description?.contains("iraq", ignoreCase = true) == true
         }
     }

@@ -19,4 +19,5 @@ val useCaseModule = module {
     single { IngredientGame(get()) }
     single{ RandomMealNameProvider(get()) }
     single{ UserInputGuessImpl() }
+    single{ GetIraqiMeals(get()) }
 }
