@@ -1,6 +1,8 @@
 package org.example.data
 import org.example.logic.MealRepository
 import org.example.model.Meal
+import org.example.model.NoFoodFoundException
+import org.example.model.IncorrectMealNameException
 
 class RandomMealNameImpl(
     private val mealRepository: MealRepository = MockDataRepository()
