@@ -12,6 +12,5 @@ data class Meal(
     val steps: List<String>,
     val description: String?,
     val ingredients: List<String>,
-     val nIngredients: Int,
-
+    val nIngredients: Int,
 )

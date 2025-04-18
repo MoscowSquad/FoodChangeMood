@@ -1,18 +1,25 @@
 package org.example.presentation
 
+
 import org.example.logic.GetHealthyFastFoodMealsUseCase
+import org.example.exceptions.Exceptions
+import org.example.logic.MealRepository
+import java.util.Scanner
 import org.example.model.Meal
+import java.text.SimpleDateFormat
+import java.util.*
 
 class FoodChangeMoodConsoleUI(
     private val getHealthyFastFoodMealsUseCase: GetHealthyFastFoodMealsUseCase,
-    // You can add more use cases here as you implement more features
-)
-{
+    private val mealRepository: MealRepository
+) {
+
+
     fun start() {
         showWelcome()
         presentFeatures()
     }
-
+    private val scanner = Scanner(System.`in`)
     private fun presentFeatures() {
         showOptions()
         val input = getUserInput()
@@ -34,6 +41,7 @@ class FoodChangeMoodConsoleUI(
         println("1- Get healthy fast food meals (15 minutes or less with low fat and carbs)")
         println("2- Search for meals by name")
         println("3- Get high protein meals for fitness")
+        println("4- Search meals by date (yyyyMMdd)")
         print("here: ")
     }
 
@@ -64,16 +72,49 @@ class FoodChangeMoodConsoleUI(
         // This would call a GetHighProteinMealsUseCase
     }
 
+    private fun searchMealsByDate() {
+        println("Enter a date in format yyyyMMdd:")
+        val input = scanner.nextLine()
+        val dateInt = try {
+            val format = SimpleDateFormat("yyyyMMdd")
+            format.isLenient = false
+            format.parse(input)
+            input.toInt()
+        } catch (e: Exception) {
+            throw Exceptions.InvalidDateFormat("Invalid date format. Use yyyyMMdd.")
+        }
+
+        try {
+            val meals = mealRepository.getMealsByDate(dateInt)
+            println("Meals found:")
+            meals.forEach { println("ID: ${it.id}, Name: ${it.name}") }
+
+            println("Enter the ID of the meal you want details for:")
+            val id = scanner.nextLine().toInt()
+            val meal = mealRepository.getMealById(id)
+            if (meal != null) {
+                println("\n--- Meal Details ---")
+                println("Name: ${meal.name}")
+                println("Description: ${meal.description}")
+                println("Ingredients: ${meal.ingredients.joinToString()}")
+            } else {
+                println("Meal not found.")
+            }
+        } catch (e: Exceptions.NoMealsFound) {
+            println(e.message)
+        }
+    }
+
     private fun displayMeals(meals: List<Meal>) {
         meals.forEachIndexed { index, meal ->
             println("\n${index + 1}. ${meal.name}")
             meal.description?.let { println("   Description: $it") } ?: println("   Description: N/A")
             println("   Prep Time: ${meal.minutes} minutes")
             println("   Nutrition: " +
-                    "Calories: ${meal.nutrition.calories}, " +
-                    "Total Fat: ${meal.nutrition.totalFat}g, " +
-                    "Saturated Fat: ${meal.nutrition.saturatedFat}g, " +
-                    "Carbs: ${meal.nutrition.carbohydrates}g")
+                "Calories: ${meal.nutrition.calories}, " +
+                "Total Fat: ${meal.nutrition.totalFat}g, " +
+                "Saturated Fat: ${meal.nutrition.saturatedFat}g, " +
+                "Carbs: ${meal.nutrition.carbohydrates}g")
         }
     }
 
