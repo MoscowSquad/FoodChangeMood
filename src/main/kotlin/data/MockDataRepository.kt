@@ -1,4 +1,3 @@
-/*
 package org.example.data
 
 import org.example.logic.MealRepository
@@ -1670,4 +1669,4 @@ class MockDataRepository : MealRepository {
             )
         )
     }
-}*/
+}
