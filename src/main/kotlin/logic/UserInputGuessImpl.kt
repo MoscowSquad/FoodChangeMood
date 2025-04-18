@@ -1,6 +1,6 @@
 package org.example.logic
 
-class userInputGuessImpl : UserInputGuess{
+class UserInputGuessImpl : UserInputGuess{
     override fun guessPreparationTime(foodName: String, actualTime: Int) {
         var attempts = 3
 

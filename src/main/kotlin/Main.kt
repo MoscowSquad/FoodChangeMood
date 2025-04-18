@@ -1,22 +1,42 @@
 package org.example
 
-import org.example.data.MockDataRepository
-import org.example.logic.userInputGuessImpl
+import dependencyInjection.appModule
+import org.example.dependencyInjection.useCaseModule
+import org.example.logic.SearchMealByNameUseCase
+import org.example.model.BlankKeywordException
+import org.example.model.KeywordNotFoundException
+import org.koin.core.context.startKoin
+import org.koin.mp.KoinPlatform
+import org.example.utils.CustomParser
+import org.example.presentation.FoodChangeMoodConsoleUI
+import org.koin.java.KoinJavaComponent.getKoin
 
 fun main() {
+    println("Hello World!")
+    mainParsingTest()
+
+    startKoin {
+        modules(appModule, useCaseModule)
+    }
+    val searchUseCase: SearchMealByNameUseCase = KoinPlatform.getKoin().get()
+
+    val ui: FoodChangeMoodConsoleUI = getKoin().get()
+    ui.start()
     try {
-        val mealRepository = MockDataRepository()
-        val randomMeal = mealRepository.getAllMeals().random()
-        val foodName = randomMeal.name
-        val preparationTime = randomMeal.minutes
+        searchUseCase.search("ed winter squash mexi")
+            .also { println(it) }
+    } catch (e: KeywordNotFoundException) {
+        println(e.message)
+    } catch (e: BlankKeywordException) {
+        println("You should enter country name")
+    }
+}
 
-        println("Guess details about: $foodName")
-        userInputGuessImpl().apply {
-            guessPreparationTime(foodName, preparationTime)
-        }
-
-    } catch (e: Exception) {
-        println("Error: ${e.message}")
-        e.printStackTrace()
+fun mainParsingTest(){
+    val parser = CustomParser()
+    val file = parser.getResourceFile("food.csv")
+    val list = parser.parseMealsCsv(file)
+    list.take(10).forEach { item ->
+        println(item.toString())
     }
 }
