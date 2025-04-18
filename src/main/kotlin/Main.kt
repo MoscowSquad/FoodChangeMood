@@ -11,6 +11,9 @@ import org.example.utils.CustomParser
 
 
 fun main() {
+    println("Hello World!")
+    mainParsingTest()
+
     startKoin {
         modules(appModule, useCaseModule)
     }
