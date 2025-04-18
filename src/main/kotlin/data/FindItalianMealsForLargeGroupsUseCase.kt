@@ -10,7 +10,7 @@ class FindItalianMealsForLargeGroupsUseCase(
     operator fun invoke(): List<Meal> {
         val allMeals = getAllMeals()
         val filteredMeals = filterItalianAndGroupSuitableMeals(allMeals)
-        return filteredMeals.ifEmpty { provideFallbackMeals(allMeals) }
+        return filteredMeals
     }
 
     private fun getAllMeals(): List<Meal> {
@@ -35,15 +35,4 @@ class FindItalianMealsForLargeGroupsUseCase(
                 tagsLower.contains("potluck")
     }
 
-    private fun provideFallbackMeals(meals: List<Meal>): List<Meal> {
-        return meals
-            .filter { meal -> isItalianMeal(meal) }
-            .map { meal -> addScalabilityNote(meal) }
-    }
-
-    private fun addScalabilityNote(meal: Meal): Meal {
-        return meal.copy(
-            description = "${meal.description}\n(Note: This dish can be scaled up for large groups by increasing ingredient quantities.)"
-        )
-    }
 }
