@@ -1,35 +1,21 @@
 package org.example
 
-import com.moscow.squad.FuzzySearchMatcher
-import org.example.data.SearchExecutor
 import org.example.dependencyInjection.appModule
-import org.example.logic.SearchMatcher
+import org.example.dependencyInjection.useCaseModule
+import org.example.logic.SearchMealByNameUseCase
 import org.example.model.BlankKeywordException
 import org.example.model.KeywordNotFoundException
-import org.koin.core.Koin
 import org.koin.core.context.startKoin
 import org.koin.mp.KoinPlatform
 
 fun main() {
     startKoin {
-        modules(appModule)
+        modules(appModule, useCaseModule)
     }
-    val searchMatcher: SearchMatcher = KoinPlatform.getKoin().get()
-
-    val searchExecutor = SearchExecutor(
-        searchMatcher,
-        listOf(
-            "Yemen",
-            "North Korea",
-            "South Korea",
-            "China",
-            "Cairo",
-            "Egypt",
-        )
-    )
+    val searchUseCase: SearchMealByNameUseCase = KoinPlatform.getKoin().get()
 
     try {
-        searchExecutor.search("Cairsso")
+        searchUseCase.search("ed winter squash mexi")
             .also { println(it) }
     } catch (e: KeywordNotFoundException) {
         println(e.message)

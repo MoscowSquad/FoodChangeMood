@@ -1,6 +1,6 @@
 package com.moscow.squad
 
-import org.example.data.NOT_MATCHED
+import org.example.logic.NOT_MATCHED
 import org.example.logic.SearchMatcher
 import kotlin.math.min
 

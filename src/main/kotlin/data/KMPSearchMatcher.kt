@@ -1,7 +1,7 @@
 package com.moscow.squad
 
-import org.example.data.MATCH_PARTIAL
-import org.example.data.NOT_MATCHED
+import org.example.logic.MATCH_PARTIAL
+import org.example.logic.NOT_MATCHED
 import org.example.logic.SearchMatcher
 
 class KMPSearchMatcher : SearchMatcher {
