@@ -1,6 +1,5 @@
-package org.example.data
+package org.example.logic
 
-import org.example.logic.MealRepository
 import org.example.model.Meal
 import org.example.model.Nutrition
 import org.example.model.NutritionRequest

@@ -1,7 +1,6 @@
-package data
+package org.example.logic
 
 
-import org.example.logic.MealRepository
 import org.example.model.Meal
 
 class FindItalianMealsForLargeGroupsUseCase(

@@ -1,6 +1,7 @@
 package org.example.data
 
 
+import org.example.logic.GymHelperUseCase
 import org.example.model.Meal
 import org.example.model.NutritionRequest
 
