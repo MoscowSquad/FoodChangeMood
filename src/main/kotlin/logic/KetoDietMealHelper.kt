@@ -2,16 +2,14 @@ package org.example.logic
 
 import org.example.model.Meal
 import org.example.model.Nutrition
-import org.example.utils.CsvParser
 
-class KetoDietMealHelper(private val parser: CsvParser) {
+class KetoDietMealHelper(private val repository: MealRepository) {
 
     private val suggestedMeals = mutableSetOf<String>()
     private var ketoMeals: List<Meal> = emptyList()
 
     fun loadMeals(csvPath: String) {
-        val allMeals = parser.parse(csvPath)
-        ketoMeals = allMeals.filter { isKetoFriendly(it.nutrition) }.shuffled()
+        val allMeals = repository.getAllMeals().filter { isKetoFriendly(it.nutrition) }.shuffled()
     }
 
     // Check if the meal is keto-friendly based on the nutritional info
