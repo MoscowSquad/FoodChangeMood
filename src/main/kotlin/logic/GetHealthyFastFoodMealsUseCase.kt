@@ -9,11 +9,11 @@ class GetHealthyFastFoodMealsUseCase(
         return mealRepository.getAllMeals()
             .filter(::isFastToPrepareMeal)
             .filter(::hasLowNutritionValues)
-            .sortedBy { it.prepTimeMinutes }
+            .sortedBy { it.minutes }
     }
 
     private fun isFastToPrepareMeal(meal: Meal): Boolean {
-        return meal.prepTimeMinutes <= MAX_PREP_TIME_MINUTES
+        return meal.minutes <= MAX_PREP_TIME_MINUTES
     }
 
     private fun hasLowNutritionValues(meal: Meal): Boolean {

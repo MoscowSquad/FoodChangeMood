@@ -4,7 +4,5 @@ import org.example.model.Meal
 
 interface MealRepository {
     fun getAllMeals(): List<Meal>
-    fun getIraqiMeals():List<Meal>
-
 }
 
