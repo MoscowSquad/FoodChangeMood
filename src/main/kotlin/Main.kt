@@ -7,6 +7,8 @@ import org.example.model.BlankKeywordException
 import org.example.model.KeywordNotFoundException
 import org.koin.core.context.startKoin
 import org.koin.mp.KoinPlatform
+import org.example.utils.CustomParser
+
 
 fun main() {
     startKoin {
@@ -21,5 +23,14 @@ fun main() {
         println(e.message)
     } catch (e: BlankKeywordException) {
         println("You should enter country name")
+    }
+}
+
+fun mainParsingTest(){
+    val parser = CustomParser()
+    val file = parser.getResourceFile("food.csv")
+    val list = parser.parseMealsCsv(file)
+    list.take(10).forEach { item ->
+        println(item.toString())
     }
 }
