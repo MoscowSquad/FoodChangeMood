@@ -10,15 +10,7 @@ class GetSeafoodByProteinContent(private val mealRepository: MealRepository) {
     }
 
     private fun bySeafood(meal: Meal): Boolean {
-        val seafoodTags = listOf(
-            "seafood", "fish", "shrimp", "salmon", "tuna", "crab",
-            "lobster", "cod", "halibut", "trout", "mackerel"
-        )
-        seafoodTags.forEach { tag ->
-            if (meal.tags.contains(tag))
-                return true
-        }
-        return false
+        return meal.tags.contains("seafood") || meal.description?.contains("seafood") ?: false
     }
 }
 
