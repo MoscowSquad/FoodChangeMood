@@ -12,10 +12,10 @@ class EasyFoodSug (private val foodRepo: FoodRepo){
     fun foodSuggestion():List<String>{
         return foodRepo.getAllFood()
             .filter {currentMeal->
-                currentMeal.minutes != null &&  currentMeal.ingredientsNumber != null &&  currentMeal.stepsNumber != null &&
-            currentMeal.minutes <=30 && currentMeal.ingredientsNumber <=5 &&currentMeal.stepsNumber<=6}
+                currentMeal.minutes != null &&  currentMeal.nIngredients != null &&  currentMeal.nSteps != null &&
+            currentMeal.minutes <=30 && currentMeal.nIngredients <=5 &&currentMeal.nSteps<=6}
             .shuffled()
             .take(10)
-            .map { it.mealName }
+            .map { it.name }
     }
 }

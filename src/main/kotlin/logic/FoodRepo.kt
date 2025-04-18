@@ -1,7 +1,8 @@
 package logic
 
-import model.Food
+import org.example.model.Meal
+
 
 interface FoodRepo {
-    fun getAllFood():List<Food>
+    fun getAllFood():List<Meal>
 }

@@ -1,13 +1,13 @@
 package data
 
 import logic.FoodRepo
-import model.Food
+import org.example.model.Meal
 
 class CsvFileData(
-    val readLines: ReadLines,
-    val foodFileParser: FoodFileParser,
+    private val readLines: ReadLines,
+    private val foodFileParser: FoodFileParser,
 ):FoodRepo {
-    override fun getAllFood(): List<Food> {
+    override fun getAllFood(): List<Meal> {
 
        return readLines.readFoodFileLines().map {
             foodFileParser.parseOneLine(it)
