@@ -17,13 +17,16 @@ class SearchMealByNameUseCase(
             throw BlankKeywordException()
 
         val matchedList = mutableListOf<Pair<Int, Meal>>()
-        repository.getAllMeals().forEach { meal ->
-            val accuracy = matcher.getMatchAccuracy(meal.name, keyword)
-            if (accuracy == MATCH_EXACTLY)
-                return meal
-            else if (accuracy != NOT_MATCHED)
-                matchedList.add(accuracy to meal)
-        }
+        repository.getAllMeals()
+            .forEach { meal ->
+                meal.name?.let { name ->
+                    val accuracy = matcher.getMatchAccuracy(name, keyword)
+                    if (accuracy == MATCH_EXACTLY)
+                        return meal
+                    else if (accuracy != NOT_MATCHED)
+                        matchedList.add(accuracy to meal)
+                }
+            }
 
         if (matchedList.isEmpty())
             throw KeywordNotFoundException(keyword = keyword)

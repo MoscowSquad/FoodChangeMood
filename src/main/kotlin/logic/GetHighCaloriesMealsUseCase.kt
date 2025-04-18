@@ -21,6 +21,9 @@ class GetHighCaloriesMealsUseCase(private val repository: MealRepository) {
     }
 
     private fun byHighCalories(meal: Meal): Boolean {
-        return meal.nutrition.calories > HIGH_CALORIE_THRESHOLD
+        if (meal.nutrition?.calories == null)
+            return false
+
+        return (meal.nutrition.calories ?: 0.0) > HIGH_CALORIE_THRESHOLD
     }
 }
