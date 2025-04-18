@@ -1,6 +1,5 @@
 package org.example.dependencyInjection
 
-import data.FindItalianMealsForLargeGroupsUseCase
 import logic.EasyFoodSug
 import org.example.logic.*
 import org.koin.dsl.module
@@ -17,5 +16,5 @@ val useCaseModule = module {
     single { GetRandomMealsHavePotatoes(get()) }
     single { FindItalianMealsForLargeGroupsUseCase(get()) }
     single { EasyFoodSug(get()) }
-    single { IngredientGame(get())}
-    }
+    single { IngredientGame(get()) }
+}
