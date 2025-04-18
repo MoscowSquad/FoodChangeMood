@@ -1,19 +1,22 @@
 package org.example.data
 import java.util.NoSuchElementException
 import org.example.logic.MealRepository
+import org.example.data.NoFoodFoundException
+import org.example.data.IncorrectMealNameException
+
 class RandomMealNameImpl(
     private val mealRepository: MealRepository = MockDataRepository()
 ) : RandomMealName {
 
-    override fun getRandomFoodName(): String {
+    override fun getName(): String {
         return try {
             mealRepository.getAllMeals()
-                .takeIf { it.isNotEmpty() } // Check if list is not empty
+                .takeIf { it.isNotEmpty() }
                 ?.random()
                 ?.name
-                ?: throw NoSuchElementException("No meals available in repository")
+                ?: throw NoFoodFoundException()
         } catch (e: Exception) {
-            throw IllegalStateException("Failed to get random meal name", e)
+            throw IncorrectMealNameException()
         }
     }
 }
