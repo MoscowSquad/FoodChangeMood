@@ -1669,15 +1669,4 @@ class MockDataRepository : MealRepository {
             )
         )
     }
-    override fun searchMealsByCountry(country: String): List<Meal> {
-        return getAllMeals()
-            .filter { meal ->
-                val lowerCountry = country.lowercase()
-                meal.tags.any { it.contains(lowerCountry) } ||
-                        meal.name.contains(lowerCountry, ignoreCase = true) ||
-                        meal.description?.contains(lowerCountry, ignoreCase = true) == true
-            }
-            .shuffled()
-            .take(20)
-    }
 }
