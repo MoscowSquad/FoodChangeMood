@@ -4,7 +4,7 @@ package org.example.data
 import org.example.model.Meal
 import org.example.model.NutritionRequest
 
-// Create a sealed class to hold all custom exceptions
+
 
 
 class GymHelperController(private val useCase: GymHelperUseCase) {
