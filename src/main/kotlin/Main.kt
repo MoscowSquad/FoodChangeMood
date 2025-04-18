@@ -10,6 +10,9 @@ import org.koin.core.context.startKoin
 import org.koin.mp.KoinPlatform
 
 fun main() {
+    println("Hello World!")
+    mainParsingTest()
+
     startKoin {
         modules(appModule, useCaseModule)
     }
