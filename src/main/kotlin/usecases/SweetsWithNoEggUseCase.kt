@@ -1,6 +1,6 @@
 package org.example.usecases
 
-import org.example.models.Meal
+import org.example.model.Meal
 
 class SweetsWithNoEggUseCase(private val meals: List<Meal>) {
     operator fun invoke(): Meal? {
