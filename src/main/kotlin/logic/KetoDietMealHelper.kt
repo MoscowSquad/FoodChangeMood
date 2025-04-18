@@ -23,12 +23,12 @@ class KetoDietMealHelper(private val repository: MealRepository) {
             if (meal.name !in suggestedMeals) {
                 suggestedMeals.add(meal.name)
                 return mapOf(
-                    "Name" to meal.name,
+                    "Name" to (meal.name ?: "No Name"),
                     "Description" to (meal.description ?: "No description"),
-                    "TotalFat (g)" to meal.nutrition.totalFat,
-                    "Protein (g)" to meal.nutrition.protein,
-                    "SaturatedFat (g)" to meal.nutrition.saturatedFat,
-                    "Carbohydrates (g)" to meal.nutrition.carbohydrates
+                    "TotalFat (g)" to (meal.nutrition.totalFat ?: "No TotalFat (g)"),
+                    "Protein (g)" to (meal.nutrition.protein ?: "No Protein (g)"),
+                    "SaturatedFat (g)" to (meal.nutrition.saturatedFat ?: "No TSaturatedFat (g)"),
+                    "Carbohydrates (g)" to (meal.nutrition.carbohydrates ?: "No Carbohydrates (g)")
                 )
             }
         }
