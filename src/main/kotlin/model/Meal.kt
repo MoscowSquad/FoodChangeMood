@@ -13,7 +13,24 @@ data class Meal(
     val description: String?,
     val ingredients: List<String>?,
     val nIngredients: Int?
-) {
+) : Comparable<Meal> {
+    override fun compareTo(other: Meal): Int {
+        if (nutrition == null && other.nutrition == null)
+            return 0
+        else if (nutrition == null)
+            return 1
+        else if (other.nutrition == null)
+            return -1
+
+        val nutrition = (nutrition.totalFat ?: 0.0) +
+                (nutrition.saturatedFat ?: 0.0) +
+                (nutrition.carbohydrates ?: 0.0)
+        val otherNutrition = (other.nutrition.totalFat ?: 0.0) +
+                (other.nutrition.saturatedFat ?: 0.0) +
+                (other.nutrition.carbohydrates ?: 0.0)
+        return if (nutrition == otherNutrition) 0 else if (nutrition > otherNutrition) 1 else -1
+    }
+
     override fun toString(): String {
         super.toString()
         return """

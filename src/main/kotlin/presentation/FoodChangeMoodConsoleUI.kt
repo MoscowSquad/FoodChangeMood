@@ -22,15 +22,18 @@ class FoodChangeMoodConsoleUI(
         showWelcome()
         presentFeatures()
     }
+
     private val scanner = Scanner(System.`in`)
     private fun presentFeatures() {
         showOptions()
         val input = getUserInput()
-        when(input) {
+        when (input) {
             1 -> launchHealthyFastFoodMeals()
             2 -> launchSearchMealsByName()
             3 -> launchHighProteinMeals()
-            else -> { println("Invalid Input") }
+            else -> {
+                println("Invalid Input")
+            }
         }
         presentFeatures()
     }
@@ -128,11 +131,17 @@ class FoodChangeMoodConsoleUI(
             println("\n${index + 1}. ${meal.name}")
             meal.description?.let { println("   Description: $it") } ?: println("   Description: N/A")
             println("   Prep Time: ${meal.minutes} minutes")
-            println("   Nutrition: " +
-                    "Calories: ${meal.nutrition.calories}, " +
-                    "Total Fat: ${meal.nutrition.totalFat}g, " +
-                    "Saturated Fat: ${meal.nutrition.saturatedFat}g, " +
-                    "Carbs: ${meal.nutrition.carbohydrates}g")
+            if (meal.nutrition == null) {
+                println(" There is no nutritions")
+            } else {
+                println(
+                    "   Nutrition: " +
+                            "Calories: ${meal.nutrition.calories ?: 0}, " +
+                            "Total Fat: ${meal.nutrition.totalFat ?: 0}g, " +
+                            "Saturated Fat: ${meal.nutrition.saturatedFat ?: 0}g, " +
+                            "Carbs: ${meal.nutrition.carbohydrates ?: 0}g"
+                )
+            }
         }
     }
 
