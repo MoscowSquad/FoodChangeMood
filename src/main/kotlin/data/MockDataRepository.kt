@@ -1666,7 +1666,98 @@ class MockDataRepository : MealRepository {
                     "cheddar cheese"
                 ),
                 nIngredients = 8
+            ),
+            Meal(
+                id = 361328,
+                name = "magluba  or Rice and soup  in dinner",
+                minutes = 43,
+                contributorId = 593927,
+                submitted = 20090316,
+                tags = listOf(
+                    "lactose", "60-minutes-or-less", "time-to-make", "course", "main-ingredient",
+                    "cuisine", "preparation", "occasion", "iraqi", "saudi-arabian", "breakfast",
+                    "desserts", "pasta", "asian", "middle-eastern", "easy", "holiday-event", "dietary",
+                    "gluten-free", "ramadan", "egg-free", "free-of-something", "pasta-rice-and-grains",
+                    "taste-mood", "sweet"
+                ),
+                nutrition = Nutrition( // [666.0, 11.0, 199.0, 9.0, 7.0, 5.0, 48.0]
+                    calories = 666.0,
+                    totalFat = 11.0,
+                    sugar = 199.0,
+                    sodium = 9.0,
+                    protein = 7.0,
+                    saturatedFat = 5.0,
+                    carbohydrates = 48.0
+                ),
+                nSteps = 8,
+                steps = listOf(
+                    "place vermicelli on oven trays under broiler until golden brown",
+                    "watch carefully", "may need turning to colour all",
+                    "remove from oven and cook in 3 liters of boiling water for precisely 3 minutes",
+                    "drain and set aside", "in a large pan mix the other tbls oil or butter with sugar , cardamom , saffron , and rose water stirring over medium heat",
+                    "add the vermicelli , stirring to combine , let it cook over very low heat for 1 / 2 hour", "serve warm"
+                ),
+                description = "a gluten-free tasty sweet breakfast or dessert made especially during the month of ramadan in the arabian gulf - kuwait, uae, oman... sometimes made with onion and egg. originally published on http://arabicbites.blogspot.com.",
+                ingredients = listOf(
+                    "rice vermicelli", "sugar",
+                    "ground cardamom", "rose water", "olive oil",
+                    "saffron", "water"
+                ),
+                nIngredients = 7
+            ),
+            Meal(
+                id = 361328,
+                name = "dulma or briani in launch",
+                minutes = 43,
+                contributorId = 593927,
+                submitted = 20090316,
+                tags = listOf(
+                    "lactose", "60-minutes-or-less", "time-to-make", "course", "main-ingredient",
+                    "cuisine", "preparation", "occasion", "japanese", "saudi-arabian", "breakfast",
+                    "desserts", "pasta", "asian", "middle-eastern", "easy", "holiday-event", "dietary",
+                    "gluten-free", "ramadan", "egg-free", "free-of-something", "pasta-rice-and-grains",
+                    "taste-mood", "sweet"
+                ),
+                nutrition = Nutrition(
+                    calories = 666.0,
+                    totalFat = 11.0,
+                    sugar = 199.0,
+                    sodium = 9.0,
+                    protein = 7.0,
+                    saturatedFat = 5.0,
+                    carbohydrates = 48.0
+                ),
+                nSteps = 8,
+                steps = listOf(
+                    "place vermicelli on oven trays under broiler until golden brown",
+                    "watch carefully", "may need turning to colour all",
+                    "remove from oven and cook in 3 liters of boiling water for precisely 3 minutes",
+                    "drain and set aside", "in a large pan mix the other tbls oil or butter with sugar , cardamom , saffron , and rose water stirring over medium heat",
+                    "add the vermicelli , stirring to combine , let it cook over very low heat for 1 / 2 hour", "serve warm"
+                ),
+                description = "i way.  either way is fine.\n" +
+                        "sour salt,iraq also called citric acid crystals looks like sugar and can be found in most stores.  careful, it is very potent.\n" +
+                        "the weight of the apricots is a guess.  it is one box or bag of dried apricots as packaged in the stores.",
+                ingredients = listOf(
+                    "rice vermicelli", "sugar",
+                    "ground cardamom", "rose water", "olive oil",
+                    "saffron", "water"
+                ),
+                nIngredients = 7
             )
         )
+
+
+
     }
-}
+
+    override fun getIraqiMeals(): List<Meal> {
+
+        return getAllMeals().filter { meal ->
+            meal.tags.any { it.equals("iraqi", ignoreCase = true) } ||
+                    meal.description?.contains("iraq", ignoreCase = true) == true
+        }
+
+
+       }
+    }
