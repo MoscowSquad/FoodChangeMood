@@ -14,6 +14,8 @@ dependencies {
     implementation("io.insert-koin:koin-core:4.0.2")
     implementation("io.arrow-kt:arrow-core:2.0.1")
     implementation("io.arrow-kt:arrow-fx-coroutines:2.0.1")
+    implementation ("com.github.doyaaaaaken:kotlin-csv-jvm:1.9.0")
+
 }
 
 tasks.test {
