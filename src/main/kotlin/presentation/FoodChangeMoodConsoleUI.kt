@@ -1,8 +1,7 @@
 package org.example.presentation
 
+import org.example.exceptions.Exceptions
 import org.example.logic.MealRepository
-import org.example.exceptions.InvalidDateFormatException
-import org.example.exceptions.NoMealsFoundException
 import java.text.SimpleDateFormat
 import java.util.Scanner
 
@@ -18,10 +17,10 @@ class FoodChangeMoodConsoleUI(
         val dateInt = try {
             val format = SimpleDateFormat("yyyyMMdd")
             format.isLenient = false
-            val parsedDate = format.parse(input)
+            format.parse(input)
             input.toInt()
         } catch (e: Exception) {
-            throw InvalidDateFormatException("Invalid date format. Use yyyyMMdd.")
+            throw Exceptions.InvalidDateFormat("Invalid date format. Use yyyyMMdd.")
         }
 
         try {
@@ -40,7 +39,7 @@ class FoodChangeMoodConsoleUI(
             } else {
                 println("Meal not found.")
             }
-        } catch (e: NoMealsFoundException) {
+        } catch (e: Exceptions.NoMealsFound) {
             println(e.message)
         }
     }

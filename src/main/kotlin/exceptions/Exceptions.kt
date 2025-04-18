@@ -1,4 +1,5 @@
 package org.example.exceptions
-
-class InvalidDateFormatException(message: String) : Exception(message)
-class NoMealsFoundException(message: String) : Exception(message)
+sealed class Exceptions(message: String) : Exception(message) {
+    class InvalidDateFormat(message: String) : Exceptions(message)
+    class NoMealsFound(message: String) : Exceptions(message)
+}
