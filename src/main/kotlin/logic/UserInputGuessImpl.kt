@@ -1,9 +1,11 @@
 package org.example.logic
 
-class UserInputGuessImpl : UserInputGuess{
+class UserInputGuessImpl : UserInputGuess {
     override fun guessPreparationTime(foodName: String, actualTime: Int) {
-        var attempts = 3
+        require(foodName.isNotBlank()) { "Food name cannot be blank" }
+        require(actualTime > 0) { "Preparation time must be a positive number" }
 
+        var attempts = 3
         while (attempts > 0) {
             println("Guess time needed to prepare $foodName (Attempts left: $attempts):")
             val userGuess = readlnOrNull()?.toIntOrNull()

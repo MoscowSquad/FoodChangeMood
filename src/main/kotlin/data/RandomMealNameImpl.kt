@@ -1,8 +1,6 @@
 package org.example.data
-import java.util.NoSuchElementException
 import org.example.logic.MealRepository
-import org.example.data.NoFoodFoundException
-import org.example.data.IncorrectMealNameException
+import org.example.model.Meal
 
 class RandomMealNameImpl(
     private val mealRepository: MealRepository = MockDataRepository()
@@ -10,13 +8,32 @@ class RandomMealNameImpl(
 
     override fun getName(): String {
         return try {
-            mealRepository.getAllMeals()
-                .takeIf { it.isNotEmpty() }
-                ?.random()
-                ?.name
-                ?: throw NoFoodFoundException()
+            val meals = mealRepository.getAllMeals().validateMeals()
+            meals.randomMeal().validateName()
+        } catch (e: NoFoodFoundException) {
+            throw e
         } catch (e: Exception) {
-            throw IncorrectMealNameException()
+            throw IncorrectMealNameException(
+                message = "Failed to retrieve meal name: ${e.message}",
+            )
         }
+    }
+
+    private fun List<Meal>?.validateMeals(): List<Meal> {
+        return this?.takeIf { it.isNotEmpty() }
+            ?: throw NoFoodFoundException("No meals available in repository")
+    }
+
+    private fun List<Meal>.randomMeal(): Meal {
+        return random().also {
+            if (it.name.isBlank()) {
+                throw NoFoodFoundException("Found meal with blank name")
+            }
+        }
+    }
+
+    private fun Meal.validateName(): String {
+        return name.takeIf { it.isNotBlank() }
+            ?: throw IncorrectMealNameException("Meal name is blank")
     }
 }
