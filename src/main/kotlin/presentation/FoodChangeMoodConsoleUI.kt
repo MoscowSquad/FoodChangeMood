@@ -114,7 +114,7 @@ class FoodChangeMoodConsoleUI(
                 println("\n--- Meal Details ---")
                 println("Name: ${meal.name}")
                 println("Description: ${meal.description}")
-                println("Ingredients: ${meal.ingredients.joinToString()}")
+                println("Ingredients: ${meal.ingredients?.joinToString()}")
             } else {
                 println("Meal not found.")
             }
