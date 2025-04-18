@@ -3,6 +3,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+food.csv
 
 ### IntelliJ IDEA ###
 .idea/
@@ -16,6 +17,7 @@ build/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+.idea
 
 ### Kotlin ###
 .kotlin
