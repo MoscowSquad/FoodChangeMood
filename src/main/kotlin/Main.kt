@@ -5,10 +5,11 @@ import org.example.dependencyInjection.useCaseModule
 import org.example.logic.SearchMealByNameUseCase
 import org.example.model.BlankKeywordException
 import org.example.model.KeywordNotFoundException
-import org.koin.core.context.startKoin
-import org.koin.mp.KoinPlatform
+import org.example.presentation.FoodChangeMoodConsoleUI
 import org.example.utils.CustomParser
-
+import org.koin.core.context.startKoin
+import org.koin.java.KoinJavaComponent.getKoin
+import org.koin.mp.KoinPlatform
 
 fun main() {
     println("Hello World!")
@@ -19,6 +20,8 @@ fun main() {
     }
     val searchUseCase: SearchMealByNameUseCase = KoinPlatform.getKoin().get()
 
+    val ui: FoodChangeMoodConsoleUI = getKoin().get()
+    ui.start()
     try {
         searchUseCase.search("ed winter squash mexi")
             .also { println(it) }
