@@ -10,16 +10,16 @@ The user guesses once. A correct guess earns 1000 points;
  The game also ends after 15 correct answers.
   Display the final score at the end.
  */
-class IngredientGame(private val mealrepo: MealRepository) {
+class IngredientGame(private val mealRepo: MealRepository) {
     fun ingredientGame(){
-        var points: Int = 0
-        var firstIndex=0
-        var lastIndex=2
-        var continueAsking = false
+        var points = 0
+        val firstIndex = 0
+        val lastIndex = 2
+        var continueAsking: Boolean
         val  questionsNumber=15
         var currentQuestionNumber = 1
 
-        val allMeals = mealrepo.getAllMeals()
+        val allMeals = mealRepo.getAllMeals()
         val gameMealList= mutableListOf<Meal>()
         val optionsList= mutableListOf<List<String>>()
         println("-- Welcome to ingredient game --")
@@ -33,15 +33,16 @@ class IngredientGame(private val mealrepo: MealRepository) {
 
 
             allMeals
+                .filter { it.ingredients != null && it.name != null }
                 .shuffled()
                 .take(3)
                 .forEach { gameMealList.add(it) }
             for (index in firstIndex..lastIndex) {
-                optionsList.add(gameMealList[index].ingredients)
+                optionsList.add(gameMealList[index].ingredients!!)
             }
             continueAsking = showMealAndOptions(
-                mealName = gameMealList[firstIndex].name,
-                correctOption = gameMealList[firstIndex].ingredients,
+                mealName = gameMealList[firstIndex].name!!,
+                correctOption = gameMealList[firstIndex].ingredients!!,
                 optionsList = optionsList,
                 currentQuestionNumber = currentQuestionNumber,
 
