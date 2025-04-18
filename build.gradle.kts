@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    implementation("com.opencsv:opencsv:5.9")
 }
 
 tasks.test {
