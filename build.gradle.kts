@@ -11,6 +11,9 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    implementation("io.insert-koin:koin-core:4.0.2")
+    implementation("io.arrow-kt:arrow-core:2.0.1")
+    implementation("io.arrow-kt:arrow-fx-coroutines:2.0.1")
 }
 
 tasks.test {
