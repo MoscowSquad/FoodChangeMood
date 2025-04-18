@@ -77,7 +77,7 @@ class CsvParserImpl: CsvParser {
 
 
     private fun parseNutrition(nutritionStr: String): List<Double> {
-        println("Raw nutrition string: '$nutritionStr'")  // طباعة القيمة الأصلية
+        //println("Raw nutrition string: '$nutritionStr'")  // طباعة القيمة الأصلية
 
         val cleanedStr = nutritionStr
             .replace("\"", "")
@@ -93,7 +93,7 @@ class CsvParserImpl: CsvParser {
                 val trimmed = value.trim()
                 val number = trimmed.toDoubleOrNull()
                 if (number == null) {
-                    println("⚠️ Couldn't parse value at index $index: '$trimmed'")
+                    //println("Couldn't parse value at index $index: '$trimmed'")
                 }
                 number ?: 0.0
             }
