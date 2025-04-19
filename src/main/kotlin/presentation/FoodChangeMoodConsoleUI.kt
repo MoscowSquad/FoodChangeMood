@@ -97,21 +97,28 @@ class FoodChangeMoodConsoleUI(
         println("Finding healthy fast food meals that can be prepared in 15 minutes or less...")
         val healthyMeals = getHealthyFastFoodMealsUseCase.getHealthyMeals()
 
-        println("\nHealthy Fast Food Meals (15 minutes or less, low fat and carbs):")
+        println("Your order is ready: ")
         if (healthyMeals.isEmpty()) {
             println("No meals found matching the criteria.")
         } else {
             displayMeals(healthyMeals)
-            println("\nTotal healthy fast food meals found: ${healthyMeals.size}")
+            println("Total number of meals: ${healthyMeals.size}")
         }
     }
 
     private fun launchSearchMealsByName() {
-        println("Enter meal name to search: ")
+        print("Enter meal name to search: ")
         readlnOrNull()?.let { mealName ->
-            println("Search functionality not implemented yet")
-            // This would call a SearchMealsByNameUseCase
+            try {
+                searchMealByNameUseCase.search(mealName).also { displayMeal(it) }
+            } catch (e: Exceptions.KeywordNotFoundException) {
+                println(e.message)
+            } catch (e: Exceptions.BlankKeywordException) {
+                println("Please enter valid input")
+            }
         } ?: println("Please enter valid input")
+
+        goBack()
     }
 
     private fun launchHighCaloriesMeals() {
@@ -252,22 +259,32 @@ class FoodChangeMoodConsoleUI(
     }
 
     private fun displayMeals(meals: List<Meal>) {
-        meals.forEachIndexed { index, meal ->
-            println("\n${index + 1}. ${meal.name}")
-            meal.description?.let { println("   Description: $it") } ?: println("   Description: N/A")
-            println("   Prep Time: ${meal.minutes} minutes")
-            if (meal.nutrition == null) {
-                println(" There is no nutritions")
-            } else {
-                println(
-                    "   Nutrition: " +
-                            "Calories: ${meal.nutrition.calories ?: 0}, " +
-                            "Total Fat: ${meal.nutrition.totalFat ?: 0}g, " +
-                            "Saturated Fat: ${meal.nutrition.saturatedFat ?: 0}g, " +
-                            "Carbs: ${meal.nutrition.carbohydrates ?: 0}g"
-                )
-            }
+        meals.forEach { meal ->
+            displayMeal(meal)
         }
+        goBack()
+    }
+
+    private fun displayMeal(meal: Meal) {
+        println("\n${meal.id}. ${meal.name}")
+        meal.description?.let { println("   Description: $it") } ?: println("   Description: N/A")
+        println("   Prep Time: ${meal.minutes} minutes")
+        if (meal.nutrition == null) {
+            println(" There is no nutritions")
+        } else {
+            println(
+                "   Nutrition: " +
+                        "Calories: ${meal.nutrition.calories ?: 0}, " +
+                        "Total Fat: ${meal.nutrition.totalFat ?: 0}g, " +
+                        "Saturated Fat: ${meal.nutrition.saturatedFat ?: 0}g, " +
+                        "Carbs: ${meal.nutrition.carbohydrates ?: 0}g"
+            )
+        }
+    }
+
+    private fun goBack() {
+        print("Press ENTER to go back... ")
+        readlnOrNull()
     }
 
     private fun launchListOfAllSeafoodMeals() {
