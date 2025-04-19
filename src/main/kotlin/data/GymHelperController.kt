@@ -5,9 +5,6 @@ import org.example.logic.GymHelperUseCase
 import org.example.model.Meal
 import org.example.model.NutritionRequest
 
-
-
-
 class GymHelperController(private val useCase: GymHelperUseCase) {
 
     @Throws(GymHelperException::class)

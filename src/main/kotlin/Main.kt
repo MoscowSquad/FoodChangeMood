@@ -20,6 +20,11 @@ fun main() {
         getHealthyFastFoodMealsUseCase = getKoin().get(),
         getMealById = getKoin().get(),
         getMealsByDate = getKoin().get(),
-        searchMealsByCountry = getKoin().get()
+        searchMealsByCountry = getKoin().get(),
+        gymHelperController = getKoin().get(),
+        findItalianMealsForLargeGroupsUseCase = getKoin().get(),
+        sweetsWithNoEggUseCase = getKoin().get(),
+        getRandomMealsHavePotatoes = getKoin().get(),
+        getHighCaloriesMealsUseCase = getKoin().get(),
     ).start()
 }
