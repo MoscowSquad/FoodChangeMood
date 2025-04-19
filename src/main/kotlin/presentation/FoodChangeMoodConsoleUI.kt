@@ -1,29 +1,32 @@
 package org.example.presentation
 
 
+import logic.EasyFoodSuggestionUseCase
 import org.example.data.GymHelperController
-import org.example.data.GymHelperException
-import org.example.exceptions.Exceptions
 import org.example.logic.*
-import org.example.logic.GetHealthyFastFoodMealsUseCase
-import org.example.logic.GetMealByIdUseCase
-import org.example.logic.GetMealsByDateUseCase
-import org.example.logic.SearchMealByCountryUseCase
 import org.example.model.Exceptions
 import org.example.model.Meal
 import java.text.SimpleDateFormat
 import java.util.*
 
 class FoodChangeMoodConsoleUI(
-    private val getHealthyFastFoodMealsUseCase: GetHealthyFastFoodMealsUseCase,
-    private val searchMealsByCountry: SearchMealByCountryUseCase,
-    private val getMealsByDate: GetMealsByDateUseCase,
-    private val getMealById: GetMealByIdUseCase,
-    private val gymHelperController: GymHelperController,
-    private val findItalianMealsForLargeGroupsUseCase: FindItalianMealsForLargeGroupsUseCase,
-    private val getRandomMealsHavePotatoes: GetRandomMealsHavePotatoes,
-    private val sweetsWithNoEggUseCase: SweetsWithNoEggUseCase,
-    private val getHighCaloriesMealsUseCase: GetHighCaloriesMealsUseCase
+    private val getHealthyFastFoodMealsUseCase: GetHealthyFastFoodMealsUseCase, //1
+    private val searchMealsByName: SearchMealByNameUseCase, //2
+    private val getIraqiMeals: GetIraqiMealsUseCase, //3
+    private val easyFoodSuggestionUseCase: EasyFoodSuggestionUseCase, //4
+    private val randomMealNameProvider: RandomMealNameProvider, //5
+    private val sweetsWithNoEggUseCase: SweetsWithNoEggUseCase, //6
+    private val getketoDietMealHelper: GetKetoDietMealUseCase, //7
+    private val getMealsByDate: GetMealsByDateUseCase, //8
+    private val getMealById: GetMealByIdUseCase, //8
+    private val gymHelperController: GymHelperController, //9
+    private val searchMealByCountry: SearchMealByCountryUseCase, //10
+    private val searchMealByNameUseCase: SearchMealByNameUseCase, //10
+    private val ingredientGame: GetIngredientMealsUseCase, //11
+    private val getRandomMealsHavePotatoes: GetRandomMealsHavePotatoesUseCase, //12
+    private val getHighCaloriesMealsUseCase: GetHighCaloriesMealsUseCase, //13
+    private val getSeafoodByProteinContent: GetSeafoodByProteinContentUseCase, //14
+    private val findItalianMealsForLargeGroupsUseCase: FindItalianMealsForLargeGroupsUseCase, //15
 
 ) {
     fun start() {
@@ -103,7 +106,7 @@ class FoodChangeMoodConsoleUI(
     fun exploreFoodCulture() {
         print("Enter a country name to explore its food culture: ")
         val country = readln()
-        val meals = searchMealsByCountry.searchMealsByCountry(country)
+        val meals = searchMealByCountry.searchMealsByCountry(country)
 
         if (meals.isEmpty()) {
             println("No meals found for $country")
@@ -171,7 +174,7 @@ class FoodChangeMoodConsoleUI(
             println("Meals matching your criteria (Calories: $caloriesInput, Protein: $proteinInput g):")
             displayMeals(matchingMeals)
             println("Total matching meals found: ${matchingMeals.size}")
-        } catch (e: GymHelperException) {
+        } catch (e: Exception) {
             println("Error: ${e.message}")
         }
     }

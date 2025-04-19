@@ -18,13 +18,21 @@ fun main() {
 
     FoodChangeMoodConsoleUI(
         getHealthyFastFoodMealsUseCase = getKoin().get(),
-        getMealById = getKoin().get(),
-        getMealsByDate = getKoin().get(),
-        searchMealsByCountry = getKoin().get(),
-        gymHelperController = getKoin().get(),
-        findItalianMealsForLargeGroupsUseCase = getKoin().get(),
+        searchMealsByName = getKoin().get(),
+        getIraqiMeals = getKoin().get(),
+        easyFoodSuggestionUseCase = getKoin().get(),
+        randomMealNameProvider = getKoin().get(),
         sweetsWithNoEggUseCase = getKoin().get(),
+        getketoDietMealHelper = getKoin().get(),
+        getMealsByDate = getKoin().get(),
+        getMealById = getKoin().get(),
+        gymHelperController = getKoin().get(),
+        searchMealByCountry = getKoin().get(),
+        searchMealByNameUseCase = getKoin().get(),
+        ingredientGame = getKoin().get(),
         getRandomMealsHavePotatoes = getKoin().get(),
         getHighCaloriesMealsUseCase = getKoin().get(),
+        getSeafoodByProteinContent = getKoin().get(),
+        findItalianMealsForLargeGroupsUseCase = getKoin().get(),
     ).start()
 }
