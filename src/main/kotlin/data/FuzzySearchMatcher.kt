@@ -1,7 +1,7 @@
 package org.example.data
 
-import org.example.logic.NOT_MATCHED
 import org.example.logic.SearchMatcher
+import org.example.logic.SearchMealByNameUseCase.Companion.NOT_MATCHED
 import kotlin.math.min
 
 class FuzzySearchMatcher(private val threshold: Int = 2) : SearchMatcher {

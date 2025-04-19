@@ -166,7 +166,7 @@ class FoodChangeMoodConsoleUI(
     }
 
     private fun launchSearchMealsByDate() {
-        print("Enter a date in format yyyyMMdd:")
+        print("Enter a date in format yyyy-MM-dd:")
         val input = scanner.nextLine()
         val date = try {
             val format = SimpleDateFormat("yyyy-MM-dd")
@@ -179,7 +179,7 @@ class FoodChangeMoodConsoleUI(
 
         try {
             val meals = getMealsByDateUseCase.getMealsByDate(date)
-            println("Meals found:")
+            println("Meals found: ")
             meals.forEach { println("ID: ${it.id}, Name: ${it.name}") }
 
             print("Enter the ID of the meal you want details for: ")
@@ -319,7 +319,27 @@ class FoodChangeMoodConsoleUI(
     }
 
     private fun launchIngredientGame() {
-        getIngredientMealsUseCase.ingredientGame()
+        val steps = getIngredientMealsUseCase.prepareGameSteps()
+        val answers = mutableListOf<Int>()
+
+        for ((index, step) in steps.withIndex()) {
+            println("------------------------------")
+            println("Q${index + 1}: ${step.question}")
+            step.options.forEachIndexed { i, option ->
+                println("${i + 1}- $option")
+            }
+            print("Choose answer: ")
+            val input = readln().toIntOrNull()?.minus(1) ?: -1
+            answers.add(input)
+
+            if (input != step.correctIndex) break
+        }
+
+        when (val result = getIngredientMealsUseCase.evaluateAnswers(steps, answers)) {
+            is GameResult.Win -> println("YOU WIN 🏆, you've got ${result.totalPoints} point")
+            is GameResult.Lose -> println("Wrong answer!!\nYou've got ${result.totalPoints} point")
+        }
+
         goBack()
     }
 
