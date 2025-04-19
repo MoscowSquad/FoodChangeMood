@@ -319,7 +319,8 @@ class FoodChangeMoodConsoleUI(
     }
 
     private fun launchIngredientGame() {
-
+        getIngredientMealsUseCase.ingredientGame()
+        goBack()
     }
 
     private fun launchExploreOtherCountries() {
