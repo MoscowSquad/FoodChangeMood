@@ -5,6 +5,11 @@ import org.example.data.GymHelperController
 import org.example.data.GymHelperException
 import org.example.exceptions.Exceptions
 import org.example.logic.*
+import org.example.logic.GetHealthyFastFoodMealsUseCase
+import org.example.logic.GetMealByIdUseCase
+import org.example.logic.GetMealsByDateUseCase
+import org.example.logic.SearchMealByCountryUseCase
+import org.example.model.Exceptions
 import org.example.model.Meal
 import java.text.SimpleDateFormat
 import java.util.*

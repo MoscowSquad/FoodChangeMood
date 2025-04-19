@@ -2,7 +2,7 @@ package org.example.logic
 
 import org.example.model.Meal
 
-class GetIraqiMeals(
+class GetIraqiMealsUseCase(
     private val repository: MealRepository
 ) {
     fun getIraqiMeals(): List<Meal> {
