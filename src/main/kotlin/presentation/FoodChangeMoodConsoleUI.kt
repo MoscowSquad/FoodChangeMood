@@ -124,9 +124,16 @@ class FoodChangeMoodConsoleUI(
     }
 
     private fun launchHighCaloriesMeals() {
-        println("Getting high protein meals...")
-        println("This feature is not implemented yet")
-        // This would call a GetHighProteinMealsUseCase
+        println("Finding high calories meals...")
+        try {
+            println("Your order is ready: ")
+            getHighCaloriesMealsUseCase.invoke()
+                .also { displayMeal(it) }
+        } catch (e: Exceptions.MealNotFoundException) {
+            println(e.message)
+        }
+
+        goBack()
     }
 
     fun exploreFoodCulture() {
@@ -154,26 +161,28 @@ class FoodChangeMoodConsoleUI(
             displayMeals(italianMeals)
             println("\nTotal Italian meals for large groups found: ${italianMeals.size}")
         }
+
+        goBack()
     }
 
     private fun launchSearchMealsByDate() {
-        println("Enter a date in format yyyyMMdd:")
+        print("Enter a date in format yyyyMMdd:")
         val input = scanner.nextLine()
-        val dateInt = try {
-            val format = SimpleDateFormat("yyyyMMdd")
+        val date = try {
+            val format = SimpleDateFormat("yyyy-MM-dd")
             format.isLenient = false
             format.parse(input)
-            input.toInt()
+            input
         } catch (e: Exception) {
-            throw Exceptions.InvalidDateFormat("Invalid date format. Use yyyyMMdd.")
+            throw Exceptions.InvalidDateFormat("Invalid date format. Use yyyy-MM-dd.")
         }
 
         try {
-            val meals = getMealsByDateUseCase.getMealsByDate(dateInt)
+            val meals = getMealsByDateUseCase.getMealsByDate(date)
             println("Meals found:")
             meals.forEach { println("ID: ${it.id}, Name: ${it.name}") }
 
-            println("Enter the ID of the meal you want details for:")
+            print("Enter the ID of the meal you want details for: ")
             val id = scanner.nextLine().toInt()
             val meal = getMealByIdUseCase.getMealById(id)
             if (meal != null) {
@@ -187,13 +196,15 @@ class FoodChangeMoodConsoleUI(
         } catch (e: Exceptions.NoMealsFound) {
             println(e.message)
         }
+
+        goBack()
     }
 
     private fun launchGymHelper() {
         println("--- Gym Helper ---")
         print("Enter calories: ")
         val caloriesInput = scanner.nextLine()
-        print("Enter protein")
+        print("Enter protein: ")
         val proteinInput = scanner.nextLine()
 
         try {
@@ -204,6 +215,8 @@ class FoodChangeMoodConsoleUI(
         } catch (e: Exception) {
             println("Error: ${e.message}")
         }
+
+        goBack()
     }
 
     private fun launchSweetsWithNoEgg() {
@@ -215,6 +228,8 @@ class FoodChangeMoodConsoleUI(
             println("Suggested Sweet:")
             displaySingleMeal(sweet)
         }
+
+        goBack()
     }
 
     private fun displaySingleMeal(meal: Meal) {
@@ -247,6 +262,8 @@ class FoodChangeMoodConsoleUI(
             displayMeals(potatoMeals)
             println("Total meals with potatoes found: ${potatoMeals.size}")
         }
+
+        goBack()
     }
 
     private fun launchSoThinProblem() {
@@ -264,7 +281,6 @@ class FoodChangeMoodConsoleUI(
         meals.forEach { meal ->
             displayMeal(meal)
         }
-        goBack()
     }
 
     private fun displayMeal(meal: Meal) {
@@ -290,7 +306,16 @@ class FoodChangeMoodConsoleUI(
     }
 
     private fun launchListOfAllSeafoodMeals() {
+        println("Finding all seafood meals sorted by protein content...")
+        try {
+            println("Your order is ready: ")
+            getSeafoodByProteinContentUseCase.getSeafoodMealsByProteinContent()
+                .also { displayMeals(it) }
+        } catch (e: Exceptions.MealNotFoundException) {
+            println(e.message)
+        }
 
+        goBack()
     }
 
     private fun launchIngredientGame() {
@@ -298,15 +323,55 @@ class FoodChangeMoodConsoleUI(
     }
 
     private fun launchExploreOtherCountries() {
+        print("Enter a country name: ")
+        val countryName = readln()
+        try {
+            searchMealByCountryUseCase.searchMealsByCountry(countryName)
+                .also { displayMeals(it) }
+        } catch (e: Exceptions.MealNotFoundException) {
+            println(e.message)
+        }
 
+        goBack()
     }
 
     private fun launchKetoDietMealHelper() {
+        println("Finding Keto-diet meal...")
+        try {
+            println("Your order is ready: ")
+            getketoDietMealUseCase.getKetoMeal()
+                .also { displayMeal(it) }
+        } catch (e: Exceptions.MealNotFoundException) {
+            println(e.message)
+        }
 
+        goBack()
     }
 
     private fun launchGuessGame() {
+        println("Prepare a meal to guess by you ...")
+        val meal = randomMealNameUseCase.getRandomMeal()
+        println("Guess the preparation time for (${meal.name}): ")
+        guessGame(meal)
 
+        goBack()
+    }
+
+    private fun guessGame(meal: Meal, time: Int = 0) {
+        if (time == 3) {
+            println("later")
+            return
+        }
+
+        print("Preparation time:")
+        val suggestion = readln()
+        if (meal.minutes == suggestion.toIntOrNull()) {
+            println("You are correct")
+            return
+        } else {
+            print("Not correct. Guess again, ")
+            guessGame(meal, time + 1)
+        }
     }
 
     private fun launchEasyFoodSuggestion() {
