@@ -16,8 +16,6 @@ class FoodChangeMoodConsoleUI(
     private val getMealsByDate: GetMealsByDateUseCase,
     private val getMealById: GetMealByIdUseCase
 ) {
-
-
     fun start() {
         showWelcome()
         presentFeatures()
@@ -31,6 +29,7 @@ class FoodChangeMoodConsoleUI(
             1 -> launchHealthyFastFoodMeals()
             2 -> launchSearchMealsByName()
             3 -> launchHighProteinMeals()
+            4 -> searchMealsByDate()
             else -> {
                 println("Invalid Input")
             }

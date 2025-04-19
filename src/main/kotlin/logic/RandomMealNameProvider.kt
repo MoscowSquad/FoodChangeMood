@@ -1,6 +1,6 @@
 package org.example.logic
-import org.example.model.NoFoodFoundException
 import org.example.model.IncorrectMealNameException
+import org.example.model.NoFoodFoundException
 
 class RandomMealNameProvider(
     private val mealRepository: MealRepository

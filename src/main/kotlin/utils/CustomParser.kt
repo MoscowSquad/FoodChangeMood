@@ -4,16 +4,19 @@ import org.example.model.Meal
 import org.example.model.Nutrition
 import java.io.File
 
-class CustomParser {
+class CustomParser(
+    private val fileName: String
+) {
 
-    fun getResourceFile(fileName: String): File {
+    private fun getResourceFile(): File {
         val resource = object {}.javaClass.classLoader.getResource(fileName)
             ?: throw IllegalArgumentException("File not found: $fileName")
         return File(resource.toURI())
     }
 
-    fun parseMealsCsv(file: File): List<Meal> {
-        val lines = file.readLines()
+    fun parseMealsCsv(): List<Meal> {
+        val file = getResourceFile()
+        val lines = file.readLines().take(500) // remove in production
         return lines.drop(1).mapNotNull { line ->
             try {
                 val parts = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)".toRegex())
