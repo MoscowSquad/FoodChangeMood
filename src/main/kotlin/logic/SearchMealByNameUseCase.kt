@@ -3,10 +3,6 @@ package org.example.logic
 import org.example.model.Exceptions
 import org.example.model.Meal
 
-const val MATCH_EXACTLY = 0
-const val MATCH_PARTIAL = 1
-const val NOT_MATCHED = -1
-
 class SearchMealByNameUseCase(
     private val matcher: SearchMatcher,
     private val repository: MealRepository
@@ -31,5 +27,11 @@ class SearchMealByNameUseCase(
             throw Exceptions.KeywordNotFoundException(keyword = keyword)
 
         return matchedList.sortedBy { it.first }[0].second
+    }
+
+    companion object {
+        const val MATCH_EXACTLY = 0
+        const val MATCH_PARTIAL = 1
+        const val NOT_MATCHED = -1
     }
 }

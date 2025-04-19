@@ -166,7 +166,7 @@ class FoodChangeMoodConsoleUI(
     }
 
     private fun launchSearchMealsByDate() {
-        print("Enter a date in format yyyyMMdd:")
+        print("Enter a date in format yyyy-MM-dd:")
         val input = scanner.nextLine()
         val date = try {
             val format = SimpleDateFormat("yyyy-MM-dd")
@@ -179,7 +179,7 @@ class FoodChangeMoodConsoleUI(
 
         try {
             val meals = getMealsByDateUseCase.getMealsByDate(date)
-            println("Meals found:")
+            println("Meals found: ")
             meals.forEach { println("ID: ${it.id}, Name: ${it.name}") }
 
             print("Enter the ID of the meal you want details for: ")
