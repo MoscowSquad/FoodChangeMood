@@ -1,6 +1,6 @@
 package org.example.logic
 
-import org.example.exceptions.Exceptions
+import org.example.model.Exceptions
 import org.example.model.Meal
 
 class GetMealsByDateUseCase(

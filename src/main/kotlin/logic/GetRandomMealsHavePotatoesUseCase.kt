@@ -2,7 +2,7 @@ package org.example.logic
 
 import org.example.model.Meal
 
-class GetRandomMealsHavePotatoes(
+class GetRandomMealsHavePotatoesUseCase(
     private val mealRepository: MealRepository
 ) {
     fun getRandomPotatoMeals(): List<Meal> =

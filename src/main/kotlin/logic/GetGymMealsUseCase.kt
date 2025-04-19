@@ -6,7 +6,7 @@ import org.example.model.NutritionRequest
 
 import kotlin.math.abs
 
-class GymHelperUseCase(private val mealRepository:MealRepository) {
+class GetGymMealsUseCase(private val mealRepository: MealRepository) {
 
     fun findMatchingMeals(request: NutritionRequest): List<Meal> {
         return mealRepository.getAllMeals()

@@ -2,26 +2,18 @@ package org.example.logic
 
 import org.example.model.Meal
 
-/*
-11- Ingredient Game: Display a meal name and three ingredient options
- (one correct, two incorrect).
-The user guesses once. A correct guess earns 1000 points;
- an incorrect guess ends the game.
- The game also ends after 15 correct answers.
-  Display the final score at the end.
- */
-class IngredientGame(private val mealRepo: MealRepository) {
-    fun ingredientGame(){
+class GetIngredientMealsUseCase(private val mealRepo: MealRepository) {
+    fun ingredientGame() {
         var points = 0
         val firstIndex = 0
         val lastIndex = 2
         var continueAsking: Boolean
-        val  questionsNumber=15
+        val questionsNumber = 15
         var currentQuestionNumber = 1
 
         val allMeals = mealRepo.getAllMeals()
-        val gameMealList= mutableListOf<Meal>()
-        val optionsList= mutableListOf<List<String>>()
+        val gameMealList = mutableListOf<Meal>()
+        val optionsList = mutableListOf<List<String>>()
         println("-- Welcome to ingredient game --")
         println(
             "note: \"This game will show you meal name,\n" +
@@ -29,7 +21,7 @@ class IngredientGame(private val mealRepo: MealRepository) {
                     " just one of them is correct\""
         )
         println("*****************************************************************")
-        while (currentQuestionNumber<=questionsNumber) {
+        while (currentQuestionNumber <= questionsNumber) {
 
 
             allMeals
@@ -45,7 +37,6 @@ class IngredientGame(private val mealRepo: MealRepository) {
                 correctOption = gameMealList[firstIndex].ingredients!!,
                 optionsList = optionsList,
                 currentQuestionNumber = currentQuestionNumber,
-
             )
             if (continueAsking) {
                 points += 1000
@@ -53,8 +44,7 @@ class IngredientGame(private val mealRepo: MealRepository) {
                 println("Great!!!")
                 println("+1000 point")
                 println("you've got $points point")
-
-            }else{
+            } else {
                 println("Wrong answer!!")
                 println("you've got $points point")
                 return
@@ -63,14 +53,19 @@ class IngredientGame(private val mealRepo: MealRepository) {
 
     }
 
-    private fun showMealAndOptions(currentQuestionNumber: Int,mealName:String, correctOption:List<String>, optionsList:List<List<String>>):Boolean{
-        val options=optionsList.shuffled()
+    private fun showMealAndOptions(
+        currentQuestionNumber: Int,
+        mealName: String,
+        correctOption: List<String>,
+        optionsList: List<List<String>>
+    ): Boolean {
+        val options = optionsList.shuffled()
         println(mealName)
         println("------------------------------")
-        for (index in 0 .. 2) println("${index+1}-${options[index]}")
+        for (index in 0..2) println("${index + 1}-${options[index]}")
 
         print("Q$currentQuestionNumber: choose answer: ")
-        val input= readln()
-        return options[input.toInt()-1]==correctOption
+        val input = readln()
+        return options[input.toInt() - 1] == correctOption
     }
 }

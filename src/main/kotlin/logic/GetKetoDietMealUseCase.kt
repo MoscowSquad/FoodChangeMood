@@ -3,7 +3,7 @@ package org.example.logic
 import org.example.model.Meal
 import org.example.model.Nutrition
 
-class KetoDietMealHelper(private val repository: MealRepository) {
+class GetKetoDietMealUseCase(private val repository: MealRepository) {
 
     private val suggestedMeals = mutableSetOf<String>()
     private var ketoMeals: List<Meal> = emptyList()
