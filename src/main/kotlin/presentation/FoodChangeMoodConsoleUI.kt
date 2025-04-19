@@ -11,21 +11,21 @@ import java.util.*
 
 class FoodChangeMoodConsoleUI(
     private val getHealthyFastFoodMealsUseCase: GetHealthyFastFoodMealsUseCase, //1
-    private val searchMealsByName: SearchMealByNameUseCase, //2
-    private val getIraqiMeals: GetIraqiMealsUseCase, //3
+    private val searchMealsByNameUseCase: SearchMealByNameUseCase, //2
+    private val getIraqiMealsUseCase: GetIraqiMealsUseCase, //3
     private val easyFoodSuggestionUseCase: EasyFoodSuggestionUseCase, //4
-    private val randomMealNameProvider: RandomMealNameProvider, //5
+    private val randomMealNameUseCase: RandomMealNameProvider, //5
     private val sweetsWithNoEggUseCase: SweetsWithNoEggUseCase, //6
-    private val getketoDietMealHelper: GetKetoDietMealUseCase, //7
-    private val getMealsByDate: GetMealsByDateUseCase, //8
-    private val getMealById: GetMealByIdUseCase, //8
+    private val getketoDietMealUseCase: GetKetoDietMealUseCase, //7
+    private val getMealsByDateUseCase: GetMealsByDateUseCase, //8
+    private val getMealByIdUseCase: GetMealByIdUseCase, //8
     private val gymHelperController: GymHelperController, //9
-    private val searchMealByCountry: SearchMealByCountryUseCase, //10
+    private val searchMealByCountryUseCase: SearchMealByCountryUseCase, //10
     private val searchMealByNameUseCase: SearchMealByNameUseCase, //10
-    private val ingredientGame: GetIngredientMealsUseCase, //11
-    private val getRandomMealsHavePotatoes: GetRandomMealsHavePotatoesUseCase, //12
+    private val getIngredientMealsUseCase: GetIngredientMealsUseCase, //11
+    private val getRandomMealsHavePotatoesUseCase: GetRandomMealsHavePotatoesUseCase, //12
     private val getHighCaloriesMealsUseCase: GetHighCaloriesMealsUseCase, //13
-    private val getSeafoodByProteinContent: GetSeafoodByProteinContentUseCase, //14
+    private val getSeafoodByProteinContentUseCase: GetSeafoodByProteinContentUseCase, //14
     private val findItalianMealsForLargeGroupsUseCase: FindItalianMealsForLargeGroupsUseCase, //15
 
 ) {
@@ -38,23 +38,33 @@ class FoodChangeMoodConsoleUI(
     private fun presentFeatures() {
         showOptions()
         val input = getUserInput()
+        var shouldExit = false
         when (input) {
             1 -> launchHealthyFastFoodMeals()
             2 -> launchSearchMealsByName()
-            3 -> launchHighProteinMeals()
-            4 -> searchMealsByDate()
-            6 -> sweetsWithNoEgg()
-            9 -> gymHelper()
-            12 -> iLovePotato()
-            13 -> soThinProblem()
-            15 -> findItalianMealsForLargeGroups()
-
+            3 -> launchGetIraqiMeals()
+            4 -> launchEasyFoodSuggestion()
+            5 -> launchGuessGame()
+            6 -> launchSweetsWithNoEgg()
+            7 -> launchKetoDietMealHelper()
+            8 -> launchSearchMealsByDate()
+            9 -> launchGymHelper()
+            10 -> launchExploreOtherCountries()
+            11 -> launchIngredientGame()
+            12 -> launchILovePotato()
+            13 -> launchHighCaloriesMeals()
+            14 -> launchListOfAllSeafoodMeals()
+            15 -> launchFindItalianMealsForLargeGroups()
+            16 -> shouldExit = true
 
             else -> {
                 println("Invalid Input")
             }
         }
-        presentFeatures()
+        if (shouldExit)
+            println("See you soon 👋")
+        else
+            presentFeatures()
     }
 
     private fun showWelcome() {
@@ -62,18 +72,25 @@ class FoodChangeMoodConsoleUI(
     }
 
     private fun showOptions() {
-        println("\n\n=== Please enter one of the following numbers ===")
+        println("\n=== Please enter one of the following numbers ===")
         println("1- Get healthy fast food meals (15 minutes or less with low fat and carbs)")
         println("2- Search for meals by name")
-        println("3- Get high protein meals for fitness")
-        println("4- Search meals by date (yyyyMMdd)")
-        println("6- Sweets with No Eggs")
-        println("9- Gym Helper")
-        println("12- I Love Potato: Show list of 10 meals that include potatoes")
-        println("13- So Thin Problem: Suggest a meal with more than 700 calories")
+        println("3- Get iraqi meals")
+        println("4- Get easy food suggestion")
+        println("5- Guess Game (You will guess meal preparation time)")
+        println("6- Get Sweets with no eggs")
+        println("7- Keto Diet Meal Helper")
+        println("8- Search foods by add-date")
+        println("9- Gym Helper (Get your desired amount of calories and protein)")
+        println("10- Explore other countries (Get 20 randomly other countries' meals)")
+        println("11- Ingredient Game (Guesses meal Ingredients)")
+        println("12- I LOVE POTATO (Show list of 10 meals that include potatoes)")
+        println("13- Get high-calorie meals (+700cal)")
+        println("14- List seafood meals sorted by protein content")
         println("15- Find Italian meals for large groups")
+        println("16- Exit")
 
-        print("here: ")
+        print("Enter your option: ")
     }
 
     private fun launchHealthyFastFoodMeals() {
@@ -97,7 +114,7 @@ class FoodChangeMoodConsoleUI(
         } ?: println("Please enter valid input")
     }
 
-    private fun launchHighProteinMeals() {
+    private fun launchHighCaloriesMeals() {
         println("Getting high protein meals...")
         println("This feature is not implemented yet")
         // This would call a GetHighProteinMealsUseCase
@@ -106,7 +123,7 @@ class FoodChangeMoodConsoleUI(
     fun exploreFoodCulture() {
         print("Enter a country name to explore its food culture: ")
         val country = readln()
-        val meals = searchMealByCountry.searchMealsByCountry(country)
+        val meals = searchMealByCountryUseCase.searchMealsByCountry(country)
 
         if (meals.isEmpty()) {
             println("No meals found for $country")
@@ -117,7 +134,8 @@ class FoodChangeMoodConsoleUI(
             }
         }
     }
-    private fun findItalianMealsForLargeGroups() {
+
+    private fun launchFindItalianMealsForLargeGroups() {
         println("\nFinding Italian meals suitable for large groups...")
         val italianMeals = findItalianMealsForLargeGroupsUseCase.invoke()
         if (italianMeals.isEmpty()) {
@@ -129,8 +147,7 @@ class FoodChangeMoodConsoleUI(
         }
     }
 
-
-    private fun searchMealsByDate() {
+    private fun launchSearchMealsByDate() {
         println("Enter a date in format yyyyMMdd:")
         val input = scanner.nextLine()
         val dateInt = try {
@@ -143,13 +160,13 @@ class FoodChangeMoodConsoleUI(
         }
 
         try {
-            val meals = getMealsByDate.getMealsByDate(dateInt)
+            val meals = getMealsByDateUseCase.getMealsByDate(dateInt)
             println("Meals found:")
             meals.forEach { println("ID: ${it.id}, Name: ${it.name}") }
 
             println("Enter the ID of the meal you want details for:")
             val id = scanner.nextLine().toInt()
-            val meal = getMealById.getMealById(id)
+            val meal = getMealByIdUseCase.getMealById(id)
             if (meal != null) {
                 println("\n--- Meal Details ---")
                 println("Name: ${meal.name}")
@@ -162,7 +179,8 @@ class FoodChangeMoodConsoleUI(
             println(e.message)
         }
     }
-    private fun gymHelper() {
+
+    private fun launchGymHelper() {
         println("--- Gym Helper ---")
         print("Enter calories: ")
         val caloriesInput = scanner.nextLine()
@@ -179,7 +197,7 @@ class FoodChangeMoodConsoleUI(
         }
     }
 
-    private fun sweetsWithNoEgg() {
+    private fun launchSweetsWithNoEgg() {
         println("--- Sweets with No Eggs ---")
         val sweet = sweetsWithNoEggUseCase.getSweetsWithNoEggUseCase()
         if (sweet == null) {
@@ -210,9 +228,9 @@ class FoodChangeMoodConsoleUI(
         }
     }
 
-    private fun iLovePotato() {
+    private fun launchILovePotato() {
         println("-- I Love Potato ---")
-        val potatoMeals = getRandomMealsHavePotatoes.getRandomPotatoMeals()
+        val potatoMeals = getRandomMealsHavePotatoesUseCase.getRandomPotatoMeals()
         if (potatoMeals.isEmpty()) {
             println("No meals with potatoes found.")
         } else {
@@ -222,7 +240,7 @@ class FoodChangeMoodConsoleUI(
         }
     }
 
-    private fun soThinProblem() {
+    private fun launchSoThinProblem() {
         println("--- So Thin Problem ---")
         try {
             val highCalorieMeal = getHighCaloriesMealsUseCase.invoke()
@@ -232,6 +250,7 @@ class FoodChangeMoodConsoleUI(
             println("No meals with more than 700 calories found.")
         }
     }
+
     private fun displayMeals(meals: List<Meal>) {
         meals.forEachIndexed { index, meal ->
             println("\n${index + 1}. ${meal.name}")
@@ -251,6 +270,33 @@ class FoodChangeMoodConsoleUI(
         }
     }
 
+    private fun launchListOfAllSeafoodMeals() {
+
+    }
+
+    private fun launchIngredientGame() {
+
+    }
+
+    private fun launchExploreOtherCountries() {
+
+    }
+
+    private fun launchKetoDietMealHelper() {
+
+    }
+
+    private fun launchGuessGame() {
+
+    }
+
+    private fun launchEasyFoodSuggestion() {
+
+    }
+
+    private fun launchGetIraqiMeals() {
+
+    }
 
     private fun getUserInput(): Int? {
         return readlnOrNull()?.toIntOrNull()
