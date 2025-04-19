@@ -16,6 +16,7 @@ val useCaseModule = module {
     single { GetMealsByDateUseCase(get()) } //8
     single { GetMealByIdUseCase(get()) } //8
     single { GymHelperController(get()) } //9
+    single { GetGymMealsUseCase(get()) } //9
     single { SearchMealByCountryUseCase(get()) } //10
     single { SearchMealByNameUseCase(get(), get()) } //10
     single { GetIngredientMealsUseCase(get()) } //11
