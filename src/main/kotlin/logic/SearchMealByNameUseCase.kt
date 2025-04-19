@@ -1,7 +1,6 @@
 package org.example.logic
 
-import org.example.model.BlankKeywordException
-import org.example.model.KeywordNotFoundException
+import org.example.model.Exceptions
 import org.example.model.Meal
 
 const val MATCH_EXACTLY = 0
@@ -14,7 +13,7 @@ class SearchMealByNameUseCase(
 ) {
     fun search(keyword: String): Meal {
         if (keyword.isBlank())
-            throw BlankKeywordException()
+            throw Exceptions.BlankKeywordException()
 
         val matchedList = mutableListOf<Pair<Int, Meal>>()
         repository.getAllMeals()
@@ -29,7 +28,7 @@ class SearchMealByNameUseCase(
             }
 
         if (matchedList.isEmpty())
-            throw KeywordNotFoundException(keyword = keyword)
+            throw Exceptions.KeywordNotFoundException(keyword = keyword)
 
         return matchedList.sortedBy { it.first }[0].second
     }

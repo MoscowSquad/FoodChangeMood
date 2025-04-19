@@ -2,7 +2,7 @@ package org.example.logic
 
 import org.example.model.Meal
 
-class GetSeafoodByProteinContent(private val repository: MealRepository) {
+class GetSeafoodByProteinContentUseCase(private val repository: MealRepository) {
     fun getSeafoodMealsByProteinContent(): List<Meal> {
         return repository.getAllMeals()
             .filter(::bySeafood)
