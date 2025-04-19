@@ -1,11 +1,12 @@
 package org.example.logic
 
 import org.example.model.Exceptions
+import org.example.model.Meal
 
 class RandomMealNameProvider(
     private val mealRepository: MealRepository
 ) {
-    fun getRandomMealName(): String? {
+    fun getRandomMeal(): Meal {
         val meals = mealRepository.getAllMeals()
         if (meals.isEmpty()) {
             throw Exceptions.NoFoodFoundException("No meals available")
@@ -15,6 +16,6 @@ class RandomMealNameProvider(
             throw Exceptions.IncorrectMealNameException("Meal name is empty")
         }
 
-        return randomMeal.name
+        return randomMeal
     }
 }
