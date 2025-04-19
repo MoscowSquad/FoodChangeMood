@@ -1,9 +1,10 @@
 package logic
 
 import org.example.logic.MealRepository
+import org.example.model.Meal
 
 class EasyFoodSuggestionUseCase(private val mealRepository: MealRepository) {
-    fun foodSuggestion(): List<String> {
+    fun suggestTenRandomMeals(): List<Meal> {
         return mealRepository.getAllMeals()
             .filter { currentMeal ->
                 currentMeal.minutes != null
@@ -14,6 +15,5 @@ class EasyFoodSuggestionUseCase(private val mealRepository: MealRepository) {
             }
             .shuffled()
             .take(10)
-            .map { it.name!! }
     }
 }

@@ -104,6 +104,8 @@ class FoodChangeMoodConsoleUI(
             displayMeals(healthyMeals)
             println("Total number of meals: ${healthyMeals.size}")
         }
+
+        goBack()
     }
 
     private fun launchSearchMealsByName() {
@@ -308,11 +310,31 @@ class FoodChangeMoodConsoleUI(
     }
 
     private fun launchEasyFoodSuggestion() {
+        println("Finding easy meal to prepare ...")
+        val meals = easyFoodSuggestionUseCase.suggestTenRandomMeals()
+        println("Your order is ready: ")
+        if (meals.isEmpty()) {
+            println("No meals found matching the criteria.")
+        } else {
+            displayMeals(meals)
+            println("Total number of meals: ${meals.size}")
+        }
 
+        goBack()
     }
 
     private fun launchGetIraqiMeals() {
+        println("Finding Iraqi meals ...")
+        val meals = getIraqiMealsUseCase.getIraqiMeals()
+        println("Your order is ready: ")
+        if (meals.isEmpty()) {
+            println("No meals found matching the criteria.")
+        } else {
+            displayMeals(meals)
+            println("Total number of meals: ${meals.size}")
+        }
 
+        goBack()
     }
 
     private fun getUserInput(): Int? {
