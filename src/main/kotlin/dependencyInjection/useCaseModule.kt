@@ -1,8 +1,7 @@
 package org.example.dependencyInjection
 
-import logic.EasyFoodSuggestionUseCase
 import org.example.data.GymHelperController
-import org.example.logic.*
+import org.example.logic.usecases.*
 import org.koin.dsl.module
 
 val useCaseModule = module {
