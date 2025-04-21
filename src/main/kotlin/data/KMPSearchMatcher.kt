@@ -1,8 +1,8 @@
 package org.example.data
 
-import org.example.logic.SearchMatcher
-import org.example.logic.SearchMealByNameUseCase.Companion.MATCH_PARTIAL
-import org.example.logic.SearchMealByNameUseCase.Companion.NOT_MATCHED
+import org.example.logic.repository.SearchMatcher
+import org.example.logic.usecases.SearchMealByNameUseCase.Companion.MATCH_PARTIAL
+import org.example.logic.usecases.SearchMealByNameUseCase.Companion.NOT_MATCHED
 
 class KMPSearchMatcher : SearchMatcher {
     override fun getMatchAccuracy(text: String, keyword: String): Int {

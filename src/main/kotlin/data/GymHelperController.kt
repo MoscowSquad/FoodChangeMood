@@ -1,7 +1,7 @@
 package org.example.data
 
 
-import org.example.logic.GetGymMealsUseCase
+import org.example.logic.usecases.GetGymMealsUseCase
 import org.example.model.Exceptions
 import org.example.model.Meal
 import org.example.model.NutritionRequest
