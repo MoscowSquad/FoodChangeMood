@@ -47,3 +47,14 @@ bin/
 ### Mac OS ###
 .DS_Store
 *.csv
+
+### Build Folders ###
+/build/
+/out/
+/.gradle/
+
+### Kotlin ###
+*.lock
+*.bin
+.kotlin/
+.gradle /
