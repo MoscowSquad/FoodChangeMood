@@ -1,5 +1,6 @@
-package org.example.logic
+package org.example.logic.usecases
 
+import org.example.logic.repository.MealRepository
 import org.example.model.Meal
 
 class SearchMealByCountryUseCase(
@@ -17,3 +18,7 @@ class SearchMealByCountryUseCase(
             .take(20)
     }
 }
+
+// 1. Extract the logic inside the filter to another function
+// 2. Use random indices instead of shuffled
+// 3. Use the exception you have implemented if the list is empty

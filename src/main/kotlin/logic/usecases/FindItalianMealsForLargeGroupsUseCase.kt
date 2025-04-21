@@ -1,5 +1,6 @@
-package org.example.logic
+package org.example.logic.usecases
 
+import org.example.logic.repository.MealRepository
 import org.example.model.Meal
 
 class FindItalianMealsForLargeGroupsUseCase(
@@ -39,3 +40,9 @@ class FindItalianMealsForLargeGroupsUseCase(
         return false
     }
 }
+
+
+// 1. Add function to get high quality data
+// 2. Merge isItalianMeal and isGroupSuitableMeal into one function and use filter(::theNameOfTheNewFunction)
+// 3. Reduce the logic into the invoke function by reducing the number of called functions
+// 4. Check if the list is empty or not if it is throw a custom exception and write it on the Exceptions file

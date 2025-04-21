@@ -1,5 +1,6 @@
-package org.example.logic
+package org.example.logic.usecases
 
+import org.example.logic.repository.MealRepository
 import org.example.model.Exceptions
 import org.example.model.Meal
 
@@ -29,3 +30,9 @@ class GetKetoDietMealUseCase(private val repository: MealRepository) {
         return (nutrition?.carbohydrates ?: 0.0) < 10 && ((nutrition?.totalFat ?: 0.0) > (nutrition?.protein ?: 0.0))
     }
 }
+
+
+// for getKetoMeal function use filter{} first with the `meal.isKetoFriendly() && meal.notSuggestedBefore().not()` condition
+// then implement the logic for selecting a random index from the returned list from filter function
+// inside the logic for selecting a random index add the new selected item to the suggestedMeals list.
+// Remove the shuffled() function and use random indices for better performance

@@ -1,11 +1,12 @@
-package org.example.logic
+package org.example.logic.usecases
 
+import org.example.logic.repository.MealRepository
 import org.example.model.Exceptions
 import org.example.model.Meal
 
 class GetHighCaloriesMealsUseCase(private val repository: MealRepository) {
     private val suggestedList = mutableSetOf<Meal>()
-    fun invoke(): Meal {
+    operator fun invoke(): Meal {
         repository.getAllMeals()
             .filter(::byHighCalories)
             .forEach { meal ->

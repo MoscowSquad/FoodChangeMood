@@ -1,5 +1,6 @@
-package org.example.logic
+package org.example.logic.usecases
 
+import org.example.logic.repository.MealRepository
 import org.example.model.Meal
 
 class SweetsWithNoEggUseCase(private val mealRepository: MealRepository) {

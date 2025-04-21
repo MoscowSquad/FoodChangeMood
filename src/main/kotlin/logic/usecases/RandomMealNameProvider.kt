@@ -1,5 +1,6 @@
-package org.example.logic
+package org.example.logic.usecases
 
+import org.example.logic.repository.MealRepository
 import org.example.model.Exceptions
 import org.example.model.Meal
 
@@ -19,3 +20,11 @@ class RandomMealNameProvider(
         return randomMeal
     }
 }
+
+
+// 1. Change the name of the class as it will end with UseCase
+// 2. Use functional programming in conditions like this
+//val meal = mealRepository.getAllMeals().takeIf { it.isNotEmpty() }
+//    ?: throw Exceptions.IncorrectMealNameException()
+//val randomMeal = meal.random().takeIf { it.name.isNotBlank() }
+//    ?: throw Exceptions.NoFoodFoundException()

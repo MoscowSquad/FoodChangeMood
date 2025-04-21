@@ -1,6 +1,6 @@
-package logic
+package org.example.logic.usecases
 
-import org.example.logic.MealRepository
+import org.example.logic.repository.MealRepository
 import org.example.model.Meal
 
 class EasyFoodSuggestionUseCase(private val mealRepository: MealRepository) {
@@ -17,3 +17,8 @@ class EasyFoodSuggestionUseCase(private val mealRepository: MealRepository) {
             .take(10)
     }
 }
+
+// 1. Don't use shuffled use random indices instead
+// 2. Extract Constant value into companion object
+// 3. Extract the filter lambda outside into another function
+// 4. Check if the list is empty or not if it is throw a custom exception and write it on the Exceptions file

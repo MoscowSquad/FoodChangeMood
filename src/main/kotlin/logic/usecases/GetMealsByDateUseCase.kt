@@ -1,5 +1,6 @@
-package org.example.logic
+package org.example.logic.usecases
 
+import org.example.logic.repository.MealRepository
 import org.example.model.Exceptions
 import org.example.model.Meal
 
@@ -12,3 +13,7 @@ class GetMealsByDateUseCase(
         return matchedMeals
     }
 }
+
+
+// 1. Use random indices instead of shuffled
+// 2. Use takeIf instead of if condition
