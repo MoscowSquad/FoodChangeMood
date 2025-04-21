@@ -16,7 +16,7 @@ class CustomParser(
 
     fun parseMealsCsv(): List<Meal> {
         val file = getResourceFile()
-        val lines = file.readLines().take(500) // remove in production
+        val lines = file.readLines()
         return lines.drop(1).mapNotNull { line ->
             try {
                 val parts = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)".toRegex())
