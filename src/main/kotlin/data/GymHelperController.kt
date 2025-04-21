@@ -30,12 +30,3 @@ class GymHelperController(private val useCase: GetGymMealsUseCase) {
         return meals
     }
 }
-
-
-private fun displayMeals(meals: List<Meal>): List<String> {
-    return meals.mapNotNull { meal ->
-        meal.nutrition?.let { nutrition ->
-            "${meal.name} (Calories: ${nutrition.calories}, Protein: ${nutrition.protein})"
-        }
-    }
-}
