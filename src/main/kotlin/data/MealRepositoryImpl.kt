@@ -9,5 +9,5 @@ class MealRepositoryImpl(
 ) : MealRepository {
     private val meals = mutableListOf<Meal>()
     override fun getAllMeals(): List<Meal> =
-        if (meals.isEmpty()) parser.parseMealsCsv() else meals
+        if (meals.isEmpty()) parser.parseMealsCsv().also { meals.addAll(it) } else meals
 }
