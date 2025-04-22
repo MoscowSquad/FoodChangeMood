@@ -13,5 +13,3 @@ class GetMealByIdUseCase(
     }
 }
 
-
-// 3. Use the exception you have implemented if the list is empty
