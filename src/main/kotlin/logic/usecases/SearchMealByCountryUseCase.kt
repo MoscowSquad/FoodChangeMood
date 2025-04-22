@@ -13,7 +13,9 @@ class SearchMealByCountryUseCase(
             .takeIf { it.isNotEmpty() }
             ?.shuffled()
             ?.take(MAX_MEALS)
+            ?.shuffled()
             ?: throw Exceptions.NoMealsFound("No Meal Found With Country: $country")
+
     }
 
     private fun Meal.matchesCountry(country: String): Boolean{
