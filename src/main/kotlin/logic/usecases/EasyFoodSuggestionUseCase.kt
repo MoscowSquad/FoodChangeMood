@@ -1,7 +1,9 @@
 package org.example.logic.usecases
 
 import org.example.logic.repository.MealRepository
+import org.example.model.Exceptions
 import org.example.model.Meal
+import org.example.utils.takeRandomMeals
 
 class EasyFoodSuggestionUseCase(private val mealRepository: MealRepository) {
     fun suggestTenRandomMeals(): List<Meal> {
@@ -9,7 +11,7 @@ class EasyFoodSuggestionUseCase(private val mealRepository: MealRepository) {
             .filter(::filterEasyFood)
             .takeIf { it.isNotEmpty() }
             ?.takeRandomMeals(NUMBER_OF_MEALS)
-            ?: throw MealsNotFoundException()
+            ?: throw Exceptions.NoMealsFoundException()
     }
 
     private fun filterEasyFood(currentMeal: Meal): Boolean {
@@ -22,12 +24,6 @@ class EasyFoodSuggestionUseCase(private val mealRepository: MealRepository) {
                 && currentMeal.nSteps <= MAXIMUM_STEPS_NUMBER
     }
 
-    private fun <T> List<T>.takeRandomMeals(numberOfMeals: Int): List<T> {
-        return generateSequence { this.random() }
-            .distinct()
-            .take(numberOfMeals)
-            .toList()
-    }
 
     companion object {
         private const val NUMBER_OF_MEALS = 10
@@ -37,5 +33,4 @@ class EasyFoodSuggestionUseCase(private val mealRepository: MealRepository) {
     }
 }
 
-class MealsNotFoundException :
-    Exception("\"The Easy meals are missing from the list. Please check if there were added correctly.\"\n")
+
