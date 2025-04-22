@@ -1,6 +1,5 @@
 package org.example.presentation
 
-
 import kotlin.system.exitProcess
 
 class ConsoleFoodChangeMoodUI(
@@ -20,62 +19,67 @@ class ConsoleFoodChangeMoodUI(
     private val getSeaFoodMealsUI: GetSeaFoodMealsUI,
     private val findItalianMealsForLargeGroupsUI: FindItalianMealsForLargeGroupsUI
 ) {
+
     fun start() {
-        println("Welcome to Food Change Mood App")
-        presentFeatures()
+        println("\n╔═══════════════════════════════════════════╗")
+        println("║     🍽️ Welcome to Food Change Mood App     ║")
+        println("╚════════════════════════════════════════════╝")
+        menuLoop()
     }
 
-    private fun presentFeatures() {
-        showOptions()
-        val input = readlnOrNull()?.toIntOrNull()
-        when (input) {
-            1 -> healthyFastFoodMealsUI()
-            2 -> searchMealByNameUI()
-            3 -> iraqiMealsUI()
-            4 -> easyFoodSuggestionUI()
-            5 -> guessGameUI()
-            6 -> sweetsWithNoEggUI()
-            7 -> ketoDietMealHelperUI()
-            8 -> searchMealsByDateUI()
-            9 -> gymHelperUI()
-            10 -> searchMealByCountryUI()
-            11 -> ingredientGameUI()
-            12 -> iLovePotatoUI()
-            13 -> highCaloriesMealsUI()
-            14 -> getSeaFoodMealsUI()
-            15 -> findItalianMealsForLargeGroupsUI()
-            16 -> {
-                println("See you soon 👋")
-                exitProcess(0)
-            }
+    private fun menuLoop() {
+        while (true) {
+            showOptions()
+            when (readlnOrNull()?.toIntOrNull()) {
+                1 -> healthyFastFoodMealsUI()
+                2 -> searchMealByNameUI()
+                3 -> iraqiMealsUI()
+                4 -> easyFoodSuggestionUI()
+                5 -> guessGameUI()
+                6 -> sweetsWithNoEggUI()
+                7 -> ketoDietMealHelperUI()
+                8 -> searchMealsByDateUI()
+                9 -> gymHelperUI()
+                10 -> searchMealByCountryUI()
+                11 -> ingredientGameUI()
+                12 -> iLovePotatoUI()
+                13 -> highCaloriesMealsUI()
+                14 -> getSeaFoodMealsUI()
+                15 -> findItalianMealsForLargeGroupsUI()
+                16 -> {
+                    println("\n👋 See you soon. Stay healthy!")
+                    exitProcess(0)
+                }
 
-            else -> {
-                println("Invalid Input")
+                else -> println("\n❌ Invalid input. Please enter a number between 1 and 16.")
             }
         }
-        presentFeatures()
     }
 
-
     private fun showOptions() {
-        println("\n=== Please enter one of the following numbers ===")
-        println("1- Get healthy fast food meals (15 minutes or less with low fat and carbs)")
-        println("2- Search for meals by name")
-        println("3- Get iraqi meals")
-        println("4- Get easy food suggestion")
-        println("5- Guess Game (You will guess meal preparation time)")
-        println("6- Get Sweets with no eggs")
-        println("7- Keto Diet Meal Helper")
-        println("8- Search foods by add-date")
-        println("9- Gym Helper (Get your desired amount of calories and protein)")
-        println("10- Explore other countries (Get 20 randomly other countries' meals)")
-        println("11- Ingredient Game (Guesses meal Ingredients)")
-        println("12- I LOVE POTATO (Show list of 10 meals that include potatoes)")
-        println("13- Get high-calorie meals (+700cal)")
-        println("14- List seafood meals sorted by protein content")
-        println("15- Find Italian meals for large groups")
-        println("16- Exit")
+        println(
+            """
+            
+🔸 === Choose an Option === 🔸
+1  - 🍔 Healthy Fast Food (Low fat, low carbs, <15 min)
+2  - 🔍 Search Meals by Name
+3  - 🇮🇶 Get Iraqi Meals
+4  - 🍳 Easy Food Suggestions
+5  - 🎮 Guess Game (Guess preparation time)
+6  - 🍬 Sweets with No Eggs
+7  - 🥩 Keto Diet Meal Helper
+8  - 🗓️ Search Meals by Date
+9  - 🏋️ Gym Helper (Calories & Protein)
+10 - 🌍 Explore Meals from Other Countries
+11 - 🧠 Ingredient Guessing Game
+12 - 🥔 I LOVE POTATO (Top 10 Potato Meals)
+13 - 🔋 High-Calorie Meals (700+ cal)
+14 - 🐟 Seafood Meals Sorted by Protein
+15 - 🍝 Italian Meals for Large Groups
+16 - ❎ Exit
 
-        print("Enter your option: ")
+Enter your option: 
+""".trimIndent()
+        )
     }
 }
