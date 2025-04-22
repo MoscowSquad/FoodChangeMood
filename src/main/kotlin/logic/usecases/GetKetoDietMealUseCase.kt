@@ -18,7 +18,7 @@ class GetKetoDietMealUseCase(private val repository: MealRepository) {
                 }
             }
 
-        throw Exceptions.MealNotFoundException("There no a Keto meals")
+        throw Exceptions.NoMealsFoundException("There no a Keto meals")
     }
 
     private fun Meal.notSuggestedBefore(): Boolean {

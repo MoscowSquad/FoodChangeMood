@@ -11,8 +11,7 @@ class GetHealthyFastFoodMealsUseCase(
         return mealRepository.getAllMeals()
             .filter(::isFastToPrepareMeal)
             .sorted()
-            .takeIf { it.isNotEmpty()}?:
-            throw Exceptions.NoMealsFound("No healthy meals found that can be prepared in $MAX_PREP_TIME_MINUTES minutes or less")
+            .takeIf { it.isNotEmpty()}?: throw Exceptions.NoMealsFoundException("No healthy meals found that can be prepared in $MAX_PREP_TIME_MINUTES minutes or less")
 
 
     }

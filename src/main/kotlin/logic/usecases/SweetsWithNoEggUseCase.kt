@@ -11,7 +11,7 @@ class SweetsWithNoEggUseCase(private val mealRepository: MealRepository) {
             .filter(::isSweetAndHasNoEgg)
             .filter { it.id != null && it.id !in shownMeals }
             .randomOrNull()?.also { meal -> meal.id?.let(shownMeals::add) }
-            ?: throw Exceptions.NoMealsFound("No sweets found without eggs.")
+            ?: throw Exceptions.NoMealsFoundException("No sweets found without eggs.")
     }
 
     private fun isSweetAndHasNoEgg(meal: Meal): Boolean {
