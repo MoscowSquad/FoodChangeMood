@@ -1,8 +1,8 @@
 package org.example
 
-import dependencyInjection.appModule
-import org.example.dependencyInjection.presentationModule
-import org.example.dependencyInjection.useCaseModule
+import di.appModule
+import di.presentationModule
+import di.useCaseModule
 import org.example.presentation.ConsoleFoodChangeMoodUI
 import org.koin.core.context.startKoin
 import org.koin.mp.KoinPlatform.getKoin

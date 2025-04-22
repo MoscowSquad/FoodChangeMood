@@ -1,4 +1,4 @@
-package org.example.dependencyInjection
+package di
 
 import org.example.presentation.*
 import org.koin.core.module.dsl.factoryOf
