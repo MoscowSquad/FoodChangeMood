@@ -3,36 +3,40 @@ package org.example.logic.usecases
 import org.example.logic.repository.MealRepository
 import org.example.model.Exceptions
 import org.example.model.Meal
+import kotlin.random.Random
 
 class GetKetoDietMealUseCase(private val repository: MealRepository) {
+
     private val suggestedMeals = mutableSetOf<Meal>()
+    private var currentMeal: Meal? = null
 
-    // Suggest a keto meal
+    // Get a new keto-friendly meal
     fun getKetoMeal(): Meal {
-        repository.getAllMeals()
-            .shuffled()
-            .forEach { meal ->
-                if (meal.isKetoFriendly() && meal.notSuggestedBefore().not()) {
-                    suggestedMeals.add(meal)
-                    return meal
-                }
-            }
+        val available = repository.getAllMeals().filter { it.isKetoFriendly() && !suggestedMeals.contains(it) }
 
-        throw Exceptions.MealNotFoundException("There no a Keto meals")
+        if (available.isEmpty()) {
+            throw Exceptions.MealNotFoundException("No more keto-friendly meals available.")
+        }
+
+        val randomMeal = available[Random.nextInt(available.size)]
+        currentMeal = randomMeal
+        suggestedMeals.add(randomMeal)
+        return randomMeal
     }
 
-    private fun Meal.notSuggestedBefore(): Boolean {
-        return suggestedMeals.contains(this)
+    // Mark the current meal as liked (e.g., show full details)
+    fun likeMeal(): Meal {
+        return currentMeal ?: throw Exceptions.MealNotFoundException("No meal is currently suggested.")
     }
 
-    // Check if the meal is keto-friendly based on the nutritional info
+    // Dislike current meal and get a new one
+    fun dislikeMeal(): Meal {
+        return getKetoMeal()
+    }
+
+    // Internal: is this meal keto?
     private fun Meal.isKetoFriendly(): Boolean {
-        return (nutrition?.carbohydrates ?: 0.0) < 10 && ((nutrition?.totalFat ?: 0.0) > (nutrition?.protein ?: 0.0))
+        return (nutrition?.carbohydrates ?: 0.0) < 10 &&
+                (nutrition?.totalFat ?: 0.0) > (nutrition?.protein ?: 0.0)
     }
 }
-
-
-// for getKetoMeal function use filter{} first with the `meal.isKetoFriendly() && meal.notSuggestedBefore().not()` condition
-// then implement the logic for selecting a random index from the returned list from filter function
-// inside the logic for selecting a random index add the new selected item to the suggestedMeals list.
-// Remove the shuffled() function and use random indices for better performance
