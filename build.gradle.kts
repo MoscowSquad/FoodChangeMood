@@ -16,6 +16,12 @@ dependencies {
     implementation("io.arrow-kt:arrow-fx-coroutines:2.0.1")
     implementation ("com.github.doyaaaaaken:kotlin-csv-jvm:1.9.0")
 
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.12.0-M1")
+    testImplementation("io.mockk:mockk:1.13.16")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.0")
+    testImplementation("com.google.truth:truth:1.4.2")
+
 }
 
 tasks.test {
