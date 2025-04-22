@@ -8,14 +8,20 @@ class SearchMealByCountryUseCase(
 ) {
     fun searchMealsByCountry(country: String): List<Meal> {
         return repository.getAllMeals()
-            .filter { meal ->
-                val lowerCountry = country.lowercase()
-                meal.tags?.any { it.contains(lowerCountry) } ?: false
-                        meal.name?.contains(lowerCountry, ignoreCase = true) ?: false
-                        meal.description?.contains(lowerCountry, ignoreCase = true) == true
-            }
+            .filter { meal -> meal.matchesCountry(country) }
             .shuffled()
-            .take(20)
+            .take(MAX_MEALS)
+    }
+
+    private fun Meal.matchesCountry(country: String): Boolean{
+        val lowerCountry = country.lowercase()
+        return tags?.any{ it.contains(lowerCountry , ignoreCase = true) } == true ||
+                name?.contains(lowerCountry , ignoreCase = true) == true ||
+                description?.contains(lowerCountry , ignoreCase = true) == true
+    }
+
+    companion object {
+        const val MAX_MEALS = 20
     }
 }
 
