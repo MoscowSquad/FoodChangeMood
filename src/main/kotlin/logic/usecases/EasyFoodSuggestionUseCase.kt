@@ -1,24 +1,36 @@
 package org.example.logic.usecases
 
 import org.example.logic.repository.MealRepository
+import org.example.model.Exceptions
 import org.example.model.Meal
+import org.example.utils.takeRandomMeals
 
 class EasyFoodSuggestionUseCase(private val mealRepository: MealRepository) {
     fun suggestTenRandomMeals(): List<Meal> {
         return mealRepository.getAllMeals()
-            .filter { currentMeal ->
-                currentMeal.minutes != null
-                        && currentMeal.nIngredients != null
-                        && currentMeal.nSteps != null
-                        && currentMeal.name != null &&
-                        currentMeal.minutes <= 30 && currentMeal.nIngredients <= 5 && currentMeal.nSteps <= 6
-            }
-            .shuffled()
-            .take(10)
+            .filter(::filterEasyFood)
+            .takeIf { it.isNotEmpty() }
+            ?.takeRandomMeals(NUMBER_OF_MEALS)
+            ?: throw Exceptions.NoMealsFoundException()
+    }
+
+    private fun filterEasyFood(currentMeal: Meal): Boolean {
+        return currentMeal.minutes != null
+                && currentMeal.nIngredients != null
+                && currentMeal.nSteps != null
+                && currentMeal.name != null &&
+                currentMeal.minutes <= MAXIMUM_PREPARATION_MINUTES
+                && currentMeal.nIngredients <= MAXIMUM_INGREDIENT_NUMBER
+                && currentMeal.nSteps <= MAXIMUM_STEPS_NUMBER
+    }
+
+
+    companion object {
+        private const val NUMBER_OF_MEALS = 10
+        private const val MAXIMUM_PREPARATION_MINUTES = 30
+        private const val MAXIMUM_INGREDIENT_NUMBER = 5
+        private const val MAXIMUM_STEPS_NUMBER = 5
     }
 }
 
-// 1. Don't use shuffled use random indices instead
-// 2. Extract Constant value into companion object
-// 3. Extract the filter lambda outside into another function
-// 4. Check if the list is empty or not if it is throw a custom exception and write it on the Exceptions file
+
