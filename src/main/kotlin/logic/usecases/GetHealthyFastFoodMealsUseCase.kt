@@ -8,24 +8,13 @@ class GetHealthyFastFoodMealsUseCase(
     private val mealRepository: MealRepository
 ) {
     fun getHealthyMeals(): List<Meal> {
-        val allMeals = try {
-            mealRepository.getAllMeals().also { meals ->
-                if (meals.isEmpty()) {
-                    throw Exceptions.NoMealsFoundException()
-                }
-            }
-        } catch (e: Exception) {
-            throw Exceptions.NoFoodFoundException("Failed to retrieve meals from repository: ${e.message}")
-        }
-
-        return allMeals
+        return mealRepository.getAllMeals()
             .filter(::isFastToPrepareMeal)
-            .also { healthyFastMeals ->
-                if (healthyFastMeals.isEmpty()) {
-                    throw Exceptions.NoMealsFound("No healthy meals found that can be prepared in $MAX_PREP_TIME_MINUTES minutes or less")
-                }
-            }
             .sorted()
+            .takeIf { it.isNotEmpty()}?:
+            throw Exceptions.NoMealsFound("No healthy meals found that can be prepared in $MAX_PREP_TIME_MINUTES minutes or less")
+
+
     }
 
     private fun isFastToPrepareMeal(meal: Meal): Boolean {
