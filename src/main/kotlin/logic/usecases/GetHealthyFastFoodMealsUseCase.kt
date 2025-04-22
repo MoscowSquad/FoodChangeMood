@@ -39,5 +39,3 @@ class GetHealthyFastFoodMealsUseCase(
         const val MAX_PREP_TIME_MINUTES = 15
     }
 }
-class NoMealsFound(message: String = "No meals found matching the specified criteria.") : Exceptions(message)
-class MealNotFoundException(message: String = "The requested meal could not be found in the repository.") : Exceptions(message)
