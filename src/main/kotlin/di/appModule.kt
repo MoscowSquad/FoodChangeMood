@@ -1,4 +1,4 @@
-package dependencyInjection
+package di
 
 import org.example.data.FuzzySearchMatcher
 import org.example.data.KMPSearchMatcher

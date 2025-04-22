@@ -1,6 +1,6 @@
 package org.example
 
-import dependencyInjection.appModule
+import di.appModule
 import org.example.dependencyInjection.presentationModule
 import org.example.dependencyInjection.useCaseModule
 import org.example.presentation.ConsoleFoodChangeMoodUI
