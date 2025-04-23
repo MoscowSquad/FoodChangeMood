@@ -1,10 +1,10 @@
 package org.example.presentation
 
-import org.example.logic.usecases.RandomMealNameProvider
+import org.example.logic.usecases.RandomMealNameProviderUseCase
 import org.example.model.Meal
 
 class GuessGameUI(
-    private val randomMealNameUseCase: RandomMealNameProvider
+    private val randomMealNameUseCase: RandomMealNameProviderUseCase
 ) {
     operator fun invoke() {
         println("Prepare a meal to guess by you ...")
