@@ -1,133 +1,153 @@
 package org.example.testcases
 
-// Unit tests for GetKetoDietMealUseCase.kt and KetoDietMealHelperUI.kt
-
-package org.example
-
-import com.google.common.truth.Truth.assertThat
-import io.mockk.*
-import org.example.logic.repository.MealRepository
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
+import io.mockk.mockkStatic
+import org.example.presentation.ConsoleFoodChangeMoodUI
 import org.example.logic.usecases.GetKetoDietMealUseCase
-import org.example.model.Exceptions
 import org.example.model.Meal
 import org.example.model.Nutrition
-import org.example.presentation.IOHandler
-import org.example.presentation.KetoDietMealHelperUI
 import org.junit.Before
 import org.junit.Test
+import com.google.common.truth.Truth.assertThat
+import org.example.model.Exceptions
+import org.example.logic.repository.MealRepository
+import org.example.presentation.KetoDietMealHelperUI
 
 class GetKetoDietMealUseCaseTest {
     private lateinit var repository: MealRepository
     private lateinit var useCase: GetKetoDietMealUseCase
 
     @Before
-    fun setup() {
+    fun setUp() {
         repository = mockk()
         useCase = GetKetoDietMealUseCase(repository)
     }
 
     @Test
     fun `getKetoMeal should return a valid keto meal`() {
-        val meal = Meal("1", "good morning   muffins", Nutrition(9.0, 11.0, 5.0))
+        // Given
+        val meal = Meal("1", "good morning muffins", Nutrition(9.0, 11.0, 5.0))
         every { repository.getAllMeals() } returns listOf(meal)
 
+        // When
         val result = useCase.getKetoMeal()
 
-        assertThat(result.name).isEqualTo("good morning   muffins")
+        // Then
+        assertThat(result.name).isEqualTo("good morning muffins")
     }
 
     @Test(expected = Exceptions.MealNotFoundException::class)
     fun `getKetoMeal should throw exception if no meals available`() {
+        // Given
         every { repository.getAllMeals() } returns emptyList()
 
+        // When
         useCase.getKetoMeal()
     }
 
     @Test
     fun `likeMeal should return current meal`() {
-        val meal = Meal("1", "good morning   muffins", Nutrition(9.0, 11.0,5.0))
+        // Given
+        val meal = Meal("1", "good morning muffins", Nutrition(9.0, 11.0, 5.0))
         every { repository.getAllMeals() } returns listOf(meal)
         useCase.getKetoMeal()
 
+        // When
         val liked = useCase.likeMeal()
 
-        assertThat(liked.name).isEqualTo("good morning   muffins")
+        // Then
+        assertThat(liked.name).isEqualTo("good morning muffins")
     }
 
     @Test(expected = Exceptions.MealNotFoundException::class)
     fun `likeMeal should throw if no current meal`() {
+        // When
         useCase.likeMeal()
     }
 
     @Test
     fun `dislikeMeal should return a new meal`() {
-        val meal1 = Meal("1", "good morning   muffins", Nutrition(9.0, 11.0, 5.0))
-        val meal2 = Meal("2", "dirty  broccoli", Nutrition(4.0, 11.0, 10.0))
+        // Given
+        val meal1 = Meal("1", "good morning muffins", Nutrition(9.0, 11.0, 5.0))
+        val meal2 = Meal("2", "dirty broccoli", Nutrition(4.0, 11.0, 10.0))
         every { repository.getAllMeals() } returns listOf(meal1, meal2)
 
+        // When
         val first = useCase.getKetoMeal()
         val next = useCase.dislikeMeal()
 
+        // Then
         assertThat(next).isNotEqualTo(first)
     }
 }
 
-class KetoDietMealHelperUITest {
-    private lateinit var ioHandler: IOHandler
+class ConsoleFoodChangeMoodUIHelperTest {
     private lateinit var useCase: GetKetoDietMealUseCase
-    private lateinit var ui: KetoDietMealHelperUI
+    private lateinit var consoleUI: ConsoleFoodChangeMoodUI
 
     @Before
-    fun setup() {
-        ioHandler = mockk(relaxed = true)
-        useCase = mockk(relaxed = true)
-        ui = KetoDietMealHelperUI(useCase, ioHandler)
+    fun setUp() {
+        mockkStatic("kotlin.io.ConsoleKt")  // محاكاة println
+
+        val repository = mockk<MealRepository>()
+        useCase = GetKetoDietMealUseCase(repository)
+        consoleUI = ConsoleFoodChangeMoodUI(useCase)
+
+        // إعداد سلوك المستودع
+        val meal = Meal("1", "good morning muffins", Nutrition(9.0, 11.0, 5.0))
+        every { repository.getAllMeals() } returns listOf(meal)
     }
 
     @Test
     fun `UI should display meal name only initially`() {
-        val meal = Meal("1", "good morning   muffins", Nutrition(9.0, 11.0, 5.0))
+        // Given
+        val meal = Meal("1", "good morning muffins", Nutrition(9.0, 11.0, 5.0))
         every { useCase.getKetoMeal() } returns meal
-        every { ioHandler.readLine() } returns "1"
-        every { useCase.likeMeal() } returns meal
 
-        ui.run()
+        // When
+        consoleUI.showKetoMeal()
 
-        verify { ioHandler.printLine(match { it.contains("Suggested meal: good morning   muffins") }) }
+        // Then
+        verify { println("Suggested meal: good morning muffins") }
     }
 
     @Test
     fun `UI should handle like option correctly`() {
-        val meal = Meal("1", "good morning   muffins", Nutrition(9.0, 11.0, 5.0))
+        // Given
+        val meal = Meal("1", "good morning muffins", Nutrition(9.0, 11.0, 5.0))
         every { useCase.getKetoMeal() } returns meal
-        every { ioHandler.readLine() } returnsMany listOf("1", "3")
         every { useCase.likeMeal() } returns meal
 
-        ui.run()
+        // When
+        consoleUI.handleLike()
 
-        verify { ioHandler.printLine(match { it.contains("Description") }) }
+        // Then
+        verify { println("You liked the meal: good morning muffins") }
     }
 
     @Test
     fun `UI should handle dislike option correctly`() {
-        val meal1 = Meal("1", "good morning   muffins", Nutrition(9.0, 11.0, 5.0))
-        val meal2 = Meal("2", "dirty  broccoli", Nutrition(4.0, 11.0, 10.0))
-        every { useCase.getKetoMeal() } returnsMany listOf(meal1, meal2)
-        every { ioHandler.readLine() } returnsMany listOf("2", "3")
+        // Given
+        val meal1 = Meal("1", "good morning muffins", Nutrition(9.0, 11.0, 5.0))
+        val meal2 = Meal("2", "dirty broccoli", Nutrition(4.0, 11.0, 10.0))
+        every { useCase.getKetoMeal() } returns meal1
+        every { useCase.dislikeMeal() } returns meal2
 
-        ui.run()
+        // When
+        consoleUI.handleDislike()
 
-        verify { ioHandler.printLine(match { it.contains("Suggested meal: dirty  broccoli") }) }
+        // Then
+        verify { println("Suggested meal: dirty broccoli") }
     }
 
     @Test
-    fun `UI should exit on option 3`() {
-        val meal = Meal("1", "good morning   muffins", Nutrition(9.0, 11.0, 5.0))
-        every { useCase.getKetoMeal() } returns meal
-        every { ioHandler.readLine() } returns "3"
+    fun `UI should exit on option 4`() {
+        // When
+        consoleUI.menuLoop()
 
-        ui.run()
-
-        verify(exactly = 1) { ioHandler.printLine(match { it.contains("Goodbye!") }) }
+        // Then
+        verify(exactly = 1) { println("See you soon. Stay healthy!") }
     }
 }
