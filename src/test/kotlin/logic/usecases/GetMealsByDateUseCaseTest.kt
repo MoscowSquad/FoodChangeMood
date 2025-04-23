@@ -30,7 +30,7 @@ class GetMealsByDateUseCaseTest {
             ),
             description = "autumn is my favorite time of year to cook!",
             submitted = "20040602"
-            ,id = 123456
+
         )
         val falseMeal = createMeal(
         name = "a bit different  breakfast pizza",
@@ -38,7 +38,7 @@ class GetMealsByDateUseCaseTest {
             "30-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine"
         ),
         description = "this recipe calls for the crust to be prebaked a bit before adding ingredients.",
-        submitted = "20060310",id = 123456
+        submitted = "20060310"
     )
         val anotherFalseMeal = createMeal(
             name = "chinese  chop suey",
@@ -46,7 +46,7 @@ class GetMealsByDateUseCaseTest {
                 "mexican", "weeknight", "time-to-make", "course", "main-ingredient",
             ),
             description = "easy one-pot dinner.",
-            submitted = "20060310",id = 123456
+            submitted = "20060310"
         )
 
         every { mealRepository.getAllMeals() } returns listOf(trueMeal , falseMeal , anotherFalseMeal)
@@ -70,7 +70,7 @@ class GetMealsByDateUseCaseTest {
                 "60-minutes-or-less", "time-to-make", "course", "main-ingredient"
             ),
             description = "autumn is my favorite time of year to cook!",
-            submitted = "20040602",id = 123456
+            submitted = "20040602"
         )
         val falseMeal = createMeal(
             name = "a bit different  breakfast pizza",
@@ -78,7 +78,7 @@ class GetMealsByDateUseCaseTest {
                 "30-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine"
             ),
             description = "this recipe calls for the crust to be prebaked a bit before adding ingredients.",
-            submitted = "20060310",id = 123456
+            submitted = "20060310"
         )
         val anotherTrueMeal = createMeal(
             name = "chinese  chop suey",
@@ -86,7 +86,7 @@ class GetMealsByDateUseCaseTest {
                 "mexican", "weeknight", "time-to-make", "course", "main-ingredient",
             ),
             description = "easy one-pot dinner.",
-            submitted = "20040602",id = 123456
+            submitted = "20040602"
         )
 
         every { mealRepository.getAllMeals() } returns listOf(trueMeal , falseMeal , anotherTrueMeal)
@@ -122,7 +122,7 @@ class GetMealsByDateUseCaseTest {
                 "30-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine"
             ),
             description = "this recipe calls for the crust to be prebaked a bit before adding ingredients.",
-            submitted = "20060310",id = 123456
+            submitted = "20060310"
         )
         val anotherFalseMeal = createMeal(
             name = "chinese  chop suey",
@@ -130,7 +130,7 @@ class GetMealsByDateUseCaseTest {
                 "mexican", "weeknight", "time-to-make", "course", "main-ingredient",
             ),
             description = "easy one-pot dinner.",
-            submitted = "20040602",id = 123456
+            submitted = "20040602"
         )
         // Given
         every { mealRepository.getAllMeals() } returns listOf(falseMeal , anotherFalseMeal)
