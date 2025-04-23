@@ -1,23 +1,33 @@
 package logic.usecases
 
 import org.example.model.Meal
+import org.example.model.Nutrition
 
 
 fun createMeal(
-    mealName: String,
-    tags: List<String>,
-    description: String
+    name: String? = null,
+    id: Int? = null,
+    minutes: Int? = null,
+    contributorId: Int? = null,
+    submitted: String? = null,
+    tags: List<String>? = null,
+    nutrition: Nutrition? = null,
+    nSteps: Int? = null,
+    steps: List<String>? = null,
+    description: String? = null,
+    ingredients: List<String>? = null,
+    nIngredients: Int? = null
 ) = Meal(
-    name = mealName,
-    id = null,
-    minutes = null,
-    contributorId = null,
-    submitted = null,
+    name = name,
+    id = id,
+    minutes = minutes,
+    contributorId = contributorId,
+    submitted = submitted,
     tags = tags,
-    nutrition = null,
-    nSteps = null,
-    steps = null,
+    nutrition = nutrition,
+    nSteps = nSteps,
+    steps = steps,
     description = description,
-    ingredients = null,
-    nIngredients = null,
+    ingredients = ingredients,
+    nIngredients = nIngredients,
 )
