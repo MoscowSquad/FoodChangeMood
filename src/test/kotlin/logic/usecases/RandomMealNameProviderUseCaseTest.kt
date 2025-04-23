@@ -1,15 +1,14 @@
-package logic.usecases
 import io.mockk.every
 import io.mockk.mockk
+import junit.framework.TestCase.assertEquals
+import junit.framework.TestCase.assertTrue
 import org.example.logic.repository.MealRepository
 import org.example.logic.usecases.RandomMealNameProviderUseCase
 import org.example.model.Exceptions
 import org.example.model.Meal
 import org.example.model.Nutrition
-import org.junit.Test
-import kotlin.test.assertEquals
+import kotlin.test.Test
 import kotlin.test.assertFailsWith
-import kotlin.test.assertTrue
 
 class RandomMealNameProviderUseCaseTest {
  private val mockMealRepository: MealRepository = mockk()
