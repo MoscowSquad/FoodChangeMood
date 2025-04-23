@@ -7,7 +7,7 @@ data class Meal(
     val contributorId: Int?,
     val submitted: String?,
     val tags: List<String>?,
-    val nutrition: Nutrition?,
+    val nutrition: List<IntArray>,
     val nSteps: Int?,
     val steps: List<String>?,
     val description: String?,
