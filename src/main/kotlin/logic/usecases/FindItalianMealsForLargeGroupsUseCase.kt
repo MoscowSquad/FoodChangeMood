@@ -9,7 +9,7 @@ class FindItalianMealsForLargeGroupsUseCase(
 ) {
     operator fun invoke(): List<Meal> {
         val meals = mealRepository.getAllMeals()
-        //.filter(::isItalianMealAndGroupSuitableMeal)
+            .filter(::isItalianMealAndGroupSuitableMeal)
         if (meals.isEmpty()) throw Exceptions.NoMealsFoundException()
         return meals
 
