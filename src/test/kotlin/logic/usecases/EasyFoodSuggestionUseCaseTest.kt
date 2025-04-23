@@ -1,3 +1,5 @@
+package logic.usecases
+
 import io.mockk.every
 import io.mockk.mockk
 import org.example.logic.repository.MealRepository

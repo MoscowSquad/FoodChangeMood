@@ -1,3 +1,5 @@
+package logic.usecases
+
 import org.example.model.Meal
 
 fun acceptedMeals(): List<Meal> {
