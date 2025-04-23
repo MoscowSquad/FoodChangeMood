@@ -9,7 +9,7 @@ val presentationModule = module {
     factory { SearchMealByNameUI(get()) }
     factory { IraqiMealsUI(get()) }
     factory { EasyFoodSuggestionUI(get()) }
-    factory { GuessGameUI(get()) }
+    //factory { GuessGameUI(get()) }
     factory { SweetsWithNoEggUI(get()) }
     factory { KetoDietMealHelperUI(get()) }
     factory { SearchMealsByDateUI(get(), get()) }
@@ -21,5 +21,5 @@ val presentationModule = module {
     factory { GetSeaFoodMealsUI(get()) }
     factory { FindItalianMealsForLargeGroupsUI(get()) }
 
-    factoryOf(::ConsoleFoodChangeMoodUI)
+    //factoryOf(::ConsoleFoodChangeMoodUI)
 }

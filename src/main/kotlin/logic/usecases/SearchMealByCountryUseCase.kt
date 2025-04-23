@@ -1,5 +1,6 @@
 package org.example.logic.usecases
 
+import org.example.data.MealRepositoryImpl
 import org.example.logic.repository.MealRepository
 import org.example.model.Exceptions
 import org.example.model.Meal
@@ -29,4 +30,5 @@ class SearchMealByCountryUseCase(
         const val MAX_MEALS = 20
     }
 }
+
 

@@ -7,7 +7,7 @@ class ConsoleFoodChangeMoodUI(
     private val searchMealByNameUI: SearchMealByNameUI,
     private val iraqiMealsUI: IraqiMealsUI,
     private val easyFoodSuggestionUI: EasyFoodSuggestionUI,
-    private val guessGameUI: GuessGameUI,
+    //private val guessGameUI: GuessGameUI,
     private val sweetsWithNoEggUI: SweetsWithNoEggUI,
     private val ketoDietMealHelperUI: KetoDietMealHelperUI,
     private val searchMealsByDateUI: SearchMealsByDateUI,
@@ -39,7 +39,7 @@ class ConsoleFoodChangeMoodUI(
                 2 -> searchMealByNameUI()
                 3 -> iraqiMealsUI()
                 4 -> easyFoodSuggestionUI()
-                5 -> guessGameUI()
+                //5 -> guessGameUI()
                 6 -> sweetsWithNoEggUI()
                 7 -> ketoDietMealHelperUI()
                 8 -> searchMealsByDateUI()
