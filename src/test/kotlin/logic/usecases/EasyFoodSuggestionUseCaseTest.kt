@@ -56,4 +56,16 @@ class EasyFoodSuggestionUseCaseTest {
 
     }
 
+    @Test
+    fun `should return 3 meals when start using use case`() {
+        //given
+        val expectedListSize = 3
+        every { mealRepository.getAllMeals() } returns acceptedThreeMeals()
+
+        //when
+        val result = easyFoodSuggestionUseCase.suggestTenRandomMeals()
+        //then
+        assertEquals(expectedListSize, result.size)
+    }
+
 }

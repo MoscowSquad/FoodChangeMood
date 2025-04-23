@@ -67,3 +67,25 @@ fun nonAcceptedMeals(): List<Meal> {
     }
     return mealsList
 }
+
+fun acceptedThreeMeals(): List<Meal> {
+    val mealsList = mutableListOf<Meal>()
+    for (index in 1..3) {
+        val meal = Meal(
+            name = "Easy Meal $index",
+            minutes = 20,
+            nIngredients = 4,
+            nSteps = 3,
+            id = index,
+            contributorId = null,
+            submitted = null,
+            tags = listOf("easy", "quick"),
+            nutrition = null,
+            steps = listOf("Step 1", "Step 2", "Step 3"),
+            description = "A simple meal",
+            ingredients = listOf("Ingredient 1", "Ingredient 2", "Ingredient 3"),
+        )
+        mealsList.add(meal)
+    }
+    return mealsList
+}
