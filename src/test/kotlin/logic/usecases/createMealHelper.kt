@@ -3,19 +3,18 @@ package logic.usecases
 import org.example.model.Meal
 import org.example.model.Nutrition
 
-
 fun createMeal(
-    name: String? = null,
-    id: Int? = null,
-    minutes: Int? = null,
-    contributorId: Int? = null,
-    submitted: String? = null,
-    tags: List<String>? = null,
-    nutrition: Nutrition? = null,
-    nSteps: Int? = null,
-    steps: List<String>? = null,
-    description: String? = null,
-    ingredients: List<String>? = null,
+    name: String?= null ,
+    id: Int?= null ,
+    minutes: Int?= null ,
+    contributorId: Int?= null ,
+    submitted: String?= null ,
+    tags: List<String>?= null ,
+    nutrition: Nutrition?= null ,
+    nSteps: Int?= null ,
+    steps: List<String>?= null ,
+    description: String? = null ,
+    ingredients: List<String>? = null ,
     nIngredients: Int? = null
 ) = Meal(
     name = name,
