@@ -29,56 +29,24 @@ class SearchMealByCountryUseCaseTest {
     fun `should return one meal matching with country`() {
         // Given
         val trueMeal = createMeal(
-            mealName = "arriba   baked winter squash mexican style",
+            name = "arriba   baked winter squash mexican style",
             tags = listOf(
-                "60-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine",
-                "preparation", "occasion", "north-american", "side-dishes", "vegetables",
-                "mexican", "easy", "fall", "holiday-event", "vegetarian", "winter",
-                "dietary", "christmas", "seasonal", "squash"
+                "60-minutes-or-less", "time-to-make", "course", "mexican"
             ),
             description = "autumn is my favorite time of year to cook! this recipe can be prepared either spicy or sweet, your choice! two of my posted mexican-inspired seasoning mix recipes are offered as suggestions.",
         )
 
         val otherMeal1 = createMeal(
-            mealName = "a bit different  breakfast pizza",
+            name = "a bit different  breakfast pizza",
             tags = listOf(
-                "30-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine",
-                "preparation", "occasion", "north-american", "breakfast", "main-dish",
-                "pork", "american", "oven", "easy", "kid-friendly", "pizza",
-                "dietary", "northeastern-united-states", "meat", "equipment"
+                "30-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine"
             ),
-            description = "this recipe calls for the crust to be prebaked a bit before adding ingredients. feel free to change sausage to ham or bacon. this warms well in the microwave for those late risers."
+            description = "this recipe calls for the crust to be prebaked a bit before adding ingredients."
         )
         val otherMeal2 = createMeal(
-            mealName = "chinese  chop suey",
+            name = "chinese  chop suey",
             tags = listOf(
-                "weeknight",
-                "time-to-make",
-                "course",
-                "main-ingredient",
-                "cuisine",
-                "preparation",
-                "occasion",
-                "north-american",
-                "main-dish",
-                "beef",
-                "pork",
-                "vegetables",
-                "american",
-                "potluck",
-                "dinner-party",
-                "heirloom-historical",
-                "holiday-event",
-                "kid-friendly",
-                "winter",
-                "stove-top",
-                "dietary",
-                "one-dish-meal",
-                "seasonal",
-                "meat",
-                "to-go",
-                "equipment",
-                "4-hours-or-less"
+                "weeknight", "time-to-make", "course", "main-ingredient",
             ),
             description = "easy one-pot dinner."
         )
@@ -98,56 +66,24 @@ class SearchMealByCountryUseCaseTest {
     fun `should throw exception when no meal found`() {
         // Given
         val meal1 = createMeal(
-            mealName = "arriba   baked winter squash mexican style",
+            name = "arriba   baked winter squash mexican style",
             tags = listOf(
-                "60-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine",
-                "preparation", "occasion", "north-american", "side-dishes", "vegetables",
-                "mexican", "easy", "fall", "holiday-event", "vegetarian", "winter",
-                "dietary", "christmas", "seasonal", "squash"
+                "60-minutes-or-less", "time-to-make", "course", "main-ingredient"
             ),
-            description = "autumn is my favorite time of year to cook! this recipe can be prepared either spicy or sweet, your choice! two of my posted mexican-inspired seasoning mix recipes are offered as suggestions.",
+            description = "autumn is my favorite time of year to cook!",
         )
 
         val meal2 = createMeal(
-            mealName = "a bit different  breakfast pizza",
+            name = "a bit different  breakfast pizza",
             tags = listOf(
-                "30-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine",
-                "preparation", "occasion", "north-american", "breakfast", "main-dish",
-                "pork", "american", "oven", "easy", "kid-friendly", "pizza",
-                "dietary", "northeastern-united-states", "meat", "equipment"
+                "30-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine"
             ),
-            description = "this recipe calls for the crust to be prebaked a bit before adding ingredients. feel free to change sausage to ham or bacon. this warms well in the microwave for those late risers."
+            description = "this recipe calls for the crust to be prebaked a bit before adding ingredients."
         )
         val meal3 = createMeal(
-            mealName = "chinese  chop suey",
+            name = "chinese  chop suey",
             tags = listOf(
-                "weeknight",
-                "time-to-make",
-                "course",
-                "main-ingredient",
-                "cuisine",
-                "preparation",
-                "occasion",
-                "north-american",
-                "main-dish",
-                "beef",
-                "pork",
-                "vegetables",
-                "american",
-                "potluck",
-                "dinner-party",
-                "heirloom-historical",
-                "holiday-event",
-                "kid-friendly",
-                "winter",
-                "stove-top",
-                "dietary",
-                "one-dish-meal",
-                "seasonal",
-                "meat",
-                "to-go",
-                "equipment",
-                "4-hours-or-less"
+                "weeknight", "time-to-make", "course"
             ),
             description = "easy one-pot dinner."
         )
@@ -169,56 +105,24 @@ class SearchMealByCountryUseCaseTest {
     fun `should return meals matching with country in name`() {
         // Given
         val trueMeal = createMeal(
-            mealName = "arriba   baked winter squash mexican style",
+            name = "arriba   baked winter squash mexican style",
             tags = listOf(
-                "60-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine",
-                "preparation", "occasion", "north-american", "side-dishes", "vegetables",
-                "mexican", "easy", "fall", "holiday-event", "vegetarian", "winter",
-                "dietary", "christmas", "seasonal", "squash"
+                "60-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine"
             ),
-            description = "autumn is my favorite time of year to cook! this recipe can be prepared either spicy or sweet, your choice! two of my posted -inspired seasoning mix recipes are offered as suggestions.",
+            description = "autumn is my favorite time of year to cook!",
         )
 
         val otherMeal1 = createMeal(
-            mealName = "a bit different  breakfast pizza",
+            name = "a bit different  breakfast pizza",
             tags = listOf(
-                "30-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine",
-                "preparation", "occasion", "north-american", "breakfast", "main-dish",
-                "pork", "american", "oven", "easy", "kid-friendly", "pizza",
-                "dietary", "northeastern-united-states", "meat", "equipment"
+                "30-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine"
             ),
-            description = "this recipe calls for the crust to be prebaked a bit before adding ingredients. feel free to change sausage to ham or bacon. this warms well in the microwave for those late risers."
+            description = "this recipe calls for the crust to be prebaked a bit before adding ingredients. "
         )
         val otherMeal2 = createMeal(
-            mealName = "chinese  chop suey",
+            name = "chinese  chop suey",
             tags = listOf(
-                "weeknight",
-                "time-to-make",
-                "course",
-                "main-ingredient",
-                "cuisine",
-                "preparation",
-                "occasion",
-                "north-american",
-                "main-dish",
-                "beef",
-                "pork",
-                "vegetables",
-                "american",
-                "potluck",
-                "dinner-party",
-                "heirloom-historical",
-                "holiday-event",
-                "kid-friendly",
-                "winter",
-                "stove-top",
-                "dietary",
-                "one-dish-meal",
-                "seasonal",
-                "meat",
-                "to-go",
-                "equipment",
-                "4-hours-or-less"
+                "weeknight", "time-to-make", "course", "main-ingredient", "cuisine",
             ),
             description = "easy one-pot dinner."
         )
@@ -238,56 +142,24 @@ class SearchMealByCountryUseCaseTest {
     fun `should return meals matching with country in description`() {
         // Given
         val trueMeal = createMeal(
-            mealName = "arriba   baked winter squash  style",
+            name = "arriba   baked winter squash  style",
             tags = listOf(
-                "60-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine",
-                "preparation", "occasion", "north-american", "side-dishes", "vegetables",
-                "easy", "fall", "holiday-event", "vegetarian", "winter",
-                "dietary", "christmas", "seasonal", "squash"
+                "60-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine"
             ),
-            description = "autumn is my favorite time of year to cook! this recipe can be prepared either spicy or sweet, your choice! two of my posted mexican-inspired seasoning mix recipes are offered as suggestions.",
+            description = "autumn is my favorite time of year to cook! mexican",
         )
 
         val otherMeal1 = createMeal(
-            mealName = "a bit different  breakfast pizza",
+            name = "a bit different  breakfast pizza",
             tags = listOf(
-                "30-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine",
-                "preparation", "occasion", "north-american", "breakfast", "main-dish",
-                "pork", "american", "oven", "easy", "kid-friendly", "pizza",
-                "dietary", "northeastern-united-states", "meat", "equipment"
+                "30-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine"
             ),
             description = "this recipe calls for the crust to be prebaked a bit before adding ingredients. feel free to change sausage to ham or bacon. this warms well in the microwave for those late risers."
         )
         val otherMeal2 = createMeal(
-            mealName = "chinese  chop suey",
+            name = "chinese  chop suey",
             tags = listOf(
-                "weeknight",
-                "time-to-make",
-                "course",
-                "main-ingredient",
-                "cuisine",
-                "preparation",
-                "occasion",
-                "north-american",
-                "main-dish",
-                "beef",
-                "pork",
-                "vegetables",
-                "american",
-                "potluck",
-                "dinner-party",
-                "heirloom-historical",
-                "holiday-event",
-                "kid-friendly",
-                "winter",
-                "stove-top",
-                "dietary",
-                "one-dish-meal",
-                "seasonal",
-                "meat",
-                "to-go",
-                "equipment",
-                "4-hours-or-less"
+                "weeknight", "time-to-make", "course", "main-ingredient", "cuisine", "preparation", "occasion"
             ),
             description = "easy one-pot dinner."
         )
@@ -306,28 +178,22 @@ class SearchMealByCountryUseCaseTest {
     fun `should return meals matching with country in tags`() {
         // Given
         val trueMeal = createMeal(
-            mealName = "arriba   baked winter squash style",
+            name = "arriba   baked winter squash style",
             tags = listOf(
-                "60-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine",
-                "preparation", "occasion", "north-american", "side-dishes", "vegetables",
-                "easy", "fall", "holiday-event", "vegetarian", "winter",
-                "dietary", "christmas", "seasonal", "squash"
+                "60-minutes-or-less", "time-to-make", "mexican", "main-ingredient", "cuisine"
             ),
             description = "autumn is my favorite time of year to cook! this recipe can be prepared either spicy or sweet, your choice! two of my posted mexican-inspired seasoning mix recipes are offered as suggestions.",
         )
 
         val otherMeal1 = createMeal(
-            mealName = "a bit different  breakfast pizza",
+            name = "a bit different  breakfast pizza",
             tags = listOf(
-                "30-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine",
-                "preparation", "occasion", "north-american", "breakfast", "main-dish",
-                "pork", "american", "oven", "easy", "kid-friendly", "pizza",
-                "dietary", "northeastern-united-states", "meat", "equipment"
+                "30-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine"
             ),
-            description = "this recipe calls for the crust to be prebaked a bit before adding ingredients. feel free to change sausage to ham or bacon. this warms well in the microwave for those late risers."
+            description = "this recipe calls for the crust to be prebaked a bit before adding ingredients."
         )
         val otherMeal2 = createMeal(
-            mealName = "chinese  chop suey",
+            name = "chinese  chop suey",
             tags = listOf(
                 "weeknight",
                 "time-to-make",
@@ -337,25 +203,7 @@ class SearchMealByCountryUseCaseTest {
                 "preparation",
                 "occasion",
                 "north-american",
-                "main-dish",
-                "beef",
-                "pork",
-                "vegetables",
-                "american",
-                "potluck",
-                "dinner-party",
-                "heirloom-historical",
-                "holiday-event",
-                "kid-friendly",
-                "winter",
-                "stove-top",
-                "dietary",
-                "one-dish-meal",
-                "seasonal",
-                "meat",
-                "to-go",
-                "equipment",
-                "4-hours-or-less"
+                "main-dish"
             ),
             description = "easy one-pot dinner."
         )
@@ -374,57 +222,24 @@ class SearchMealByCountryUseCaseTest {
     @Test
     fun `should return more than one meal matching with country`(){
         val trueMeal = createMeal(
-            mealName = "arriba   baked winter squash mexican style",
+            name = "arriba   baked winter squash mexican style",
             tags = listOf(
-                "60-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine",
-                "preparation", "occasion", "north-american", "side-dishes", "vegetables",
-                "mexican", "easy", "fall", "holiday-event", "vegetarian", "winter",
-                "dietary", "christmas", "seasonal", "squash"
+                "60-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine"
             ),
-            description = "autumn is my favorite time of year to cook! this recipe can be prepared either spicy or sweet, your choice! two of my posted mexican-inspired seasoning mix recipes are offered as suggestions.",
+            description = "autumn is my favorite time of year to cook! spic!"
         )
 
         val trueMeal2 = createMeal(
-            mealName = "a bit different  breakfast pizza",
+            name = "a bit different  breakfast pizza",
             tags = listOf(
-                "30-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine",
-                "preparation", "occasion", "north-american", "breakfast", "main-dish",
-                "pork", "american", "oven", "easy", "kid-friendly", "pizza",
-                "dietary", "northeastern-united-states", "meat", "equipment"
+                "30-minutes-or-less", "time-to-make", "course", "main-ingredient", "cuisine"
             ),
-            description = "this recipe calls for the crust to be mexican prebaked a bit before adding ingredients. feel free to change sausage to ham or bacon. this warms well in the microwave for those late risers."
+            description = "this recipe calls for the crust to be mexican prebaked a bit before adding ingredients."
         )
         val trueMeal3 = createMeal(
-            mealName = "chinese  chop suey",
+            name = "chinese  chop suey",
             tags = listOf(
-                "mexican",
-                "weeknight",
-                "time-to-make",
-                "course",
-                "main-ingredient",
-                "cuisine",
-                "preparation",
-                "occasion",
-                "north-american",
-                "main-dish",
-                "beef",
-                "pork",
-                "vegetables",
-                "american",
-                "potluck",
-                "dinner-party",
-                "heirloom-historical",
-                "holiday-event",
-                "kid-friendly",
-                "winter",
-                "stove-top",
-                "dietary",
-                "one-dish-meal",
-                "seasonal",
-                "meat",
-                "to-go",
-                "equipment",
-                "4-hours-or-less"
+                "mexican", "weeknight", "time-to-make", "course", "main-ingredient"
             ),
             description = "easy one-pot dinner."
         )
