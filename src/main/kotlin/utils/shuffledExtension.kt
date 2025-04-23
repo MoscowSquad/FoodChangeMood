@@ -1,18 +1,11 @@
 package org.example.utils
 
-//fun <T> List<T>.takeRandomMeals(numberOfMeals: Int): List<T> {
-//    return generateSequence { this.random() }
-//        .distinct()
-//        .take(numberOfMeals)
-//        .toList()
-//}
+import kotlin.random.Random
+
 fun <T> List<T>.takeRandomMeals(numberOfMeals: Int): List<T> {
-    return toSet()
-        .let { uniqueItems ->
-            if (uniqueItems.size <= numberOfMeals) uniqueItems.toList()
-            else generateSequence { uniqueItems.random() }
-                .distinct()
-                .take(numberOfMeals)
-                .toList()
-        }
+    return generateSequence { Random.nextInt(this.size) }
+        .distinct()
+        .take(numberOfMeals.coerceAtMost(this.size)).also { println(it) }
+        .toList()
+        .map(this::get)
 }
