@@ -89,13 +89,12 @@ class ConsoleFoodChangeMoodUIHelperTest {
 
     @Before
     fun setUp() {
-        mockkStatic("kotlin.io.ConsoleKt")  // محاكاة println
+        mockkStatic("kotlin.io.ConsoleKt")
 
         val repository = mockk<MealRepository>()
         useCase = GetKetoDietMealUseCase(repository)
         consoleUI = ConsoleFoodChangeMoodUI(useCase)
 
-        // إعداد سلوك المستودع
         val meal = Meal("1", "good morning muffins", Nutrition(9.0, 11.0, 5.0))
         every { repository.getAllMeals() } returns listOf(meal)
     }
