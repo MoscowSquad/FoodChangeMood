@@ -13,7 +13,7 @@ class GetSeaFoodMealsUI(
             println("Your order is ready: ")
             getSeafoodByProteinContentUseCase.getSeafoodMealsByProteinContent()
                 .also { it.display() }
-        } catch (e: Exceptions.MealNotFoundException) {
+        } catch (e: Exceptions.NoMealsFoundException) {
             println(e.message)
         }
     }

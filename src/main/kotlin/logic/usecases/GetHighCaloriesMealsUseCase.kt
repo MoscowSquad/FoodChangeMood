@@ -16,7 +16,7 @@ class GetHighCaloriesMealsUseCase(private val repository: MealRepository) {
                 }
             }
 
-        throw Exceptions.MealNotFoundException()
+        throw Exceptions.NoMealsFoundException()
     }
 
     private fun byHighCalories(meal: Meal): Boolean {
