@@ -8,10 +8,13 @@ class SweetsWithNoEggUseCase(private val mealRepository: MealRepository) {
     private val shownMeals = mutableSetOf<Int>()
     fun getSweetsWithNoEggUseCase(): Meal {
         return mealRepository.getAllMeals()
-            .filter(::isSweetAndHasNoEgg)
-            .filter { it.id != null && it.id !in shownMeals }
+            .filter(::isDataAcceptable)
             .randomOrNull()?.also { meal -> meal.id?.let(shownMeals::add) }
             ?: throw Exceptions.NoMealsFound("No sweets found without eggs.")
+    }
+
+    private fun isDataAcceptable(meal: Meal): Boolean {
+        return meal.id != null && meal.id !in shownMeals && isSweetAndHasNoEgg(meal)
     }
 
     private fun isSweetAndHasNoEgg(meal: Meal): Boolean {
