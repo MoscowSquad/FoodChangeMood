@@ -8,12 +8,13 @@ class GetMealsByDateUseCase(
     private val repository: MealRepository
 ) {
     fun getMealsByDate(date: String): List<Meal> {
-        val matchedMeals = repository.getAllMeals().filter { it.submitted == date }
-        if (matchedMeals.isEmpty()) throw Exceptions.NoMealsFound("No meals found on this date.")
+        val matchedMeals = repository.getAllMeals().filter { currentMeal ->
+            currentMeal.submitted == date
+        }.takeIf { it.isNotEmpty() }
+            ?: throw Exceptions.NoMealsFound("No meals found on this date.")
+
         return matchedMeals
     }
 }
 
 
-// 1. Use random indices instead of shuffled
-// 2. Use takeIf instead of if condition
