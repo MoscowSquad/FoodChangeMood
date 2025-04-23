@@ -1,10 +1,10 @@
-package org.example.logic.usecases
+package logic.usecases
 
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockk
-import logic.usecases.createMeal
 import org.example.logic.repository.MealRepository
+import org.example.logic.usecases.GetHealthyFastFoodMealsUseCase
 import org.example.model.Exceptions
 import org.example.model.Meal
 import org.junit.jupiter.api.BeforeEach
