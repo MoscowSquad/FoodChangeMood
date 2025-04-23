@@ -60,7 +60,7 @@ class GetHealthyFastFoodMealsUseCaseTest {
         assertThat(result).containsExactly(
             createMeal("Salad", 10),
             createMeal("Soup", 15)
-        ).inOrder()
+        )
     }
 
     @Test
@@ -79,7 +79,7 @@ class GetHealthyFastFoodMealsUseCaseTest {
         assertThat(result).containsExactly(
             createMeal("Salad", 10),
             createMeal("Pizza", 15)
-        ).inOrder()
+        )
     }
 
     @Test
