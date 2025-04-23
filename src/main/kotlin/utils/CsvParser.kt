@@ -6,7 +6,7 @@ import java.io.File
 import java.util.*
 import java.util.stream.Collectors
 
-class CustomParser(
+class CsvParser(
     private val fileName: String
 ) {
 
@@ -21,8 +21,8 @@ class CustomParser(
         val lines = file.readLines()
         return lines.drop(1).parallelStream()
             .map { line -> parseLine(line) }
-            .filter(Objects::nonNull)  // Filter out nulls
-            .map { it!! }              // Smart-cast: all nulls are already filtered
+            .filter(Objects::nonNull)
+            .map { it!! }
             .collect(Collectors.toList())
     }
 

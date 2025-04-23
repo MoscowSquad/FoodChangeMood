@@ -9,7 +9,7 @@ class GetMealsByDateUseCase(
 ) {
     fun getMealsByDate(date: String): List<Meal> {
         val matchedMeals = repository.getAllMeals().filter { it.submitted == date }
-        if (matchedMeals.isEmpty()) throw Exceptions.NoMealsFound("No meals found on this date.")
+        if (matchedMeals.isEmpty()) throw Exceptions.NoMealsFoundException("No meals found on this date.")
         return matchedMeals
     }
 }
