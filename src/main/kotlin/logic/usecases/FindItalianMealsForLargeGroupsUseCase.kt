@@ -25,7 +25,3 @@ class FindItalianMealsForLargeGroupsUseCase(
         return isItalian && isForGroups
     }
 }
-
-
-
-
