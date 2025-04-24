@@ -13,7 +13,7 @@ class KetoDietMealHelperUI(
             println("Your order is ready: ")
             getKetoDietMealUseCase.getKetoMeal()
                 .also { it.display() }
-        } catch (e: Exceptions.MealNotFoundException) {
+        } catch (e: Exceptions.NoMealsFoundException) {
             println(e.message)
         }
     }

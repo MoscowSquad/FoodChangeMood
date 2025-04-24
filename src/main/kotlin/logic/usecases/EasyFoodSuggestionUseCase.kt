@@ -10,7 +10,7 @@ class EasyFoodSuggestionUseCase(private val mealRepository: MealRepository) {
         return mealRepository.getAllMeals()
             .filter(::filterEasyFood)
             .takeIf { it.isNotEmpty() }
-            ?.takeRandomMeals(NUMBER_OF_MEALS)
+            ?.let { it.takeRandomMeals(NUMBER_OF_MEALS.coerceAtMost(it.size)) }
             ?: throw Exceptions.NoMealsFoundException()
     }
 

@@ -12,7 +12,7 @@ class GetRandomMealsHavePotatoesUseCase(
         val potatoMeals = mealRepository.getAllMeals()
             .filter(::filterPotatoMeals)
             .takeIf { it.isNotEmpty() }
-            ?: throw Exceptions.NoMealsFound("No meals found with potatoes.")
+            ?: throw Exceptions.NoMealsFoundException("No meals found with potatoes.")
 
         return potatoMeals.takeRandomMeals(MAX_MEALS)
     }
