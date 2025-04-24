@@ -37,7 +37,7 @@ class GetKetoDietMealUseCase(private val repository: MealRepository) {
     }
 
     // Check if the meal is keto-friendly based on the nutritional info
-    private fun isKetoFriendly(meal: Meal): Boolean {
+    fun isKetoFriendly(meal: Meal): Boolean {
         return (meal.nutrition?.carbohydrates ?: 0.0) < 10 &&
                 (meal.nutrition?.totalFat ?: 0.0) > (meal.nutrition?.protein ?: 0.0)
     }
