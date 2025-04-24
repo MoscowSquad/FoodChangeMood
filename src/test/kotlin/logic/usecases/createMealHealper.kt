@@ -45,7 +45,7 @@ fun createMealHelper(
     contributorId: Int = 101,
     submitted: String = "2024-01-01",
     tags: List<String>? = DEFAULT_TAGS,
-    nutrition: Nutrition = defaultNutrition(),
+    nutrition: Nutrition? = defaultNutrition(),
     nSteps: Int = 15,
     steps: List<String> = DEFAULT_STEPS,
     description: String? = "A hearty Italian lasagna perfect for feeding a crowd.",
