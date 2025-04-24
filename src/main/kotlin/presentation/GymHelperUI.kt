@@ -1,11 +1,12 @@
 package org.example.presentation
 
-import org.example.data.GymHelperController
+import org.example.logic.usecases.GetGymMealsUseCase
+import org.example.model.NutritionRequest
 import org.example.presentation.io.ConsoleIO
 import org.example.utils.display
 
 class GymHelperUI(
-    private val gymHelperController: GymHelperController,
+    private val gymMealsUseCase: GetGymMealsUseCase,
     private val consoleIO: ConsoleIO
 ) {
 
@@ -17,7 +18,8 @@ class GymHelperUI(
         val proteinInput = consoleIO.read()
 
         try {
-            val matchingMeals = gymHelperController.runGymHelper(caloriesInput, proteinInput)
+            val nutration = NutritionRequest(caloriesInput.toDouble(), proteinInput.toDouble())
+            val matchingMeals = gymMealsUseCase.invoke(nutration)
             consoleIO.write("Meals matching your criteria (Calories: $caloriesInput, Protein: $proteinInput g):")
             matchingMeals.display()
             consoleIO.write("Total matching meals found: ${matchingMeals.size}")
