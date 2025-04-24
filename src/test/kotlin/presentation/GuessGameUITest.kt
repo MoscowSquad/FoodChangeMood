@@ -2,10 +2,9 @@ package presentation
 
 import io.mockk.every
 import io.mockk.mockk
+import logic.usecases.createMeal
 import org.example.logic.usecases.RandomMealNameProviderUseCase
 import org.example.model.Exceptions
-import org.example.model.Meal
-import org.example.model.Nutrition
 import org.example.presentation.GuessGameUI
 import org.example.presentation.io.ConsoleIO
 import org.junit.jupiter.api.BeforeEach
@@ -27,7 +26,7 @@ class GuessGameUITest {
  @Test
  fun `invoke should display welcome message and prompt for guess`() {
   // Given
-  val testMeal = createTestMeal("Pizza", minutes = 30)
+  val testMeal = createMeal("Pizza", minutes = 30)
   every { mockRandomMealUseCase.getRandomMeal() } returns testMeal
   testConsoleIO.addInput("30")
 
@@ -45,7 +44,7 @@ class GuessGameUITest {
  @Test
  fun `guessGame should accept correct guess on first attempt`() {
   // Given
-  val testMeal = createTestMeal("Pasta", minutes = 15)
+  val testMeal = createMeal("Pasta", minutes = 15)
   testConsoleIO.addInput("15")
 
   // When
@@ -61,7 +60,7 @@ class GuessGameUITest {
  @Test
  fun `guessGame should allow multiple attempts until correct`() {
   // Given
-  val testMeal = createTestMeal("Salad", minutes = 10)
+  val testMeal = createMeal("Salad", minutes = 10)
   testConsoleIO.addInput("5", "8", "10")
 
   // When
@@ -80,7 +79,7 @@ class GuessGameUITest {
  @Test
  fun `guessGame should end after 3 incorrect attempts`() {
   // Given
-  val testMeal = createTestMeal("Burger", minutes = 20)
+  val testMeal = createMeal("Burger", minutes = 20)
   testConsoleIO.addInput("10", "15", "25")
 
   // When
@@ -109,7 +108,7 @@ class GuessGameUITest {
  @Test
  fun `should handle invalid number input gracefully`() {
   // Given
-  val testMeal = createTestMeal("Steak", minutes = 25)
+  val testMeal = createMeal("Steak", minutes = 25)
   testConsoleIO.addInput("invalid", "25")
 
   // When
@@ -142,29 +141,5 @@ class GuessGameUITest {
    outputs.add(message ?: "")
   }
  }
-
- private fun createTestMeal(
-  name: String,
-  minutes: Int = 30,
-  id: Int = 1,
-  contributorId: Int = 1,
-  submitted: String = "2023-01-01",
-  tags: List<String> = emptyList(),
-  nutrition: Nutrition = Nutrition(
-   calories = null, totalFat = null, sugar = null,
-   sodium = null, protein = null, saturatedFat = null,
-   carbohydrates = null
-  ),
-  nSteps: Int = 5,
-  steps: List<String> = emptyList(),
-  description: String = "Delicious meal",
-  ingredients: List<String> = emptyList(),
-  nIngredients: Int = 5
- ) = Meal(
-  name = name, id = id, minutes = minutes,
-  contributorId = contributorId, submitted = submitted,
-  tags = tags, nutrition = nutrition, nSteps = nSteps,
-  steps = steps, description = description,
-  ingredients = ingredients, nIngredients = nIngredients
- )
+ 
 }
