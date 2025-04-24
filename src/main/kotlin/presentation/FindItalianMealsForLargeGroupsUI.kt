@@ -1,20 +1,22 @@
 package org.example.presentation
 
 import org.example.logic.usecases.FindItalianMealsForLargeGroupsUseCase
+import org.example.presentation.io.ConsoleIO
 import org.example.utils.display
 
 class FindItalianMealsForLargeGroupsUI(
-    private val findItalianMealsForLargeGroupsUseCase: FindItalianMealsForLargeGroupsUseCase
+    private val findItalianMealsForLargeGroupsUseCase: FindItalianMealsForLargeGroupsUseCase,
+    private val consoleIO: ConsoleIO
 ) {
     operator fun invoke() {
-        println("\nFinding Italian meals suitable for large groups...")
+        consoleIO.write("\nFinding Italian meals suitable for large groups...")
         val italianMeals = findItalianMealsForLargeGroupsUseCase.invoke()
         if (italianMeals.isEmpty()) {
-            println("No Italian meals for large groups found.")
+            consoleIO.write("No Italian meals for large groups found.")
         } else {
-            println("\nItalian Meals for Large Groups:")
+            consoleIO.write("\nItalian Meals for Large Groups:")
             italianMeals.display()
-            println("\nTotal Italian meals for large groups found: ${italianMeals.size}")
+            consoleIO.write("\nTotal Italian meals for large groups found: ${italianMeals.size}")
         }
     }
 }
