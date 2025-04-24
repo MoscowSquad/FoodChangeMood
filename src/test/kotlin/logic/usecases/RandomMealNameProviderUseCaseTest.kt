@@ -80,20 +80,6 @@ class RandomMealNameProviderUseCaseTest {
         assertEquals("Burger", result.name)
     }
 
-    // Tests for isSuggestRight()
-//    @Test
-//    fun `isSuggestRight should return true when minutes match`() {
-//        // Given
-//        val testMeal = createMeal("Salad", 10)
-//        every { mockMealRepository.getAllMeals() } returns listOf(testMeal)
-//        useCase.getRandomMeal()
-//
-//        // When
-//        val result = useCase.isSuggestRight(10)
-//
-//        // Then
-//        assertTrue(result)
-//    }
 
     @Test
     fun `isSuggestRight should return false when minutes dont match`() {
