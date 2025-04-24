@@ -47,7 +47,7 @@ class SweetsWithNoEggUseCaseTest {
 
         // When & Then
         assertThrows<Exceptions.NoMealsFoundException> {
-            sweetsWithNoEggUseCase.getSweetsWithNoEggUseCase()
+            sweetsWithNoEggUseCase()
         }
     }
 
@@ -58,7 +58,7 @@ class SweetsWithNoEggUseCaseTest {
 
         // When & Then
         assertThrows<Exceptions.NoMealsFoundException> {
-            sweetsWithNoEggUseCase.getSweetsWithNoEggUseCase()
+            sweetsWithNoEggUseCase()
         }
     }
 
@@ -76,7 +76,7 @@ class SweetsWithNoEggUseCaseTest {
 
         // When & Then
         assertThrows<Exceptions.NoMealsFoundException> {
-            sweetsWithNoEggUseCase.getSweetsWithNoEggUseCase()
+            sweetsWithNoEggUseCase()
         }
     }
 
@@ -94,9 +94,9 @@ class SweetsWithNoEggUseCaseTest {
         )
 
         // When & Then
-        assertEquals(meal, sweetsWithNoEggUseCase.getSweetsWithNoEggUseCase())
+        assertEquals(meal, sweetsWithNoEggUseCase())
         assertThrows<Exceptions.NoMealsFoundException> {
-            sweetsWithNoEggUseCase.getSweetsWithNoEggUseCase()
+            sweetsWithNoEggUseCase()
         }
     }
 
@@ -111,7 +111,7 @@ class SweetsWithNoEggUseCaseTest {
 
         // When & Then
         assertThrows<Exceptions.NoMealsFoundException> {
-            sweetsWithNoEggUseCase.getSweetsWithNoEggUseCase()
+            sweetsWithNoEggUseCase()
         }
     }
 
@@ -141,7 +141,7 @@ class SweetsWithNoEggUseCaseTest {
 
         // When & Then
         assertThrows<Exceptions.NoMealsFoundException> {
-            sweetsWithNoEggUseCase.getSweetsWithNoEggUseCase()
+            sweetsWithNoEggUseCase()
         }
     }
 
@@ -157,7 +157,7 @@ class SweetsWithNoEggUseCaseTest {
         every { mealRepository.getAllMeals() } returns listOf(expectedMeal)
 
         // When
-        val result = sweetsWithNoEggUseCase.getSweetsWithNoEggUseCase()
+        val result = sweetsWithNoEggUseCase()
 
         // Then
         assertEquals(expectedMeal, result)
@@ -177,7 +177,7 @@ class SweetsWithNoEggUseCaseTest {
 
         // When & Then
         assertThrows<Exceptions.NoMealsFoundException> {
-            sweetsWithNoEggUseCase.getSweetsWithNoEggUseCase()
+            sweetsWithNoEggUseCase()
         }
     }
 
@@ -195,7 +195,7 @@ class SweetsWithNoEggUseCaseTest {
 
         // When & Then
         assertThrows<Exceptions.NoMealsFoundException> {
-            sweetsWithNoEggUseCase.getSweetsWithNoEggUseCase()
+            sweetsWithNoEggUseCase()
         }
     }
 
@@ -218,7 +218,7 @@ class SweetsWithNoEggUseCaseTest {
         every { mealRepository.getAllMeals() } returns listOf(eggMeal, validMeal)
 
         // When
-        val result = sweetsWithNoEggUseCase.getSweetsWithNoEggUseCase()
+        val result = sweetsWithNoEggUseCase()
 
         // Then
         assertEquals(validMeal, result)
@@ -244,9 +244,9 @@ class SweetsWithNoEggUseCaseTest {
 
         // When
         // First call: return and mark firstMeal as shown
-        val result1 = sweetsWithNoEggUseCase.getSweetsWithNoEggUseCase()
+        val result1 = sweetsWithNoEggUseCase()
         // Second call: should return secondMeal
-        val result2 = sweetsWithNoEggUseCase.getSweetsWithNoEggUseCase()
+        val result2 = sweetsWithNoEggUseCase()
 
         assert(result1 != result2)
         assert(listOf(firstMeal, secondMeal).containsAll(listOf(result1, result2)))
