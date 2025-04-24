@@ -1,4 +1,4 @@
-package org.example.presentation
+package presentation
 
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
@@ -8,6 +8,7 @@ import io.mockk.verifySequence
 import logic.usecases.createMeal
 import org.example.logic.usecases.GetHealthyFastFoodMealsUseCase
 import org.example.model.Exceptions
+import org.example.presentation.HealthyFastFoodMealsUI
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
