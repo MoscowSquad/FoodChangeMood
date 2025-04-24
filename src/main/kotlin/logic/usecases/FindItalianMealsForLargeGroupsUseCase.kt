@@ -19,9 +19,13 @@ class FindItalianMealsForLargeGroupsUseCase(
         val tags = meal.tags?.map { it.lowercase() }.orEmpty()
         val description = meal.description?.lowercase().orEmpty()
 
-        val isItalian = "italian" in tags || "italian" in description
+        val isItalian = ItlialianMeal in tags || ItlialianMeal in description
         val isForGroups = listOf("for-large-groups", "dinner-party", "potluck").any { it in tags }
 
         return isItalian && isForGroups
+    }
+
+    companion object {
+        val ItlialianMeal = "italian"
     }
 }
