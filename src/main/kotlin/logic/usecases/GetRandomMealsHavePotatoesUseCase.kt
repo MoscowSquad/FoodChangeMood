@@ -3,7 +3,7 @@ package org.example.logic.usecases
 import org.example.logic.repository.MealRepository
 import org.example.model.Exceptions
 import org.example.model.Meal
-import kotlin.random.Random
+import org.example.utils.takeRandomMeals
 
 class GetRandomMealsHavePotatoesUseCase(
     private val mealRepository: MealRepository
@@ -12,13 +12,9 @@ class GetRandomMealsHavePotatoesUseCase(
         val potatoMeals = mealRepository.getAllMeals()
             .filter(::filterPotatoMeals)
             .takeIf { it.isNotEmpty() }
-            ?: throw Exceptions.NoMealsFound("No meals found with potatoes.")
+            ?: throw Exceptions.NoMealsFoundException("No meals found with potatoes.")
 
-        return generateSequence { Random.nextInt(potatoMeals.size) }
-            .distinct()
-            .take(MAX_MEALS.coerceAtMost(potatoMeals.size)).also { println(it) }
-            .toList()
-            .map(potatoMeals::get)
+        return potatoMeals.takeRandomMeals(MAX_MEALS)
     }
 
     private fun filterPotatoMeals(meal: Meal) =

@@ -19,7 +19,7 @@ class SearchMealsByDateUI(
 
         try {
             val meals = getMealsByDateUseCase.getMealsByDate(date)
-            if (meals.isEmpty()) throw Exceptions.NoMealsFound("No meals found for the selected date.")
+            if (meals.isEmpty()) throw Exceptions.NoMealsFoundException("No meals found for the selected date.")
 
             println("\nMeals found:")
             meals.forEach { println("ID: ${it.id}, Name: ${it.name}") }
@@ -28,7 +28,7 @@ class SearchMealsByDateUI(
             val meal = getMealByIdUseCase.getMealById(id)
 
             meal?.display() ?: println("Meal not found.")
-        } catch (e: Exceptions.NoMealsFound) {
+        } catch (e: Exceptions.NoMealsFoundException) {
             println(e.message)
         }
     }

@@ -14,9 +14,9 @@ class SearchMealByNameUI(
                 searchMealByNameUseCase.search(mealName).also { it.display() }
             } catch (e: Exceptions.KeywordNotFoundException) {
                 println(e.message)
-            } catch (e: Exceptions.BlankKeywordException) {
-                println("Please enter valid input")
+            } catch (e: Exceptions.EmptyKeywordException) {
+                println("Please enter meal name")
             }
-        } ?: println("Please enter valid input")
+        } ?: println("Please enter valid meal name")
     }
 }
