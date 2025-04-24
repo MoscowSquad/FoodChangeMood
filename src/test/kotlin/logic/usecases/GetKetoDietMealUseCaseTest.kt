@@ -111,4 +111,5 @@ class GetKetoDietMealUseCaseTest {
         // Then:
         assertThrows<Exceptions.NoMealsFoundException> { useCase.getKetoMeal() }
     }
+
 }
