@@ -6,16 +6,23 @@ import org.example.model.Meal
 
 class GetHighCaloriesMealsUseCase(private val repository: MealRepository) {
     private val suggestedList = mutableSetOf<Meal>()
-    operator fun invoke(): Meal {
-        repository.getAllMeals()
-            .filter(::byHighCalories)
-            .forEach { meal ->
-                if (!suggestedList.contains(meal)) {
-                    suggestedList.add(meal)
-                    return meal
-                }
-            }
 
+    @Throws(
+        Exceptions.NoMealsFoundException::class,
+    )
+    operator fun invoke(): Meal {
+        return repository.getAllMeals()
+            .filter(::byHighCalories)
+            .getNextHighCaloriesMeal()
+    }
+
+    private fun List<Meal>.getNextHighCaloriesMeal(): Meal {
+        forEach { meal ->
+            if (!suggestedList.contains(meal)) {
+                suggestedList.add(meal)
+                return meal
+            }
+        }
         throw Exceptions.NoMealsFoundException()
     }
 
