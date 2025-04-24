@@ -2,21 +2,23 @@ package org.example.presentation
 
 import org.example.logic.usecases.SearchMealByNameUseCase
 import org.example.model.Exceptions
+import org.example.presentation.io.ConsoleIO
 import org.example.utils.display
 
 class SearchMealByNameUI(
-    private val searchMealByNameUseCase: SearchMealByNameUseCase
+    private val searchMealByNameUseCase: SearchMealByNameUseCase,
+    private val consoleIO: ConsoleIO
 ) {
     operator fun invoke() {
-        print("Enter meal name to search: ")
-        readlnOrNull()?.let { mealName ->
+        consoleIO.write("Enter meal name to search: ")
+        consoleIO.read().also { mealName ->
             try {
                 searchMealByNameUseCase.search(mealName).also { it.display() }
             } catch (e: Exceptions.KeywordNotFoundException) {
-                println(e.message)
+                consoleIO.write(e.message)
             } catch (e: Exceptions.EmptyKeywordException) {
-                println("Please enter meal name")
+                consoleIO.write("Please enter meal name")
             }
-        } ?: println("Please enter valid meal name")
+        }
     }
 }

@@ -1,5 +1,6 @@
 package org.example.presentation
 
+import org.example.presentation.io.ConsoleIO
 import kotlin.system.exitProcess
 
 class ConsoleFoodChangeMoodUI(
@@ -17,16 +18,18 @@ class ConsoleFoodChangeMoodUI(
     private val iLovePotatoUI: ILovePotatoUI,
     private val highCaloriesMealsUI: HighCaloriesMealsUI,
     private val getSeaFoodMealsUI: GetSeaFoodMealsUI,
-    private val findItalianMealsForLargeGroupsUI: FindItalianMealsForLargeGroupsUI
+    private val findItalianMealsForLargeGroupsUI: FindItalianMealsForLargeGroupsUI,
+    private val consoleIO: ConsoleIO
 ) {
 
     fun start() {
-        println(
+        consoleIO.write(
             """
 ╔════════════════════════════════════════════╗
 ║      Welcome to Food Change Mood App!      ║
 ╚════════════════════════════════════════════╝
             """.trimIndent()
+
         )
         menuLoop()
     }
@@ -51,17 +54,17 @@ class ConsoleFoodChangeMoodUI(
                 14 -> getSeaFoodMealsUI()
                 15 -> findItalianMealsForLargeGroupsUI()
                 16 -> {
-                    println("\n👋 See you soon. Stay healthy!")
+                    consoleIO.write("\n👋 See you soon. Stay healthy!")
                     exitProcess(0)
                 }
 
-                else -> println("\n❌ Invalid input. Please enter a number between 1 and 16.")
+                else -> consoleIO.write("\n❌ Invalid input. Please enter a number between 1 and 16.")
             }
         }
     }
 
     private fun showOptions() {
-        println(
+        consoleIO.write(
             """
             
 🔸 === Choose an Option === 🔸
