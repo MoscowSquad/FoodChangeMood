@@ -5,7 +5,6 @@ import io.mockk.every
 import io.mockk.mockk
 import org.example.logic.repository.MealRepository
 import org.example.logic.usecases.FindItalianMealsForLargeGroupsUseCase
-import org.example.logic.usecases.createMealHelper
 import org.example.model.Exceptions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
