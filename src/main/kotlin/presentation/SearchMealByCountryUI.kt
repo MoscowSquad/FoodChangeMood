@@ -1,9 +1,11 @@
 package org.example.presentation
 
 import org.example.logic.usecases.SearchMealByCountryUseCase
+import org.example.presentation.io.ConsoleIO
 
 class SearchMealByCountryUI(
     private val searchMealByCountryUseCase: SearchMealByCountryUseCase,
+    private val consoleIO: ConsoleIO
 ) {
     operator fun invoke() {
         print("Enter a country name to explore its food culture: ")
@@ -11,11 +13,11 @@ class SearchMealByCountryUI(
         val meals = searchMealByCountryUseCase.searchMealsByCountry(country)
 
         if (meals.isEmpty()) {
-            println("No meals found for $country")
+            consoleIO.write("No meals found for $country")
         } else {
-            println("Found ${meals.size} meals related to $country:")
+            consoleIO.write("Found ${meals.size} meals related to $country:")
             meals.forEachIndexed { index, meal ->
-                println("${index + 1}. ${meal.name}")
+                consoleIO.write("${index + 1}. ${meal.name}")
             }
         }
     }

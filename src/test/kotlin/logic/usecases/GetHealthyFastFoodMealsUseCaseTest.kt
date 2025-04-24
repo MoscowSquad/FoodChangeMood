@@ -27,10 +27,10 @@ class GetHealthyFastFoodMealsUseCaseTest {
     fun `should return sorted fast to prepare meals`() {
         // Given
         every { mealRepository.getAllMeals() } returns listOf(
-            createMeal("Salad", 10),
-            createMeal("Sandwich", 5),
-            createMeal("Pasta", 20),
-            createMeal("Soup", 15)
+            createMeal(name = "Salad", minutes=10),
+            createMeal(name = "Sandwich", minutes =  5),
+            createMeal(name = "Pasta", minutes =  20),
+            createMeal(name = "Soup", minutes =  15)
         )
 
         // When
@@ -38,9 +38,9 @@ class GetHealthyFastFoodMealsUseCaseTest {
 
         // Then
         assertThat(result).containsExactly(
-            createMeal("Sandwich", 5),
-            createMeal("Salad", 10),
-            createMeal("Soup", 15)
+            createMeal(name = "Sandwich", minutes =  5),
+            createMeal(name = "Salad", minutes =  10),
+            createMeal(name = "Soup", minutes =  15)
         )
     }
 
@@ -48,9 +48,9 @@ class GetHealthyFastFoodMealsUseCaseTest {
     fun `should filter out meals with preparation time greater than 15 minutes`() {
         // Given
         every { mealRepository.getAllMeals() } returns listOf(
-            createMeal("Salad", 10),
-            createMeal("Burger", 16),
-            createMeal("Soup", 15)
+            createMeal(name = "Salad", minutes =  10),
+            createMeal(name = "Burger", minutes =  16),
+            createMeal(name = "Soup", minutes =  15)
         )
 
         // When
@@ -58,8 +58,8 @@ class GetHealthyFastFoodMealsUseCaseTest {
 
         // Then
         assertThat(result).containsExactly(
-            createMeal("Salad", 10),
-            createMeal("Soup", 15)
+            createMeal(name = "Salad", minutes =  10),
+            createMeal(name = "Soup", minutes =  15)
         )
     }
 
@@ -67,9 +67,9 @@ class GetHealthyFastFoodMealsUseCaseTest {
     fun `should filter out meals without preparation time`() {
         // Given
         every { mealRepository.getAllMeals() } returns listOf(
-            createMeal("Salad", 10),
-            createMeal("Sandwich", null),
-            createMeal("Pizza", 15)
+            createMeal(name = "Salad", minutes =  10),
+            createMeal(name = "Sandwich", minutes =  null),
+            createMeal(name = "Pizza", minutes =  15)
         )
 
         // When
@@ -77,8 +77,8 @@ class GetHealthyFastFoodMealsUseCaseTest {
 
         // Then
         assertThat(result).containsExactly(
-            createMeal("Salad", 10),
-            createMeal("Pizza", 15)
+            createMeal(name = "Salad", minutes =  10),
+            createMeal(name = "Pizza", minutes =  15)
         )
     }
 
@@ -86,9 +86,9 @@ class GetHealthyFastFoodMealsUseCaseTest {
     fun `should throw exception when no meals match criteria`() {
         // Given
         every { mealRepository.getAllMeals() } returns listOf(
-            createMeal("Pasta", 20),
-            createMeal("Roast Beef", 45),
-            createMeal("Sandwich", null)
+            createMeal(name = "Pasta", minutes =  20),
+            createMeal(name = "Roast Beef", minutes =  45),
+            createMeal(name = "Sandwich", minutes = null)
         )
 
         // When & Then
@@ -113,7 +113,7 @@ class GetHealthyFastFoodMealsUseCaseTest {
     fun `should include meals with preparation time less than or equal to max time`(minutes: Int) {
         // Given
         every { mealRepository.getAllMeals() } returns listOf(
-            createMeal("Quick Meal", minutes)
+            createMeal("Quick Meal", minutes=minutes)
         )
 
         // When
@@ -121,7 +121,7 @@ class GetHealthyFastFoodMealsUseCaseTest {
 
         // Then
         assertThat(result).containsExactly(
-            createMeal("Quick Meal", minutes)
+            createMeal("Quick Meal", minutes=minutes),
         )
     }
 }
