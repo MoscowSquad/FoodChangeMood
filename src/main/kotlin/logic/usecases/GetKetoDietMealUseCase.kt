@@ -4,6 +4,7 @@ import org.example.logic.repository.MealRepository
 import org.example.model.Exceptions
 import org.example.model.Meal
 import org.example.utils.takeRandomMeals
+import kotlin.random.Random
 
 class GetKetoDietMealUseCase(private val repository: MealRepository) {
     private val suggestedMeals = mutableSetOf<Meal>()
@@ -13,7 +14,7 @@ class GetKetoDietMealUseCase(private val repository: MealRepository) {
     fun getKetoMeal(): Meal {
         val available = repository.getAllMeals()
             .asSequence()
-            .filter { it.isKetoFriendly() }
+            .filter{it.isKetoFriendly()}
             .filterNot { it in suggestedMeals }
             .toList()
 

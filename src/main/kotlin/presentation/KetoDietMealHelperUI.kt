@@ -26,17 +26,14 @@ class KetoDietMealHelperUI(
                         val likedMeal = getKetoDietMealUseCase.likeMeal()
                         println("You liked this meal! Here's the full detail again:")
                     }
-
                     "2" -> {
                         println("Finding a new suggestion...")
                         continue
                     }
-
                     "3" -> {
                         println("Thanks for using Keto Diet Meal Helper. Stay healthy!")
                         break
                     }
-
                     else -> println("Invalid option. Please select 1, 2, or 3.")
                 }
                 meal.display()
