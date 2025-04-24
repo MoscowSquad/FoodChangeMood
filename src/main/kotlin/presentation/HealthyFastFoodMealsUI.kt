@@ -12,10 +12,10 @@ class HealthyFastFoodMealsUI(
         consoleIO.write("Finding healthy fast food meals that can be prepared in 15 minutes or less...")
         val healthyMeals = getHealthyFastFoodMealsUseCase.getHealthyMeals()
 
-        consoleIO.write("Your order is ready: ")
         if (healthyMeals.isEmpty()) {
             consoleIO.write("No meals found matching the criteria.")
         } else {
+            consoleIO.write("Your order is ready: ")
             healthyMeals.display()
             consoleIO.write("Total number of meals: ${healthyMeals.size}")
         }
