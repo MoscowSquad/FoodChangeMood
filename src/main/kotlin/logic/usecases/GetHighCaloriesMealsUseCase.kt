@@ -10,7 +10,7 @@ class GetHighCaloriesMealsUseCase(private val repository: MealRepository) {
     @Throws(
         Exceptions.NoMealsFoundException::class,
     )
-    operator fun invoke(): Meal {
+    fun nextMeal(): Meal {
         return repository.getAllMeals()
             .filter(::byHighCalories)
             .getNextHighCaloriesMeal()

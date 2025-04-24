@@ -1,12 +1,12 @@
 package org.example.logic.usecases
 
+import org.example.data.KMPSearchMatcher
 import org.example.logic.repository.MealRepository
-import org.example.logic.repository.SearchMatcher
 import org.example.model.Exceptions
 import org.example.model.Meal
 
 class SearchMealByNameUseCase(
-    private val matcher: SearchMatcher,
+    private val matcher: KMPSearchMatcher,
     private val repository: MealRepository
 ) {
     @Throws(
@@ -25,9 +25,7 @@ class SearchMealByNameUseCase(
         this.forEach { meal ->
             meal.name?.let { name ->
                 val accuracy = matcher.getMatchAccuracy(name, keyword)
-                if (accuracy == MATCH_EXACTLY)
-                    return meal
-                else if (accuracy != NOT_MATCHED)
+                if (accuracy != NOT_MATCHED)
                     matchedList.add(accuracy to meal)
             }
         }
