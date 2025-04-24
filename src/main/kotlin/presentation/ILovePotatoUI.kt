@@ -18,7 +18,7 @@ class ILovePotatoUI(
                 consoleIO.write("Total shown: ${potatoMeals.size}")
             }
             .onFailure {
-                consoleIO.write("❌ No meals with potatoes found.")
+                consoleIO.write(it.message)
             }
     }
 }
