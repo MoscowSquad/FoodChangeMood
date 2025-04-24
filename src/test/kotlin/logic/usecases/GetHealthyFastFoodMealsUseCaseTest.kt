@@ -92,7 +92,7 @@ class GetHealthyFastFoodMealsUseCaseTest {
         )
 
         // When & Then
-        assertThrows<Exceptions.NoMealsFound> {
+        assertThrows<Exceptions.NoMealsFoundException> {
             getHealthyFastFoodMealsUseCase.getHealthyMeals()
         }
     }
@@ -103,7 +103,7 @@ class GetHealthyFastFoodMealsUseCaseTest {
         every { mealRepository.getAllMeals() } returns emptyList<Meal>()
 
         // When & Then
-        assertThrows<Exceptions.NoMealsFound> {
+        assertThrows<Exceptions.NoMealsFoundException> {
             getHealthyFastFoodMealsUseCase.getHealthyMeals()
         }
     }

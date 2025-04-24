@@ -1,13 +1,13 @@
 package logic.usecases
 
-import org.example.logic.repository.MealRepository
-import org.example.logic.usecases.GetMealsByDateUseCase
-import org.junit.jupiter.api.BeforeEach
-import io.mockk.mockk
-import org.junit.jupiter.api.Test
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
+import io.mockk.mockk
+import org.example.logic.repository.MealRepository
+import org.example.logic.usecases.GetMealsByDateUseCase
 import org.example.model.Exceptions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 class GetMealsByDateUseCaseTest {
@@ -109,7 +109,7 @@ class GetMealsByDateUseCaseTest {
         val searchInput = "20040602"
 
         // When & Then
-        assertThrows<Exceptions.NoMealsFound>{
+        assertThrows<Exceptions.NoMealsFoundException> {
             getMealsByDateUseCase.getMealsByDate(searchInput)
         }
     }
@@ -136,7 +136,7 @@ class GetMealsByDateUseCaseTest {
         every { mealRepository.getAllMeals() } returns listOf(falseMeal , anotherFalseMeal)
         val searchInput = "20040622"
         // When & Then
-        assertThrows<Exceptions.NoMealsFound>{
+        assertThrows<Exceptions.NoMealsFoundException> {
             getMealsByDateUseCase.getMealsByDate(searchInput)
         }
     }

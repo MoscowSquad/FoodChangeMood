@@ -47,7 +47,7 @@ class GetMealByIdUseCaseTest
         val searchInput = 4444
 
         // When & Then
-        assertThrows<Exceptions.NoMealsFound> {
+        assertThrows<Exceptions.NoMealsFoundException> {
             getMealsByIdUseCase.getMealById(searchInput)
         }
     }
@@ -59,7 +59,7 @@ class GetMealByIdUseCaseTest
         val searchInput = 4444
 
         // When & Then
-        assertThrows<Exceptions.NoMealsFound> {
+        assertThrows<Exceptions.NoMealsFoundException> {
             getMealsByIdUseCase.getMealById(searchInput)
         }
     }
@@ -74,7 +74,7 @@ class GetMealByIdUseCaseTest
         val searchInput = 1234
 
         // When & Then
-        assertThrows<Exceptions.NoMealsFound> {
+        assertThrows<Exceptions.NoMealsFoundException> {
             getMealsByIdUseCase.getMealById(searchInput)
         }
     }
