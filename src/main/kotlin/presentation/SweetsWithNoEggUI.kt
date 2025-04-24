@@ -10,8 +10,13 @@ class SweetsWithNoEggUI(
 ) {
     operator fun invoke() {
         consoleIO.write("🍬--- Sweets Without Eggs ---🍬")
-        val sweet = sweetsWithNoEggUseCase.getSweetsWithNoEggUseCase()
-        consoleIO.write("✨ Recommended Sweet:")
-        sweet.display()
+        runCatching { sweetsWithNoEggUseCase() }
+            .onSuccess {
+                consoleIO.write("✨ Recommended Sweet:")
+                it.display()
+            }
+            .onFailure {
+                consoleIO.write(it.message)
+            }
     }
 }
