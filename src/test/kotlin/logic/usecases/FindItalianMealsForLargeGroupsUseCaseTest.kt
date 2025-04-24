@@ -26,14 +26,14 @@ class FindItalianMealsForLargeGroupsUseCaseTest {
     @Test
     fun `should return matching Italian  meals for large groups when called`() {
         every { mealRepository.getAllMeals() } returns listOf(
-            createMealHelper(
+            createMeal(
                 name = "Lasagna Bolognese",
                 id = 1,
                 tags = listOf("ITALIAN", "for-large-groups", "DINNER-PARTY"),
                 description = "A classic ITALIAN dessert."
 
             ),
-            createMealHelper(
+            createMeal(
             name = "Tiramisu",
             id = 2,
             tags = listOf("dessert", "for-large-groups"),
@@ -50,7 +50,7 @@ class FindItalianMealsForLargeGroupsUseCaseTest {
     @Test
     fun `should ignore italian when meals not suitable for groups`() {
         every { mealRepository.getAllMeals() } returns listOf(
-            createMealHelper(
+            createMeal(
                 name = "Pizza",
                 id = 3,
                 tags = listOf("main-dish"),
@@ -66,7 +66,7 @@ class FindItalianMealsForLargeGroupsUseCaseTest {
     @Test
     fun `should ignore non-italian when meals suitable for groups`() {
         every { mealRepository.getAllMeals() } returns listOf(
-            createMealHelper(
+            createMeal(
                 name = "Sushi",
                 id = 4,
                 tags = listOf("for-large-groups"),
@@ -81,7 +81,7 @@ class FindItalianMealsForLargeGroupsUseCaseTest {
     @Test
     fun `should ignore meals when that are neither italian nor for groups`() {
         every { mealRepository.getAllMeals() } returns listOf(
-            createMealHelper(
+            createMeal(
                 name = "Burger",
                 id = 5,
                 tags = listOf("fast-food"),
@@ -107,7 +107,7 @@ class FindItalianMealsForLargeGroupsUseCaseTest {
     @Test
     fun `should handle null tags and description correctly`() {
         every { mealRepository.getAllMeals() } returns listOf(
-            createMealHelper(
+            createMeal(
                 name = "Spaghetti",
                 id = 6,
                 tags = null,
@@ -123,7 +123,7 @@ class FindItalianMealsForLargeGroupsUseCaseTest {
     @Test
     fun `should handle null description with valid tags for Italian meal`() {
         every { mealRepository.getAllMeals() } returns listOf(
-            createMealHelper(
+            createMeal(
                 name = "Risotto",
                 id = 8,
                 tags = listOf("ITALIAN", "for-large-groups"),

@@ -26,7 +26,7 @@ class GetGymMealsUseCaseTest {
     fun `should return list of meal when protein and calories are within tolerance`() {
 
         every { meals.getAllMeals() } returns listOf(
-            createMealHelper(
+            createMeal(
                 name = "Lasagna Bolognese",
                 id = 1,
                 nutrition = Nutrition(
@@ -36,9 +36,20 @@ class GetGymMealsUseCaseTest {
                 )
 
             ),
+
+            createMeal(
+                name = "Lasagna Bolognese",
+                id = 1,
+                nutrition = Nutrition(
+                    calories = 120.0,
+                    protein = 30.4,
+                    totalFat = null, sugar = null, sodium = null, saturatedFat = null, carbohydrates = null
+                )
+
+            ),
         )
 
-        val result = useCase.invoke(NutritionRequest(desiredCalories = 100.0, desiredProtein = 20.0))
+        val result = useCase.invoke(NutritionRequest(desiredCalories = 105.0, desiredProtein = 20.0))
 
         assertThat(result.map { it.name to it.id }).containsExactly(
             "Lasagna Bolognese" to 1,
@@ -49,7 +60,7 @@ class GetGymMealsUseCaseTest {
     @Test
     fun `should throw exception when calories and protein are null`() {
         every { meals.getAllMeals() } returns listOf(
-            createMealHelper(
+            createMeal(
                 name = "Lasagna Bolognese",
                 id = 1,
                 nutrition = Nutrition(
@@ -69,7 +80,7 @@ class GetGymMealsUseCaseTest {
     @Test
     fun `should throw exception when protein is null but calories exists`() {
         every { meals.getAllMeals() } returns listOf(
-            createMealHelper(
+            createMeal(
                 name = "Lasagna Bolognese",
                 id = 1,
                 nutrition = Nutrition(
@@ -93,7 +104,7 @@ class GetGymMealsUseCaseTest {
     @Test
     fun `should throw exception when nutrition is null`() {
         every { meals.getAllMeals() } returns listOf(
-            createMealHelper(
+            createMeal(
                 name = "Lasagna Bolognese",
                 id = 1,
                 nutrition = null
@@ -108,7 +119,7 @@ class GetGymMealsUseCaseTest {
     @Test
     fun `should throw exception when nutrition not found`() {
         every { meals.getAllMeals() } returns listOf(
-            createMealHelper(
+            createMeal(
                 name = "Lasagna Bolognese",
                 id = 1,
 
