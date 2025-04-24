@@ -7,7 +7,7 @@ import org.example.model.Meal
 class SweetsWithNoEggUseCase(private val mealRepository: MealRepository) {
     private val shownMeals = mutableSetOf<Int?>()
 
-    fun getSweetsWithNoEggUseCase(): Meal {
+    operator fun invoke(): Meal {
         return mealRepository.getAllMeals()
             .filter(::isDataAcceptable)
             .randomOrNull()
