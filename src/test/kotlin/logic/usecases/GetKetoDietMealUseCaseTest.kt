@@ -38,7 +38,7 @@ class GetKetoDietMealUseCaseTest {
     }
 
     @Test
-    fun `getKle`() {
+    fun `getKetoMeal should throw exception when no keto meals are available`() {
         // Given:
         every { repository.getAllMeals() } returns emptyList()
 
