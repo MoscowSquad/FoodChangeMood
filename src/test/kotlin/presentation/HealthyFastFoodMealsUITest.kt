@@ -69,10 +69,10 @@ class HealthyFastFoodMealsUITest {
     @Test
     fun `should get exception when use case throws NoMealsFound exception`() {
         // Given
-        every { getHealthyFastFoodMealsUseCase.getHealthyMeals() } throws Exceptions.NoMealsFound()
+        every { getHealthyFastFoodMealsUseCase.getHealthyMeals() } throws Exceptions.NoMealsFoundException()
 
         // When & Then
-        assertThrows<Exceptions.NoMealsFound> {
+        assertThrows<Exceptions.NoMealsFoundException> {
             healthyFastFoodMealsUI()
         }
         verify { getHealthyFastFoodMealsUseCase.getHealthyMeals() }
