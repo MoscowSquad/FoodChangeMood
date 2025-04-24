@@ -11,7 +11,7 @@ class GetMealsByDateUseCase(
         val matchedMeals = repository.getAllMeals().filter { currentMeal ->
             currentMeal.submitted == date
         }.takeIf { it.isNotEmpty() }
-            ?: throw Exceptions.NoMealsFound("No meals found on this date.")
+            ?: throw Exceptions.NoMealsFoundException("No meals found on this date.")
 
         return matchedMeals
     }

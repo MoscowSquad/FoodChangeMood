@@ -9,6 +9,6 @@ class GetMealByIdUseCase(
 ) {
     fun getMealById(id: Int): Meal {
         return repository.getAllMeals().find { it.id == id }
-            ?: throw Exceptions.NoMealsFound("No Meal Found with ID: $id")
+            ?: throw Exceptions.NoMealsFoundException("No Meal Found with ID: $id")
     }
 }
