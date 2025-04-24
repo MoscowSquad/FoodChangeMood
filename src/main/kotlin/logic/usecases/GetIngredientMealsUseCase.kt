@@ -32,7 +32,7 @@ class GetIngredientMealsUseCase(private val mealRepo: MealRepository) {
         return steps
     }
 
-    fun evaluateAnswers(steps: List<GameStep>, answers: List<Int>): GameResult {
+    fun evaluateAnswers(steps: List<GameStep>, answers: List<Int?>): GameResult {
         var points = 0
 
         for ((index, step) in steps.withIndex()) {
