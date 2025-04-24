@@ -3,6 +3,7 @@ package logic.usecases
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockk
+import junit.framework.TestCase.assertEquals
 import org.example.logic.repository.MealRepository
 import org.example.logic.usecases.FindItalianMealsForLargeGroupsUseCase
 import org.example.model.Exceptions
@@ -135,5 +136,10 @@ class FindItalianMealsForLargeGroupsUseCaseTest {
         assertThat(result.map { it.name to it.id }).containsExactly(
             "Risotto" to 8
         )
+    }
+
+    @Test
+    fun `should companion object ItalianMeal has correct value`() {
+        assertEquals("italian", FindItalianMealsForLargeGroupsUseCase.ItlialianMeal)
     }
 }
