@@ -26,6 +26,6 @@ class FindItalianMealsForLargeGroupsUseCase(
     }
 
     companion object {
-        val ItlialianMeal = "italian"
+        const val ItlialianMeal = "italian"
     }
 }
