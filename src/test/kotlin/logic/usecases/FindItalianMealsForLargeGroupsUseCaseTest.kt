@@ -40,9 +40,7 @@ class FindItalianMealsForLargeGroupsUseCaseTest {
                 description = "A classic ITALIAN dessert."
             ),
         )
-
         val result = useCase()
-
         assertThat(result.map { it.name to it.id }).containsExactly(
             "Lasagna Bolognese" to 1,
             "Tiramisu" to 2
