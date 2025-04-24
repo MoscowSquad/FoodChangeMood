@@ -1,25 +1,30 @@
 package di
 
 import org.example.presentation.*
+import org.example.presentation.io.ConsoleIO
+import org.example.presentation.io.ConsoleIOImpl
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
+import java.util.*
 
 val presentationModule = module {
-    factory { HealthyFastFoodMealsUI(get()) }
-    factory { SearchMealByNameUI(get()) }
-    factory { IraqiMealsUI(get()) }
-    factory { EasyFoodSuggestionUI(get()) }
-    factory { GuessGameUI(get()) }
-    factory { SweetsWithNoEggUI(get()) }
-    factory { KetoDietMealHelperUI(get()) }
-    factory { SearchMealsByDateUI(get(), get()) }
-    factory { GymHelperUI(get()) }
-    factory { SearchMealByCountryUI(get()) }
-    factory { IngredientGameUI(get()) }
-    factory { ILovePotatoUI(get()) }
-    factory { HighCaloriesMealsUI(get()) }
-    factory { GetSeaFoodMealsUI(get()) }
-    factory { FindItalianMealsForLargeGroupsUI(get()) }
+    single { Scanner(System.`in`) }
+    single<ConsoleIO> { ConsoleIOImpl(get()) }
+    factory { HealthyFastFoodMealsUI(get(), get()) }
+    factory { SearchMealByNameUI(get(), get()) }
+    factory { IraqiMealsUI(get(), get()) }
+    factory { EasyFoodSuggestionUI(get(), get()) }
+    factory { GuessGameUI(get(), get()) }
+    factory { SweetsWithNoEggUI(get(), get()) }
+    factory { KetoDietMealHelperUI(get(), get()) }
+    factory { SearchMealsByDateUI(get(), get(), get()) }
+    factory { GymHelperUI(get(), get()) }
+    factory { SearchMealByCountryUI(get(), get()) }
+    factory { IngredientGameUI(get(), get()) }
+    factory { ILovePotatoUI(get(), get()) }
+    factory { HighCaloriesMealsUI(get(), get()) }
+    factory { GetSeaFoodMealsUI(get(), get()) }
+    factory { FindItalianMealsForLargeGroupsUI(get(), get()) }
 
     factoryOf(::ConsoleFoodChangeMoodUI)
 }

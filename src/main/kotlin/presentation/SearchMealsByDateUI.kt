@@ -3,15 +3,15 @@ package org.example.presentation
 import org.example.logic.usecases.GetMealByIdUseCase
 import org.example.logic.usecases.GetMealsByDateUseCase
 import org.example.model.Exceptions
+import org.example.presentation.io.ConsoleIO
 import org.example.utils.display
 import java.text.SimpleDateFormat
-import java.util.*
 
 class SearchMealsByDateUI(
     private val getMealsByDateUseCase: GetMealsByDateUseCase,
-    private val getMealByIdUseCase: GetMealByIdUseCase
+    private val getMealByIdUseCase: GetMealByIdUseCase,
+    private val consoleIO: ConsoleIO
 ) {
-    private val scanner = Scanner(System.`in`)
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd").apply { isLenient = false }
 
     operator fun invoke() {
@@ -19,29 +19,29 @@ class SearchMealsByDateUI(
 
         try {
             val meals = getMealsByDateUseCase.getMealsByDate(date)
-            if (meals.isEmpty()) throw Exceptions.NoMealsFound("No meals found for the selected date.")
+            if (meals.isEmpty()) throw Exceptions.NoMealsFoundException("No meals found for the selected date.")
 
-            println("\nMeals found:")
-            meals.forEach { println("ID: ${it.id}, Name: ${it.name}") }
+            consoleIO.write("\nMeals found:")
+            meals.forEach { consoleIO.write("ID: ${it.id}, Name: ${it.name}") }
 
             val id = promptForMealId() ?: return
             val meal = getMealByIdUseCase.getMealById(id)
 
-            meal?.display() ?: println("Meal not found.")
-        } catch (e: Exceptions.NoMealsFound) {
-            println(e.message)
+            meal.display()
+        } catch (e: Exceptions.NoMealsFoundException) {
+            consoleIO.write(e.message)
         }
     }
 
     private fun promptForDate(): String? {
         print("Enter a date in format yyyy-MM-dd: ")
-        val input = scanner.nextLine()
+        val input = consoleIO.read()
 
         return try {
             dateFormat.parse(input)
             input
         } catch (e: Exception) {
-            println("Invalid date format. Please use yyyy-MM-dd.")
+            consoleIO.write("Invalid date format. Please use yyyy-MM-dd.")
             null
         }
     }
@@ -49,9 +49,9 @@ class SearchMealsByDateUI(
     private fun promptForMealId(): Int? {
         print("Enter the ID of the meal you want details for: ")
         return try {
-            scanner.nextLine().toInt()
+            consoleIO.read().toInt()
         } catch (e: NumberFormatException) {
-            println("Invalid ID format. Please enter a number.")
+            consoleIO.write("Invalid ID format. Please enter a number.")
             null
         }
     }

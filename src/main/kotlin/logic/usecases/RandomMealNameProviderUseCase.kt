@@ -12,5 +12,5 @@ class RandomMealNameProviderUseCase(
     fun getRandomMeal(): Meal = mealRepository.getAllMeals()
         .filter(::isValidMeal)
         .randomOrNull()
-        ?: throw Exceptions.NoFoodFoundException()
+        ?: throw Exceptions.NoMealsFoundException()
 }
