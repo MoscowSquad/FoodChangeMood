@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.test.assertFailsWith
 
+
 class FindItalianMealsForLargeGroupsUseCaseTest {
 
     private lateinit var mealRepository: MealRepository
@@ -21,53 +22,79 @@ class FindItalianMealsForLargeGroupsUseCaseTest {
         useCase = FindItalianMealsForLargeGroupsUseCase(mealRepository)
     }
 
+
     @Test
-    fun `should return Italian meals for large groups when called`() {
-        val matchingMeal1 = createMealHelper(
-            name = "Lasagna Bolognese",
-            id = 1,
-            tags = listOf("ITALIAN", "main-dish", "DINNER-PARTY")
+    fun `should return matching Italian  meals for large groups when called`() {
+        every { mealRepository.getAllMeals() } returns listOf(
+            createMealHelper(
+                name = "Lasagna Bolognese",
+                id = 1,
+                tags = listOf("ITALIAN", "for-large-groups", "DINNER-PARTY"),
+                description = "A classic ITALIAN dessert."
 
-        )
-
-        val matchingMeal2 = createMealHelper(
+            ),
+            createMealHelper(
             name = "Tiramisu",
             id = 2,
             tags = listOf("dessert", "for-large-groups"),
-            description = "A classic ITALIAN dessert."
-        )
-
-        val nonMatchingMeal1 = createMealHelper(
-            name = "French Cassoulet",
-            id = 3,
-            tags = listOf("french", "main-dish"),
-        )
-
-        val nonMatchingMeal2 = createMealHelper(
-            name = "Spaghetti Aglio e Olio",
-            id = 4,
-            tags = listOf("italian", "quick"),
-        )
-
-        val nonMatchingMeal3 = createMealHelper(
-            name = "Pasta Salad",
-            id = 5,
-            tags = null,
-            description = null,
-        )
-
-        every { mealRepository.getAllMeals() } returns listOf(
-            matchingMeal1,
-            matchingMeal2,
-            nonMatchingMeal1,
-            nonMatchingMeal2,
-            nonMatchingMeal3
+                description = "A classic ITALIAN dessert."
+            ),
         )
 
         val result = useCase()
 
-        assertThat(result[0].tags).contains("ITALIAN")
+        assertThat(result.map { it.name to it.id }).containsExactly(
+            "Lasagna Bolognese" to 1,
+            "Tiramisu" to 2
+        )
     }
+
+    @Test
+    fun `should ignore italian when meals not suitable for groups`() {
+        every { mealRepository.getAllMeals() } returns listOf(
+            createMealHelper(
+                name = "Pizza",
+                id = 3,
+                tags = listOf("main-dish"),
+                description = "Delicious italian food"
+            )
+        )
+
+        assertFailsWith<Exceptions.NoMealsFoundException> {
+            useCase()
+        }
+    }
+
+    @Test
+    fun `should ignore non-italian when meals suitable for groups`() {
+        every { mealRepository.getAllMeals() } returns listOf(
+            createMealHelper(
+                name = "Sushi",
+                id = 4,
+                tags = listOf("for-large-groups"),
+                description = "Japanese classic"
+            )
+        )
+        assertFailsWith<Exceptions.NoMealsFoundException> {
+            useCase()
+        }
+    }
+
+    @Test
+    fun `should ignore meals when that are neither italian nor for groups`() {
+        every { mealRepository.getAllMeals() } returns listOf(
+            createMealHelper(
+                name = "Burger",
+                id = 5,
+                tags = listOf("fast-food"),
+                description = "Just a regular burger"
+            )
+        )
+        assertFailsWith<Exceptions.NoMealsFoundException> {
+            useCase()
+        }
+    }
+
 
     @Test
     fun `should throw exception when no matching meals found`() {
@@ -76,5 +103,39 @@ class FindItalianMealsForLargeGroupsUseCaseTest {
         assertFailsWith<Exceptions.NoMealsFoundException> {
             useCase()
         }
+    }
+
+
+    @Test
+    fun `should handle null tags and description correctly`() {
+        every { mealRepository.getAllMeals() } returns listOf(
+            createMealHelper(
+                name = "Spaghetti",
+                id = 6,
+                tags = null,
+                description = null
+            )
+        )
+        assertFailsWith<Exceptions.NoMealsFoundException> {
+            useCase()
+        }
+    }
+
+
+    @Test
+    fun `should handle null description with valid tags for Italian meal`() {
+        every { mealRepository.getAllMeals() } returns listOf(
+            createMealHelper(
+                name = "Risotto",
+                id = 8,
+                tags = listOf("ITALIAN", "for-large-groups"),
+                description = null
+            )
+        )
+
+        val result = useCase()
+        assertThat(result.map { it.name to it.id }).containsExactly(
+            "Risotto" to 8
+        )
     }
 }
