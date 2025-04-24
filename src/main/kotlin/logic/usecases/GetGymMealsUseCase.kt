@@ -13,7 +13,6 @@ class GetGymMealsUseCase(private val mealRepository: MealRepository) {
     operator fun invoke(request: NutritionRequest): List<Meal> {
         val meals = mealRepository.getAllMeals()
             .filter { matchesRequest(it, request) }
-            .sortedBy { calculateDistance(it.nutrition, request) }
         if (meals.isEmpty()) throw Exceptions.NoMealsFoundException()
         return meals
     }
@@ -35,15 +34,5 @@ class GetGymMealsUseCase(private val mealRepository: MealRepository) {
         val isProteinOk = abs(protein - request.desiredProtein) <= proteinTolerance
 
         return isCalorieOk && isProteinOk
-    }
-
-
-    private fun calculateDistance(nutrition: Nutrition?, request: NutritionRequest): Double {
-        if (nutrition?.calories == null || nutrition.protein == null)
-            return Double.MAX_VALUE
-
-        val calorieDiff = abs(nutrition.calories - request.desiredCalories)
-        val proteinDiff = abs(nutrition.protein - request.desiredProtein)
-        return calorieDiff + proteinDiff
     }
 }
