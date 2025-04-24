@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test
 
 class GymHelperUITest {
 
+
     private lateinit var getGymMealsUseCase: GetGymMealsUseCase
     private lateinit var consoleIO: ConsoleIO
     private lateinit var gymHelperUI: GymHelperUI
