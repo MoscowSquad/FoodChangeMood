@@ -1,4 +1,4 @@
-package org.example.logic.usecases
+package logic.usecases
 
 import org.example.model.Meal
 import org.example.model.Nutrition
