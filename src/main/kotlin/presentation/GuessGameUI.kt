@@ -15,14 +15,14 @@ class GuessGameUI(
         guessGame(meal)
     }
 
-    private fun guessGame(meal: Meal, time: Int = 0) {
+    fun guessGame(meal: Meal, time: Int = 0) {
         if (time == 3) {
             consoleIO.write("later")
             return
         }
 
-        print("Preparation time:")
-        val suggestion = readln()
+        consoleIO.write("Preparation time:")
+        val suggestion = consoleIO.read() // Changed from readln()
         if (meal.minutes == suggestion.toIntOrNull()) {
             consoleIO.write("You are correct")
             return

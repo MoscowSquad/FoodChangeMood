@@ -29,7 +29,7 @@ class RandomMealNameProviderUseCaseTest {
  fun `when the name of the meal is empty, throws NoFoodFoundException`() {
   val testMeals = listOf(createTestMeal(name = ""))
   every { mockMealRepository.getAllMeals() } returns testMeals
-  assertFailsWith<Exceptions.NoFoodFoundException> {
+  assertFailsWith<Exceptions.NoMealsFoundException> {
    useCase.getRandomMeal()
   }
  }
@@ -38,7 +38,19 @@ class RandomMealNameProviderUseCaseTest {
  fun `when the name of the meal is space, throws NoFoodFoundException`() {
   val testMeals = listOf(createTestMeal(name = "   "))
   every { mockMealRepository.getAllMeals() } returns testMeals
-  assertFailsWith<Exceptions.NoFoodFoundException> {
+  assertFailsWith<Exceptions.NoMealsFoundException> {
+   useCase.getRandomMeal()
+  }
+ }
+ @Test
+ fun `when all meals are invalid, throws NoFoodFoundException`() {
+  val testMeals = listOf(
+   createTestMeal(name = ""),
+   createTestMeal(name = "   "),
+   createTestMeal(name = null)
+  )
+  every { mockMealRepository.getAllMeals() } returns testMeals
+  assertFailsWith<Exceptions.NoMealsFoundException> {
    useCase.getRandomMeal()
   }
  }
