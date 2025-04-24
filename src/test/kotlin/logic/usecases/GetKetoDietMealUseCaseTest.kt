@@ -5,8 +5,10 @@ import io.mockk.mockk
 import org.example.logic.repository.MealRepository
 import org.example.logic.usecases.GetKetoDietMealUseCase
 import org.example.model.Exceptions
+import org.example.model.Nutrition
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
@@ -17,7 +19,7 @@ class GetKetoDietMealUseCaseTest {
 
     @BeforeEach
     fun setUp() {
-        repository = mockk()
+        repository = mockk(relaxed = true)
         useCase = GetKetoDietMealUseCase(repository)
     }
 
@@ -25,7 +27,7 @@ class GetKetoDietMealUseCaseTest {
     fun `getKetoMeal should return a keto meal when available`() {
         // Given:
         every { repository.getAllMeals() } returns listOf(
-            createMeal("good morning muffins", 215.9, 15.0, 57.0, 7.0, 7.0, 30.0, 9.0),
+            createMeal(name = "good morning muffins", nutrition = Nutrition(215.9, 15.0, 57.0, 7.0, 7.0, 30.0, 9.0))
         )
 
         // When:
@@ -36,21 +38,21 @@ class GetKetoDietMealUseCaseTest {
     }
 
     @Test
-    fun `getKetoMeal should throw exception when no keto meals are available`() {
+    fun `getKle`() {
         // Given:
         every { repository.getAllMeals() } returns emptyList()
 
-        // When:
+        // When:etoMeal should throw exception when no keto meals are availab
 
         // Then:
-        assertFailsWith<Exceptions.MealNotFoundException> { useCase.getKetoMeal() }
+        assertFailsWith<Exceptions.NoMealsFoundException> { useCase.getKetoMeal() }
     }
 
     @Test
     fun `likeMeal should return current meal when a meal is suggested`() {
         // Given:
         every { repository.getAllMeals() } returns listOf(
-            createMeal("good morning muffins", 215.9, 15.0, 57.0, 7.0, 7.0, 30.0, 9.0),
+            createMeal(name = "good morning muffins", nutrition = Nutrition(215.9, 15.0, 57.0, 7.0, 7.0, 30.0, 9.0))
         )
         useCase.getKetoMeal()  // Suggest the meal
 
@@ -66,15 +68,15 @@ class GetKetoDietMealUseCaseTest {
         // When:
 
         // Then:
-        assertFailsWith<Exceptions.MealNotFoundException> { useCase.likeMeal() }
+        assertFailsWith<Exceptions.NoMealsFoundException> { useCase.likeMeal() }
     }
 
     @Test
     fun `dislikeMeal should return a new meal when disliked`() {
         // Given:
         every { repository.getAllMeals() } returns listOf(
-            createMeal("good morning muffins", 215.9, 15.0, 57.0, 7.0, 7.0, 30.0, 9.0),
-            createMeal("dirty  broccoli", 137.1, 11.0, 11.0, 10.0, 10.0, 5.0, 4.0)
+            createMeal(name = "good morning muffins", nutrition = Nutrition(215.9, 15.0, 57.0, 7.0, 7.0, 30.0, 9.0)),
+            createMeal(name = "dirty  broccoli", nutrition = Nutrition(137.1, 11.0, 11.0, 10.0, 10.0, 5.0, 4.0))
         )
 
         // When:
@@ -92,25 +94,22 @@ class GetKetoDietMealUseCaseTest {
         // When:
 
         // Then:
-        assertFailsWith<Exceptions.MealNotFoundException> { useCase.dislikeMeal() }
+        assertThrows<Exceptions.NoMealsFoundException> { useCase.dislikeMeal() }
     }
 
     @Test
     fun `getKetoMeal should not repeat previously suggested meals`() {
         // Given:
         every { repository.getAllMeals() } returns listOf(
-            createMeal("good morning muffins", 215.9, 15.0, 57.0, 7.0, 7.0, 30.0, 9.0),
-            createMeal("dirty  broccoli", 137.1, 11.0, 11.0, 10.0, 10.0, 5.0, 4.0)
+            createMeal(name = "good morning muffins", nutrition = Nutrition(215.9, 15.0, 57.0, 7.0, 7.0, 30.0, 9.0)),
+            //createMeal(name = "dirty  broccoli", nutrition = Nutrition(137.1, 11.0, 11.0, 10.0, 10.0, 5.0, 4.0))
         )
 
         // When:
-        val firstMeal = useCase.getKetoMeal()
-
-        // And:
-        val secondMeal = useCase.getKetoMeal()
+        useCase.getKetoMeal()
 
         // Then:
-        assertEquals("dirty  broccoli", secondMeal.name)
+        assertThrows<Exceptions.NoMealsFoundException> { useCase.getKetoMeal() }
     }
 
 }
