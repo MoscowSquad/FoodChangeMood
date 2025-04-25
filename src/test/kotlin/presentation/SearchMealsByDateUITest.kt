@@ -46,4 +46,58 @@ class SearchMealsByDateUITest {
         assertThat(consoleIO.outputs).contains("\nMeals found:")
         assertThat(consoleIO.outputs).contains("ID: 12345, Name: Burrito")
     }
+
+    @Test
+    fun `should throw exception when no meal found`() {
+        // Given
+        val dateInput = "2006-05-04"
+
+        consoleIO.inputs.add(dateInput)
+
+        every { getMealsByDateUseCase.getMealsByDate(dateInput) } returns emptyList()
+
+
+        // When
+        searchMealsByDateUI.invoke()
+
+        // Then
+        assertThat(consoleIO.outputs).contains("No meals found for the selected date.")
+    }
+
+    @Test
+    fun `should throw exception when invalid date format`() {
+        // Given
+        val dateInput = "20060504"
+
+        consoleIO.inputs.add(dateInput)
+
+        every { getMealsByDateUseCase.getMealsByDate("2006-05-04") } returns emptyList()
+
+
+        // When
+        searchMealsByDateUI.invoke()
+
+        // Then
+        assertThat(consoleIO.outputs).contains("Invalid date format. Please use yyyy-MM-dd.")
+    }
+
+    @Test
+    fun `should show error message when invalid id format`() {
+        // Given
+        val dateInput = "2006-05-04"
+        val invalidIdInput = "abc"
+
+        consoleIO = FakeConsoleIO(inputs = LinkedList(listOf(dateInput, invalidIdInput)))
+        searchMealsByDateUI = SearchMealsByDateUI(getMealsByDateUseCase, getMealByIdUseCase, consoleIO)
+
+        val trueMeal = createMeal(id = 12345, name = "Burrito", submitted = dateInput)
+        every { getMealsByDateUseCase.getMealsByDate(dateInput) } returns listOf(trueMeal)
+
+        // When
+        searchMealsByDateUI.invoke()
+
+        // Then
+        assertThat(consoleIO.outputs).contains("Invalid ID format. Please enter a number.")
+    }
+
 }
