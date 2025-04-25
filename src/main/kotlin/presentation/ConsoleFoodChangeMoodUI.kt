@@ -22,7 +22,7 @@ class ConsoleFoodChangeMoodUI(
     private val consoleIO: ConsoleIO
 ) {
 
-    fun start() {
+    fun start(stopImminently: Boolean = false) {
         consoleIO.write(
             """
 ╔════════════════════════════════════════════╗
@@ -31,35 +31,42 @@ class ConsoleFoodChangeMoodUI(
             """.trimIndent()
 
         )
-        menuLoop()
+        menuLoop(stopImminently)
     }
 
-    private fun menuLoop() {
+    private fun menuLoop(stopImminently: Boolean = false) {
         while (true) {
             showOptions()
-            when (readlnOrNull()?.toIntOrNull()) {
-                1 -> healthyFastFoodMealsUI()
-                2 -> searchMealByNameUI()
-                3 -> iraqiMealsUI()
-                4 -> easyFoodSuggestionUI()
-                5 -> guessGameUI()
-                6 -> sweetsWithNoEggUI()
-                7 -> ketoDietMealHelperUI()
-                8 -> searchMealsByDateUI()
-                9 -> gymHelperUI()
-                10 -> searchMealByCountryUI()
-                11 -> ingredientGameUI()
-                12 -> iLovePotatoUI()
-                13 -> highCaloriesMealsUI()
-                14 -> getSeaFoodMealsUI()
-                15 -> findItalianMealsForLargeGroupsUI()
-                16 -> {
-                    consoleIO.write("\n👋 See you soon. Stay healthy!")
-                    exitProcess(0)
-                }
+            goToScreen()
+            if (stopImminently)
+                break
+        }
+    }
 
-                else -> consoleIO.write("\n❌ Invalid input. Please enter a number between 1 and 16.")
+    fun goToScreen() {
+        val input = consoleIO.read().toIntOrNull()
+        when (input) {
+            1 -> healthyFastFoodMealsUI()
+            2 -> searchMealByNameUI()
+            3 -> iraqiMealsUI()
+            4 -> easyFoodSuggestionUI()
+            5 -> guessGameUI()
+            6 -> sweetsWithNoEggUI()
+            7 -> ketoDietMealHelperUI()
+            8 -> searchMealsByDateUI()
+            9 -> gymHelperUI()
+            10 -> searchMealByCountryUI()
+            11 -> ingredientGameUI()
+            12 -> iLovePotatoUI()
+            13 -> highCaloriesMealsUI()
+            14 -> getSeaFoodMealsUI()
+            15 -> findItalianMealsForLargeGroupsUI()
+            16 -> {
+                consoleIO.write("\n👋 See you soon. Stay healthy!")
+                exitProcess(0)
             }
+
+            else -> consoleIO.write("\n❌ Invalid input. Please enter a number between 1 and 16.")
         }
     }
 

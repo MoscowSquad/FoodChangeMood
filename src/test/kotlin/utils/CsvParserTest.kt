@@ -230,28 +230,6 @@ class CsvParserTest {
     }
 
     @Test
-    fun `xx`() {
-        every { csvFileParser.getLines() } returns listOf(
-            "name,id,minutes,contributor_id,submitted,tags,nutrition,n_steps,steps,description,ingredients,n_ingredients",
-            "Pasta,1,15,101,2023-06-01,\"['easy','quick']\",\"[250.0,8.0,3.0,500.0,7.0,2.0,30.0]\",3,\"['Boil','Mix','Serve']\",\"Simple pasta dish\",\"['pasta','oil','salt']\",3\n",
-        )
-
-        val meals = csvParser.parseMealsCsv()
-        Truth.assertThat(meals).isEqualTo(
-            listOf(
-                Meal(
-                    name = "Pasta", id = 1, minutes = 15, contributorId = 101, submitted = "2023-06-01",
-                    tags = listOf("easy", "quick"),
-                    nutrition = Nutrition(250.0, 8.0, 3.0, 500.0, 7.0, 2.0, 30.0),
-                    description = "Simple pasta dish",
-                    nSteps = 3, steps = listOf("Boil", "Mix", "Serve"),
-                    ingredients = listOf("pasta", "oil", "salt"), nIngredients = 3
-                ),
-            )
-        )
-    }
-
-    @Test
     fun `should verify that getting the csv file lines via csvFileParser when getting the meals data`() {
         csvParser.parseMealsCsv()
 

@@ -54,7 +54,7 @@ class CsvParser(
     private fun List<String>.parseInt(index: Int): Int? {
         if (this.size <= index)
             throw Exceptions.CsvParsingException()
-        return getOrNull(index)?.toIntOrNull()
+        return getOrNull(index)?.replace("\n", "")?.toIntOrNull()
     }
 
     private fun List<String>.parseString(index: Int): String? {
