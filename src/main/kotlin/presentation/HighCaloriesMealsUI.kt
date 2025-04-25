@@ -15,7 +15,7 @@ class HighCaloriesMealsUI(
             println("Your order is ready: ")
             getHighCaloriesMealsUseCase.nextMeal().also { it.display() }
         } catch (e: Exceptions.NoMealsFoundException) {
-            consoleIO.write(e.message)
+            consoleIO.showError(e.message)
         }
     }
 }

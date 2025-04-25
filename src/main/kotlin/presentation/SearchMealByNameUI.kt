@@ -15,9 +15,9 @@ class SearchMealByNameUI(
             try {
                 searchMealByNameUseCase.search(mealName).also { it.display() }
             } catch (e: Exceptions.KeywordNotFoundException) {
-                consoleIO.write(e.message)
+                consoleIO.showError(e.message)
             } catch (e: Exceptions.EmptyKeywordException) {
-                consoleIO.write("Please enter meal name")
+                consoleIO.showError("Please enter meal name")
             }
         }
     }

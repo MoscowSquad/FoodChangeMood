@@ -11,4 +11,8 @@ class FakeConsoleIO(
     override fun write(message: String?) {
         outputs.add(message)
     }
+
+    override fun showError(message: String?) {
+        outputs.add(message)
+    }
 }
