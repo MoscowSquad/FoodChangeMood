@@ -7,13 +7,21 @@ import org.example.model.Meal
 class GetKetoDietMealUseCase(private val repository: MealRepository) {
     private val suggestedMeals = mutableSetOf<Meal>()
     private var currentMeal: Meal? = null
+    private val dislikedMeals = mutableSetOf<Meal>()
+    private var availableMeals: List<Meal> = emptyList()
+
+    init {
+        reloadMeals()
+    }
 
     // Suggest a keto meal
     fun getKetoMeal(): Meal {
         val available = repository.getAllMeals()
-        return available
-            .filter { isKetoFriendly(it) && it.notInSuggestedMeals() }
-            .randomOrNull()
+            .filter { isKetoFriendly(it) }
+            .filterNot { suggestedMeals.contains(it) }
+            .filterNot { dislikedMeals.contains(it) }
+
+        return available.randomOrNull()
             ?.also { meal ->
                 suggestedMeals.add(meal)
                 currentMeal = meal
@@ -31,14 +39,29 @@ class GetKetoDietMealUseCase(private val repository: MealRepository) {
         return currentMeal ?: throw Exceptions.NoMealsFoundException("No meal is currently suggested.")
     }
 
-    // Dislike current meal and get a new one
     fun dislikeMeal(): Meal {
-        return getKetoMeal()
+        val meal = currentMeal ?: throw Exceptions.NoMealsFoundException("No meal to dislike.")
+
+        dislikedMeals.add(meal)
+        currentMeal = null
+        reloadMeals()
+
+        return try {
+            getKetoMeal()
+        } catch (e: Exceptions.NoMealsFoundException) {
+            throw Exceptions.NoMealsFoundException("No more keto-friendly meals available after disliking current meal.")
+        }
+    }
+
+    private fun reloadMeals() {
+        availableMeals = repository.getAllMeals()
+            .filter { isKetoFriendly(it) }
+            .filterNot { dislikedMeals.contains(it) }
     }
 
     // Check if the meal is keto-friendly based on the nutritional info
     fun isKetoFriendly(meal: Meal): Boolean {
-        return (meal.nutrition?.carbohydrates ?: 0.0) < 10 &&
-                (meal.nutrition?.totalFat ?: 0.0) > (meal.nutrition?.protein ?: 0.0)
+        val nutrition = meal.nutrition ?: return false
+        return nutrition.carbohydrates!! < 10.0 && nutrition.totalFat!! > nutrition.protein!!
     }
 }
