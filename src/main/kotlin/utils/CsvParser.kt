@@ -7,19 +7,17 @@ import java.util.*
 import java.util.stream.Collectors
 
 class CsvParser(
-    private val fileName: String
+    private val file: File
 ) {
-
-    private fun getResourceFile(): File {
-        val resource = object {}.javaClass.classLoader.getResource(fileName)
-            ?: throw IllegalArgumentException("File not found: $fileName")
-        return File(resource.toURI())
+    fun parseMealsCsv(): List<Meal> {
+        val bufferedReader = file.bufferedReader()
+        val lines = bufferedReader.readLines()
+        return parseFileLinesIntoCSV(lines)
     }
 
-    fun parseMealsCsv(): List<Meal> {
-        val file = getResourceFile().bufferedReader()
-        val lines = file.readLines()
-        return lines.drop(1).parallelStream()
+    private fun parseFileLinesIntoCSV(lines: List<String>): List<Meal> {
+        return lines.drop(1)
+            .parallelStream()
             .map { line -> parseLine(line) }
             .filter(Objects::nonNull)
             .map { it!! }
@@ -28,42 +26,21 @@ class CsvParser(
 
     private fun parseLine(line: String): Meal? {
         return try {
-            val parts = line.split(csvSplitRegex)
+            val parts = line.split(CSV_SPLIT_REGEX.toRegex())
 
             val name = parts.getOrNull(MealTokens.NAME)?.ifBlank { null }
             val id = parts.getOrNull(MealTokens.ID)?.toIntOrNull()
             val minutes = parts.getOrNull(MealTokens.MINUTES)?.toIntOrNull()
             val contributorId = parts.getOrNull(MealTokens.CONTRIBUTOR_ID)?.toIntOrNull()
             val submitted = parts.getOrNull(MealTokens.SUBMITTED)?.ifBlank { null }
-
-            val tags = parts.getOrNull(MealTokens.TAGS)?.removeSurrounding("[", "]")
-                ?.split(",")?.map { it.trim().removeSurrounding("'") }?.takeIf { it.isNotEmpty() }
-
-            val nutrition = parts.getOrNull(MealTokens.NUTRITION)
-                ?.removeSurrounding("\"[", "]\"")
-                ?.split(",")?.map { it.trim().toDoubleOrNull() }
-                ?.let {
-                    Nutrition(
-                        calories = it.getOrNull(NutritionTokens.CALORIES),
-                        totalFat = it.getOrNull(NutritionTokens.TOTAL_FAT),
-                        sugar = it.getOrNull(NutritionTokens.SUGAR),
-                        sodium = it.getOrNull(NutritionTokens.SODIUM),
-                        protein = it.getOrNull(NutritionTokens.PROTEIN),
-                        saturatedFat = it.getOrNull(NutritionTokens.SATURATED_FAT),
-                        carbohydrates = it.getOrNull(NutritionTokens.CARBOHYDRATES)
-                    )
-                }
-
             val nSteps = parts.getOrNull(MealTokens.N_STEPS)?.toIntOrNull()
-            val steps = parts.getOrNull(MealTokens.STEPS)?.removeSurrounding("[", "]")
-                ?.split(",")?.map { it.trim().removeSurrounding("'") }
-
             val description = parts.getOrNull(MealTokens.DESCRIPTION)?.ifBlank { null }
-
-            val ingredients = parts.getOrNull(MealTokens.INGREDIENTS)?.removeSurrounding("[", "]")
-                ?.split(",")?.map { it.trim().removeSurrounding("'") }?.takeIf { it.isNotEmpty() }
-
             val nIngredients = parts.getOrNull(MealTokens.N_INGREDIENTS)?.toIntOrNull()
+
+            val nutrition = parseNutrition(parts)
+            val tags = parseTags(parts)
+            val steps = parseSteps(parts)
+            val ingredients = parseIngredients(parts)
 
             Meal(
                 name, id, minutes, contributorId, submitted,
@@ -74,8 +51,40 @@ class CsvParser(
         }
     }
 
+    private fun parseIngredients(parts: List<String>): List<String>? {
+        return parts.getOrNull(MealTokens.INGREDIENTS)?.removeSurrounding("[", "]")
+            ?.split(",")?.map { it.trim().removeSurrounding("'") }?.takeIf { it.isNotEmpty() }
+    }
+
+    private fun parseSteps(parts: List<String>): List<String>? {
+        return parts.getOrNull(MealTokens.STEPS)?.removeSurrounding("[", "]")
+            ?.split(",")?.map { it.trim().removeSurrounding("'") }
+    }
+
+    private fun parseNutrition(parts: List<String>): Nutrition? {
+        return parts.getOrNull(MealTokens.NUTRITION)
+            ?.removeSurrounding("\"[", "]\"")
+            ?.split(",")?.map { it.trim().toDoubleOrNull() }
+            ?.let {
+                Nutrition(
+                    calories = it.getOrNull(NutritionTokens.CALORIES),
+                    totalFat = it.getOrNull(NutritionTokens.TOTAL_FAT),
+                    sugar = it.getOrNull(NutritionTokens.SUGAR),
+                    sodium = it.getOrNull(NutritionTokens.SODIUM),
+                    protein = it.getOrNull(NutritionTokens.PROTEIN),
+                    saturatedFat = it.getOrNull(NutritionTokens.SATURATED_FAT),
+                    carbohydrates = it.getOrNull(NutritionTokens.CARBOHYDRATES)
+                )
+            }
+    }
+
+    private fun parseTags(parts: List<String>): List<String>? {
+        return parts.getOrNull(MealTokens.TAGS)?.removeSurrounding("[", "]")
+            ?.split(",")?.map { it.trim().removeSurrounding("'") }?.takeIf { it.isNotEmpty() }
+    }
+
     companion object {
-        private val csvSplitRegex = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)".toRegex()
+        private const val CSV_SPLIT_REGEX = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)"
     }
 
 }
