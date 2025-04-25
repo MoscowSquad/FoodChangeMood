@@ -24,9 +24,6 @@ class GymHelperController(private val useCase: GetGymMealsUseCase) {
             throw Exceptions.InvalidInputException("Please enter valid numbers for calories and protein.")
         }
 
-        val meals = useCase.findMatchingMeals(request)
-        if (meals.isEmpty()) throw Exceptions.NoMealsFoundException()
-
-        return meals
+        return useCase(request)
     }
 }
