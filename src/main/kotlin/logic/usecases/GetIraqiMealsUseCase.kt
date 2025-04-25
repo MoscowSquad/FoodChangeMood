@@ -1,6 +1,7 @@
 package org.example.logic.usecases
 
 import org.example.logic.repository.MealRepository
+import org.example.model.Exceptions
 import org.example.model.Meal
 
 class GetIraqiMealsUseCase(
@@ -9,6 +10,8 @@ class GetIraqiMealsUseCase(
     fun getIraqiMeals(): List<Meal> {
         return repository.getAllMeals()
             .filter(::byIraqi)
+            .takeIf { it.isNotEmpty() }
+            ?: throw Exceptions.NoMealsFoundException()
     }
 
     private fun byIraqi(meal: Meal): Boolean {
