@@ -4,7 +4,7 @@ import org.example.presentation.io.ConsoleIO
 import java.util.*
 
 class FakeConsoleIO(
-    private val inputs: Queue<String>,
+    val inputs: Queue<String>,
     val outputs: MutableList<String?> = mutableListOf()
 ) : ConsoleIO {
     override fun read(): String = inputs.poll()
