@@ -1,7 +1,7 @@
 package presentation
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
+import io.mockk.verifySequence
 import logic.usecases.createMeal
 import org.example.logic.usecases.FindItalianMealsForLargeGroupsUseCase
 import org.example.presentation.FindItalianMealsForLargeGroupsUI
@@ -28,12 +28,14 @@ class FindItalianMealsForLargeGroupsUITest {
 
         ui.invoke()
 
-        verify { consoleIO.write("\nFinding Italian meals suitable for large groups...") }
-        verify { consoleIO.write("No Italian meals for large groups found.") }
+        verifySequence {
+            consoleIO.write("\nFinding Italian meals suitable for large groups...")
+            consoleIO.write("No Italian meals for large groups found.")
+        }
     }
 
     @Test
-    fun `should display Italian meals and total count when meals are found`() {
+    fun `should display Itallian meals and total count when meals are found`() {
         val meals = listOf(
             createMeal(name = "Spaghetti Bolognese", tags = listOf("italian"), nIngredients = 12),
             createMeal(name = "Lasagna", tags = listOf("italian"), nIngredients = 15)
@@ -41,9 +43,10 @@ class FindItalianMealsForLargeGroupsUITest {
         every { findItalianMealsForLargeGroupsUseCase.invoke() } returns meals
 
         ui.invoke()
-
-        verify { consoleIO.write("\nFinding Italian meals suitable for large groups...") }
-        verify { consoleIO.write("\nItalian Meals for Large Groups:") }
-        verify { consoleIO.write("\nTotal Italian meals for large groups found: ${meals.size}") }
+        verifySequence {
+            consoleIO.write("\nFinding Italian meals suitable for large groups...")
+            consoleIO.write("\nItalian Meals for Large Groups:")
+            consoleIO.write("\nTotal Italian meals for large groups found: ${meals.size}")
+        }
     }
 }
