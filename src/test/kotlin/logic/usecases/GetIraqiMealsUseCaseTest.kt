@@ -38,7 +38,7 @@ class GetIraqiMealsUseCaseTest {
         val iraqiMeals = getIraqiMealsUseCase.getIraqiMeals()
         val ids: List<Int?> = iraqiMeals.map { it.id }
         //then
-        Truth.assertThat(ids).isAnyOf(1, 4)
+        Truth.assertThat(ids).isEqualTo(listOf(1,4))
     }
 
     @Test
@@ -57,10 +57,10 @@ class GetIraqiMealsUseCaseTest {
     }
 
     @Test
-    fun `should return iraqi meal when description contain iraqi word `() {
+    fun `should return iraqi meal when description contain iraq word `() {
         //given
         every { mealRepository.getAllMeals() } returns listOf(
-            createMeal(id = 0, description = "iraq restuarant has many types of foods like dulma and rice and soup"),
+            createMeal(id = 0, description = "iraq restaurant has many types of foods like briani and rice and soup"),
             createMeal(id = 1, description = "all arab country have food rice and soup as common eat "),
             createMeal(id = 2, description = "every person in arab country like food of his country"),
             createMeal(id = 3, description = "people in iraq love food that contain fat"),
@@ -72,7 +72,7 @@ class GetIraqiMealsUseCaseTest {
         val iraqiMeals = getIraqiMealsUseCase.getIraqiMeals()
         val ids: List<Int?> = iraqiMeals.map { it.id }
         //then
-        Truth.assertThat(ids).isAnyOf(0, 3, 4)
+        Truth.assertThat(ids).isEqualTo(listOf(0,3,4))
     }
 
     @Test

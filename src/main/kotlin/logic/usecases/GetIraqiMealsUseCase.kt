@@ -10,7 +10,7 @@ class GetIraqiMealsUseCase(
     fun getIraqiMeals(): List<Meal> {
         return repository.getAllMeals()
             .filter(::byIraqi)
-            .takeIf { it.isEmpty() }
+            .takeIf { it.isNotEmpty() }
             ?: throw Exceptions.NoMealsFoundException()
     }
 
