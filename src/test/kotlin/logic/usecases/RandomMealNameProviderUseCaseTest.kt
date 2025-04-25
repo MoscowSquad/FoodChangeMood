@@ -20,23 +20,8 @@ class RandomMealNameProviderUseCaseTest {
     fun setUp() {
         useCase = RandomMealNameProviderUseCase(mockMealRepository)
     }
-    @Test
-    fun `getRandomMeal should filter out meals with blank names`() {
-        // Given
-        val testMeals = listOf(
-            createMeal("", 30),
-            createMeal("  ", 20),
-            createMeal("Burger", 15)
-        )
-        every { mockMealRepository.getAllMeals() } returns testMeals
 
-        // When
-        val result = useCase.getRandomMeal()
-
-        // Then
-        assertEquals("Burger", result.name)
-    }
-    // Test for getRandomMeal()
+    // getRandomMeal() tests
     @Test
     fun `getRandomMeal should return valid meal when repository has meals`() {
         // Given
@@ -80,11 +65,42 @@ class RandomMealNameProviderUseCaseTest {
         assertEquals("Burger", result.name)
     }
 
+    @Test
+    fun `getRandomMeal should filter out meals with blank names`() {
+        // Given
+        val testMeals = listOf(
+            createMeal("", 30),
+            createMeal("  ", 20),
+            createMeal("Burger", 15)
+        )
+        every { mockMealRepository.getAllMeals() } returns testMeals
+
+        // When
+        val result = useCase.getRandomMeal()
+
+        // Then
+        assertEquals("Burger", result.name)
+    }
+
 
     @Test
-    fun `isSuggestRight should return false when minutes dont match`() {
+    fun `isSuggestRight should return false when minutes don't match`() {
         // Given
-        val testMeal = createMeal("Steak", 25)
+        val testMeal = createMeal("Pizza", 30)
+        every { mockMealRepository.getAllMeals() } returns listOf(testMeal)
+        useCase.getRandomMeal()
+
+        // When
+        val result = useCase.isSuggestRight(45)
+
+        // Then
+        assertFalse(result, "Expected false when minutes don't match")
+    }
+
+    @Test
+    fun `isSuggestRight should return true when minutes match`() {
+        // Given
+        val testMeal = createMeal("Pizza", 30)
         every { mockMealRepository.getAllMeals() } returns listOf(testMeal)
         useCase.getRandomMeal()
 
@@ -92,14 +108,14 @@ class RandomMealNameProviderUseCaseTest {
         val result = useCase.isSuggestRight(30)
 
         // Then
-        assertFalse(result)
+        assertFalse(result, "Expected true when minutes  match")
     }
 
     @Test
-    fun `isSuggestRight should throw when no meal is selected`() {
-        // When & Then
+    fun `isSuggestRight should throw when meal is null`() {
+        // When & Then (no meal set up)
         assertThrows<Exceptions.NoMealsFoundException> {
-            useCase.isSuggestRight(10)
+            useCase.isSuggestRight(15)
         }
     }
 
