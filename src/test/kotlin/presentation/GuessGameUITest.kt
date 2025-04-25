@@ -21,6 +21,23 @@ class GuessGameUITest {
   consoleIO = FakeConsoleIO(LinkedList())
   guessGameUI = GuessGameUI(mockRandomMealUseCase, consoleIO)
  }
+ @Test
+ fun `guessGame should catch IllegalStateException from consoleIO read`() {
+  val testMeal = createMeal("Sushi", 12)
+
+  consoleIO = object : FakeConsoleIO(LinkedList()) {
+   override fun read(): String {
+    throw IllegalStateException("Simulated input failure")
+   }
+  }
+  guessGameUI = GuessGameUI(mockRandomMealUseCase, consoleIO)
+
+  guessGameUI.guessGame(testMeal)
+
+  val output = consoleIO.outputs
+  assertEquals("Preparation time:", output[0])
+  assertEquals("Error: No input provided", output[1])
+ }
 
  @Test
  fun `invoke should display welcome and prompt for guess`() {
