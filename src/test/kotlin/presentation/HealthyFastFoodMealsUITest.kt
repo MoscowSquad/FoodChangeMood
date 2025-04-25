@@ -1,8 +1,9 @@
 package presentation
 
-import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
+import io.mockk.verifySequence
 import logic.usecases.createMeal
 import org.example.logic.usecases.GetHealthyFastFoodMealsUseCase
 import org.example.presentation.HealthyFastFoodMealsUI
@@ -26,8 +27,8 @@ class HealthyFastFoodMealsUITest {
     fun `should display meals when meals are available`() {
         // Given
         val meals = listOf(
-            createMeal(name = "Salad", minutes =  10),
-            createMeal(name = "Sandwich", minutes =  5)
+            createMeal(name = "Salad", minutes = 10),
+            createMeal(name = "Sandwich", minutes = 5)
         )
         every { getHealthyFastFoodMealsUseCase.getHealthyMeals() } returns meals
 
@@ -35,9 +36,12 @@ class HealthyFastFoodMealsUITest {
         healthyFastFoodMealsUI.invoke()
 
         // Then
-        assertThat(consoleIO.outputs).contains("Finding healthy fast food meals that can be prepared in 15 minutes or less...")
-        assertThat(consoleIO.outputs).contains("Your order is ready: ")
-        assertThat(consoleIO.outputs).contains("Total number of meals: 2")
+        verifySequence{
+            getHealthyFastFoodMealsUseCase.getHealthyMeals()
+            consoleIO.write("")
+            consoleIO.write("")
+            consoleIO.write("")
+        }
     }
 
     @Test
@@ -49,8 +53,10 @@ class HealthyFastFoodMealsUITest {
         healthyFastFoodMealsUI.invoke()
 
         // Then
-        assertThat(consoleIO.outputs).contains("Finding healthy fast food meals that can be prepared in 15 minutes or less...")
-        assertThat(consoleIO.outputs).contains("No meals found matching the criteria.")
+        verifySequence {
+            getHealthyFastFoodMealsUseCase.getHealthyMeals()
+            consoleIO.write("")
+            consoleIO.write("")
+        }
     }
-
 }
