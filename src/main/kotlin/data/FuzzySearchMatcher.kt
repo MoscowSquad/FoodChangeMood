@@ -7,8 +7,14 @@ import org.example.model.Exceptions
 import kotlin.math.min
 
 class FuzzySearchMatcher(private val threshold: Int = 2) : SearchMatcher {
-    @Throws(Exceptions.EmptyKeywordException::class)
+    @Throws(
+        Exceptions.EmptyTextException::class,
+        Exceptions.EmptyKeywordException::class,
+    )
     override fun getMatchAccuracy(text: String, keyword: String): Accuracy {
+        if (text.isEmpty())
+            throw Exceptions.EmptyTextException()
+
         if (keyword.isEmpty())
             throw Exceptions.EmptyKeywordException()
 

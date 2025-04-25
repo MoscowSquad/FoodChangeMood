@@ -1,11 +1,11 @@
-package org.example.data
+package fake
 
 import org.example.logic.repository.MealRepository
 import org.example.model.Meal
 import org.example.model.Nutrition
 
 
-class MockDataRepository : MealRepository {
+class HighCaloriesMockDataRepository : MealRepository {
     override fun getAllMeals(): List<Meal> {
         return listOf(
             Meal(
@@ -21,7 +21,7 @@ class MockDataRepository : MealRepository {
                     "dietary", "christmas", "seasonal", "squash"
                 ),
                 nutrition = Nutrition(
-                    calories = 51.5,
+                    calories = null,
                     totalFat = 0.0,
                     sugar = 13.0,
                     sodium = 0.0,
@@ -61,15 +61,7 @@ class MockDataRepository : MealRepository {
                     "pork", "american", "oven", "easy", "kid-friendly", "pizza",
                     "dietary", "northeastern-united-states", "meat", "equipment"
                 ),
-                nutrition = Nutrition(
-                    calories = 173.4,
-                    totalFat = 18.0,
-                    sugar = 0.0,
-                    sodium = 17.0,
-                    protein = 22.0,
-                    saturatedFat = 35.0,
-                    carbohydrates = 1.0
-                ),
+                nutrition = null,
                 nSteps = 9,
                 steps = listOf(
                     "preheat oven to 425 degrees f",

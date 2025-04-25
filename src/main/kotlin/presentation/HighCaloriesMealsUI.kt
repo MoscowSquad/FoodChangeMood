@@ -12,8 +12,8 @@ class HighCaloriesMealsUI(
     operator fun invoke() {
         consoleIO.write("Finding high calories meals...")
         try {
-            consoleIO.write("Your order is ready: ")
-            getHighCaloriesMealsUseCase().also { it.display() }
+            println("Your order is ready: ")
+            getHighCaloriesMealsUseCase.nextMeal().also { it.display() }
         } catch (e: Exceptions.NoMealsFoundException) {
             consoleIO.write(e.message)
         }

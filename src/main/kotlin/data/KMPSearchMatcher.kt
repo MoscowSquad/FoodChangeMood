@@ -7,7 +7,6 @@ import org.example.logic.usecases.SearchMealByNameUseCase.Companion.NOT_MATCHED
 import org.example.model.Exceptions
 
 class KMPSearchMatcher : SearchMatcher {
-    @Throws(Exceptions.EmptyKeywordException::class)
     override fun getMatchAccuracy(text: String, keyword: String): Accuracy {
         if (keyword.isEmpty())
             throw Exceptions.EmptyKeywordException()
