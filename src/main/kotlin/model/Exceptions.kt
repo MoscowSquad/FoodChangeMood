@@ -7,4 +7,5 @@ sealed class Exceptions(message: String) : Exception(message) {
     class EmptyTextException : Exception("You can't search by blank text")
     class InvalidInputException(message: String) : Exception(message)
     class NoMealsFoundException(message: String = "No meals found matching your criteria.") : Exception(message)
+    class CsvParsingException(message: String = "No meals found matching your criteria.") : Exception(message)
 }
