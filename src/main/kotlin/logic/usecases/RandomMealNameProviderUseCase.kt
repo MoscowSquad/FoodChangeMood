@@ -7,20 +7,29 @@ import org.example.model.Meal
 class RandomMealNameProviderUseCase(
     private val mealRepository: MealRepository
 ) {
-    private fun isValidMeal(meal: Meal): Boolean = !meal.name.isNullOrBlank()
-    private var meal: Meal?= null
+    private var meal: Meal? = null
+
     fun getRandomMeal(): Meal {
-        meal = mealRepository.getAllMeals()
-            .filter(::isValidMeal)
-            .randomOrNull()
-            ?: throw Exceptions.NoMealsFoundException()
-        return  meal!!
+        val validMeals = mealRepository.getAllMeals()
+            .filter { it.name?.isNotBlank() == true }
+
+        if (validMeals.isEmpty()) {
+            throw Exceptions.NoMealsFoundException()
+        }
+
+        meal = validMeals.random()
+        return meal as Meal
     }
 
     fun isSuggestRight(suggestion: Int?): Boolean {
-        if (meal == null || suggestion==null){
+
+        val currentMeal = meal ?: throw Exceptions.NoMealsFoundException()
+
+
+        if (suggestion == null) {
             throw Exceptions.NoMealsFoundException()
         }
-        return meal?.minutes == suggestion
+
+        return currentMeal.minutes == suggestion
     }
 }
