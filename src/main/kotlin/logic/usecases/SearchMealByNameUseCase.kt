@@ -1,12 +1,12 @@
 package org.example.logic.usecases
 
-import org.example.data.KMPSearchMatcher
 import org.example.logic.repository.MealRepository
+import org.example.logic.repository.SearchMatcher
 import org.example.model.Exceptions
 import org.example.model.Meal
 
 class SearchMealByNameUseCase(
-    private val matcher: KMPSearchMatcher,
+    private val matcher: SearchMatcher,
     private val repository: MealRepository
 ) {
     @Throws(
