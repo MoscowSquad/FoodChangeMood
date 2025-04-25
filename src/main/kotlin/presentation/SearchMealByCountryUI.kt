@@ -9,7 +9,7 @@ class SearchMealByCountryUI(
 ) {
     operator fun invoke() {
         print("Enter a country name to explore its food culture: ")
-        val country = readln()
+        val country = consoleIO.read()
         val meals = searchMealByCountryUseCase.searchMealsByCountry(country)
 
         if (meals.isEmpty()) {
