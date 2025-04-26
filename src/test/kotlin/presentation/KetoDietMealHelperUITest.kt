@@ -1,6 +1,5 @@
 package presentation
 
-//import org.example.utils.display
 import io.mockk.*
 import org.example.logic.usecases.GetKetoDietMealUseCase
 import org.example.model.Exceptions
@@ -47,7 +46,7 @@ class KetoDietMealHelperUITest {
         ketoDietMealHelperUI.invoke()
 
         // Assert
-        verifyOrder {
+        verify {
             consoleIO.write("Finding Keto-diet meal...")
             consoleIO.write("No keto meals available")
         }

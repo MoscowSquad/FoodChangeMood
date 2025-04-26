@@ -1,8 +1,8 @@
 package presentation
 
-import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verifySequence
 import logic.usecases.createMeal
 import org.example.logic.usecases.SearchMealByCountryUseCase
 import org.example.presentation.SearchMealByCountryUI
@@ -32,18 +32,19 @@ class SearchMealByCountryUITest {
         )
 
         every { searchMealByCountryUseCase.searchMealsByCountry("Egypt") } returns returnMeals
-
-
         consoleIO.inputs.add("Egypt")
 
         // When
         searchMealByCountryUI.invoke()
 
         // Then
-        assertThat(consoleIO.outputs).contains("Found 3 meals related to Egypt:")
-        assertThat(consoleIO.outputs).contains("1. B-laban Egypt Meal")
-        assertThat(consoleIO.outputs).contains("2. Koshary Egypt Meal")
-        assertThat(consoleIO.outputs).contains("3. qushtuta Egypt Meal")
+        verifySequence {
+            searchMealByCountryUseCase.searchMealsByCountry("Egypt")
+            consoleIO.write("Found 3 meals related to Egypt:")
+            consoleIO.write("1. B-laban Egypt Meal")
+            consoleIO.write("2. Koshary Egypt Meal")
+            consoleIO.write("3. qushtuta Egypt Meal")
+        }
     }
 
     @Test
@@ -60,8 +61,11 @@ class SearchMealByCountryUITest {
         searchMealByCountryUI.invoke()
 
         // Then
-        assertThat(consoleIO.outputs).contains("Found 1 meals related to Egypt:")
-        assertThat(consoleIO.outputs).contains("1. Koshary Egypt Meal")
+        verifySequence {
+            searchMealByCountryUseCase.searchMealsByCountry("Egypt")
+            consoleIO.write("Found 1 meals related to Egypt:")
+            consoleIO.write("1. Koshary Egypt Meal")
+        }
     }
 
     @Test
@@ -78,8 +82,11 @@ class SearchMealByCountryUITest {
         searchMealByCountryUI.invoke()
 
         // Then
-        assertThat(consoleIO.outputs).contains("Found 1 meals related to Egypt:")
-        assertThat(consoleIO.outputs).contains("1. Koshary Egypt Meal")
+        verifySequence {
+            searchMealByCountryUseCase.searchMealsByCountry("Egypt")
+            consoleIO.write("Found 1 meals related to Egypt:")
+            consoleIO.write("1. Koshary Egypt Meal")
+        }
     }
 
     @Test
@@ -96,8 +103,11 @@ class SearchMealByCountryUITest {
         searchMealByCountryUI.invoke()
 
         // Then
-        assertThat(consoleIO.outputs).contains("Found 1 meals related to Egypt:")
-        assertThat(consoleIO.outputs).contains("1. Koshary Meal")
+        verifySequence {
+            searchMealByCountryUseCase.searchMealsByCountry("Egypt")
+            consoleIO.write("Found 1 meals related to Egypt:")
+            consoleIO.write("1. Koshary Meal")
+        }
     }
 
     @Test
@@ -114,8 +124,11 @@ class SearchMealByCountryUITest {
         searchMealByCountryUI.invoke()
 
         // Then
-        assertThat(consoleIO.outputs).contains("Found 1 meals related to Egypt:")
-        assertThat(consoleIO.outputs).contains("1. Koshary Meal")
+        verifySequence {
+            searchMealByCountryUseCase.searchMealsByCountry("Egypt")
+            consoleIO.write("Found 1 meals related to Egypt:")
+            consoleIO.write("1. Koshary Meal")
+        }
     }
 
     @Test
@@ -128,7 +141,10 @@ class SearchMealByCountryUITest {
         searchMealByCountryUI.invoke()
 
         // Then
-        assertThat(consoleIO.outputs).contains("No meals found for Egypt")
+        verifySequence {
+            searchMealByCountryUseCase.searchMealsByCountry("Egypt")
+            consoleIO.write("No meals found for Egypt")
+        }
     }
 
 }

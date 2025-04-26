@@ -2,11 +2,11 @@ package presentation
 
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verifySequence
 import logic.usecases.createMeal
 import org.example.logic.usecases.GetRandomMealsHavePotatoesUseCase
 import org.example.model.Exceptions
 import org.example.presentation.ILovePotatoUI
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.*
@@ -35,13 +35,12 @@ class ILovePotatoUITest {
         iLovePotatoUI()
 
         // Then
-        assertEquals(
-            listOf(
-                "\uD83E\uDD54 -- I LOVE POTATO -- \uD83E\uDD54",
-                "Here are some tasty meals with potatoes:",
-                "Total shown: 10"
-            ), consoleIO.outputs.toList()
-        )
+        verifySequence {
+            getRandomMealsHavePotatoesUseCase.invoke()
+            consoleIO.write("\uD83E\uDD54 -- I LOVE POTATO -- \uD83E\uDD54")
+            consoleIO.write("Here are some tasty meals with potatoes:")
+            consoleIO.write("Total shown: 10")
+        }
     }
 
     @Test
@@ -54,11 +53,11 @@ class ILovePotatoUITest {
         iLovePotatoUI()
 
         // Then
-        assertEquals(
-            listOf(
-                "\uD83E\uDD54 -- I LOVE POTATO -- \uD83E\uDD54",
-                "No meals found with potatoes."
-            ), consoleIO.outputs.toList()
-        )
+        verifySequence {
+            getRandomMealsHavePotatoesUseCase.invoke()
+            consoleIO.write("\uD83E\uDD54 -- I LOVE POTATO -- \uD83E\uDD54")
+            consoleIO.write("No meals found with potatoes.")
+
+        }
     }
 }

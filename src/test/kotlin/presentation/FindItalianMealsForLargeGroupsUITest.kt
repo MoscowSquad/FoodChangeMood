@@ -13,20 +13,20 @@ class FindItalianMealsForLargeGroupsUITest {
 
     private lateinit var findItalianMealsForLargeGroupsUseCase: FindItalianMealsForLargeGroupsUseCase
     private lateinit var consoleIO: ConsoleIO
-    private lateinit var ui: FindItalianMealsForLargeGroupsUI
+    private lateinit var findItalianMealsForLargeGroupsUITest: FindItalianMealsForLargeGroupsUI
 
     @BeforeEach
     fun setUp() {
         findItalianMealsForLargeGroupsUseCase = mockk()
         consoleIO = mockk(relaxed = true)
-        ui = FindItalianMealsForLargeGroupsUI(findItalianMealsForLargeGroupsUseCase, consoleIO)
+        findItalianMealsForLargeGroupsUITest = FindItalianMealsForLargeGroupsUI(findItalianMealsForLargeGroupsUseCase, consoleIO)
     }
 
     @Test
     fun `should display message when no Italian meals found`() {
         every { findItalianMealsForLargeGroupsUseCase.invoke() } returns emptyList()
 
-        ui.invoke()
+        findItalianMealsForLargeGroupsUITest.invoke()
 
         verifySequence {
             consoleIO.write("\nFinding Italian meals suitable for large groups...")
@@ -42,7 +42,7 @@ class FindItalianMealsForLargeGroupsUITest {
         )
         every { findItalianMealsForLargeGroupsUseCase.invoke() } returns meals
 
-        ui.invoke()
+        findItalianMealsForLargeGroupsUITest.invoke()
         verifySequence {
             consoleIO.write("\nFinding Italian meals suitable for large groups...")
             consoleIO.write("\nItalian Meals for Large Groups:")

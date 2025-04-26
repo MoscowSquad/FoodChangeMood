@@ -1,41 +1,39 @@
 package presentation
 
-import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
+import io.mockk.verifySequence
 import logic.usecases.createMeal
 import org.example.logic.usecases.GetMealByIdUseCase
 import org.example.logic.usecases.GetMealsByDateUseCase
 import org.example.presentation.SearchMealsByDateUI
+import org.example.presentation.io.ConsoleIO
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.util.*
 
 class SearchMealsByDateUITest {
     private lateinit var getMealsByDateUseCase: GetMealsByDateUseCase
     private lateinit var getMealByIdUseCase: GetMealByIdUseCase
-    private lateinit var consoleIO: FakeConsoleIO
+    private lateinit var consoleIO: ConsoleIO
     private lateinit var searchMealsByDateUI: SearchMealsByDateUI
 
     @BeforeEach
     fun setup() {
         getMealsByDateUseCase = mockk()
         getMealByIdUseCase = mockk()
-        consoleIO = FakeConsoleIO(LinkedList())
+        consoleIO = mockk(relaxed = true)
         searchMealsByDateUI = SearchMealsByDateUI(getMealsByDateUseCase, getMealByIdUseCase, consoleIO)
-
     }
 
     @Test
     fun `should return meals matching with date`() {
         // Given
-
         val dateInput = "2006-05-04"
         val mealIdInput = "12345"
-        consoleIO.inputs.add(dateInput)
-        consoleIO.inputs.add(mealIdInput)
-
         val trueMeal = createMeal(id = 12345, name = "Burrito", submitted = "2006-05-04")
+
+        every { consoleIO.read() } returnsMany listOf(dateInput, mealIdInput)
         every { getMealsByDateUseCase.getMealsByDate(dateInput) } returns listOf(trueMeal)
         every { getMealByIdUseCase.getMealById(12345) } returns trueMeal
 
@@ -43,8 +41,14 @@ class SearchMealsByDateUITest {
         searchMealsByDateUI.invoke()
 
         // Then
-        assertThat(consoleIO.outputs).contains("\nMeals found:")
-        assertThat(consoleIO.outputs).contains("ID: 12345, Name: Burrito")
+        verifySequence {
+            consoleIO.read()
+            getMealsByDateUseCase.getMealsByDate(dateInput)
+            consoleIO.write("\nMeals found:")
+            consoleIO.write("ID: 12345, Name: Burrito")
+            consoleIO.read()
+            getMealByIdUseCase.getMealById(12345)
+        }
     }
 
     @Test
@@ -52,16 +56,18 @@ class SearchMealsByDateUITest {
         // Given
         val dateInput = "2006-05-04"
 
-        consoleIO.inputs.add(dateInput)
-
+        every { consoleIO.read() } returns dateInput
         every { getMealsByDateUseCase.getMealsByDate(dateInput) } returns emptyList()
-
 
         // When
         searchMealsByDateUI.invoke()
 
         // Then
-        assertThat(consoleIO.outputs).contains("No meals found for the selected date.")
+        verifySequence {
+            consoleIO.read()
+            getMealsByDateUseCase.getMealsByDate(dateInput)
+            consoleIO.write("No meals found for the selected date.")
+        }
     }
 
     @Test
@@ -69,16 +75,15 @@ class SearchMealsByDateUITest {
         // Given
         val dateInput = "20060504"
 
-        consoleIO.inputs.add(dateInput)
-
-        every { getMealsByDateUseCase.getMealsByDate("2006-05-04") } returns emptyList()
-
+        every { consoleIO.read() } returns dateInput
 
         // When
         searchMealsByDateUI.invoke()
 
         // Then
-        assertThat(consoleIO.outputs).contains("Invalid date format. Please use yyyy-MM-dd.")
+        verify {
+            consoleIO.write("Invalid date format. Please use yyyy-MM-dd.")
+        }
     }
 
     @Test
@@ -86,18 +91,22 @@ class SearchMealsByDateUITest {
         // Given
         val dateInput = "2006-05-04"
         val invalidIdInput = "abc"
-
-        consoleIO = FakeConsoleIO(inputs = LinkedList(listOf(dateInput, invalidIdInput)))
-        searchMealsByDateUI = SearchMealsByDateUI(getMealsByDateUseCase, getMealByIdUseCase, consoleIO)
-
         val trueMeal = createMeal(id = 12345, name = "Burrito", submitted = dateInput)
+
+        every { consoleIO.read() } returnsMany listOf(dateInput, invalidIdInput)
         every { getMealsByDateUseCase.getMealsByDate(dateInput) } returns listOf(trueMeal)
 
         // When
         searchMealsByDateUI.invoke()
 
         // Then
-        assertThat(consoleIO.outputs).contains("Invalid ID format. Please enter a number.")
+        verifySequence {
+            consoleIO.read()
+            getMealsByDateUseCase.getMealsByDate(dateInput)
+            consoleIO.write("\nMeals found:")
+            consoleIO.write("ID: 12345, Name: Burrito")
+            consoleIO.read()
+            consoleIO.write("Invalid ID format. Please enter a number.")
+        }
     }
-
 }
