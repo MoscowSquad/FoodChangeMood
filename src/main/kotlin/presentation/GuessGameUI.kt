@@ -1,8 +1,9 @@
 package org.example.presentation
-
 import org.example.logic.usecases.RandomMealNameProviderUseCase
 import org.example.model.Meal
 import org.example.presentation.io.ConsoleIO
+
+
 
 class GuessGameUI(
     private val randomMealNameUseCase: RandomMealNameProviderUseCase,
@@ -18,13 +19,11 @@ class GuessGameUI(
             consoleIO.write("Error: ${e.message}")
         }
     }
-
     fun guessGame(meal: Meal, time: Int = 0) {
         if (time == 3) {
             consoleIO.write("later")
             return
         }
-
         consoleIO.write("Preparation time:")
         val suggestion = try {
             consoleIO.read()
@@ -32,7 +31,6 @@ class GuessGameUI(
             consoleIO.write("Error: No input provided")
             return
         }
-
         try {
             if (randomMealNameUseCase.isSuggestRight(suggestion.toIntOrNull())) {
                 consoleIO.write("You are correct")

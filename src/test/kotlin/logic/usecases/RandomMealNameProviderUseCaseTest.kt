@@ -132,4 +132,88 @@ class RandomMealNameProviderUseCaseTest {
         }
     }
 
+    @Test
+    fun `getRandomMeal should throw NoMealsFoundException when meal is null`() {
+        // Given
+        val testMeals = listOf(
+            createMeal(null, 30),
+            createMeal("", 20)
+        )
+        every { mockMealRepository.getAllMeals() } returns testMeals
+
+        // When & Then
+        assertThrows<Exceptions.NoMealsFoundException> {
+            useCase.getRandomMeal()
+        }
+    }
+
+
+    @Test
+    fun `getRandomMeal should return valid meal when repository has valid meals`() {
+        // Given
+        val testMeals = listOf(
+            createMeal("Pizza", 30),
+            createMeal("Pasta", 15)
+        )
+        every { mockMealRepository.getAllMeals() } returns testMeals
+
+        // When
+        val result = useCase.getRandomMeal()
+
+        // Then
+        assert(result.name == "Pizza" || result.name == "Pasta")
+    }
+    @Test
+    fun `isSuggestRight should throw NoMealsFoundException when meal is null`() {
+        // When & Then
+        assertThrows<Exceptions.NoMealsFoundException> {
+            useCase.isSuggestRight(15)
+        }
+    }
+
+    @Test
+    fun `getRandomMeal should throw NoMealsFoundException when no valid meal exists`() {
+        // Given
+        val testMeals = listOf(
+            createMeal(null, 30),
+            createMeal("", 20)
+        )
+        every { mockMealRepository.getAllMeals() } returns testMeals
+
+        // When & Then
+        assertThrows<Exceptions.NoMealsFoundException> {
+            useCase.getRandomMeal()  //
+        }
+    }
+
+    @Test
+    fun `getRandomMeal should throw NoMealsFoundException when repository is empty`() {
+        // Given
+        every { mockMealRepository.getAllMeals() } returns emptyList()
+
+        // When & Then
+        assertThrows<Exceptions.NoMealsFoundException> {
+            useCase.getRandomMeal()
+        }
+    }
+    @Test
+    fun `isSuggestRight should return false when suggestion is incorrect`() {
+        // Given
+        val testMeal = createMeal("Pizza", 30)
+        every { mockMealRepository.getAllMeals() } returns listOf(testMeal)
+        useCase.getRandomMeal()
+
+        // When
+        val result = useCase.isSuggestRight(20)
+
+        // Then
+        assertFalse(result)
+    }
+    @Test
+    fun `test`(){
+        val testMeal = createMeal("Pizza", 30)
+        every { mockMealRepository.getAllMeals() } returns listOf(testMeal)
+
+    }
+
 }
