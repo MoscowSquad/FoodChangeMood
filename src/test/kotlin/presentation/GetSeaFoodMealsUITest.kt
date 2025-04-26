@@ -2,106 +2,96 @@ package presentation
 
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verifySequence
 import logic.usecases.createMeal
 import org.example.logic.usecases.GetSeafoodByProteinContentUseCase
 import org.example.model.Exceptions
-import org.example.model.Nutrition
 import org.example.presentation.GetSeaFoodMealsUI
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.*
-import kotlin.test.assertEquals
+
 
 class GetSeaFoodMealsUITest {
-    private val mockUseCase: GetSeafoodByProteinContentUseCase = mockk()
+    private lateinit var getSeafoodByProteinContentUseCase: GetSeafoodByProteinContentUseCase
     private lateinit var consoleIO: FakeConsoleIO
-    private lateinit var ui: GetSeaFoodMealsUI
+    private lateinit var getSeaFoodMealsUITest: GetSeaFoodMealsUI
 
     @BeforeEach
     fun setUp() {
+        getSeafoodByProteinContentUseCase= mockk(relaxed = true)
         consoleIO = FakeConsoleIO(LinkedList())
-        ui = GetSeaFoodMealsUI(mockUseCase, consoleIO)
+        getSeaFoodMealsUITest = GetSeaFoodMealsUI(getSeafoodByProteinContentUseCase, consoleIO)
     }
 
     @Test
     fun `invoke should handle empty seafood meals list`() {
         // Given
-        every { mockUseCase.getSeafoodMealsByProteinContent() } returns emptyList()
+        every { getSeafoodByProteinContentUseCase.getSeafoodMealsByProteinContent() } returns emptyList()
 
         // When
-        ui.invoke()
+        getSeaFoodMealsUITest.invoke()
 
         // Then
-        val output = consoleIO.outputs
-        assertEquals(2, output.size)
-        assertEquals("Finding all seafood meals sorted by protein content...", output[0])
-        assertEquals("Your order is ready: ", output[1])
+        verifySequence {
+            consoleIO.write("Finding all seafood meals sorted by protein content...")
+            getSeafoodByProteinContentUseCase.getSeafoodMealsByProteinContent()
+            consoleIO.write("Your order is ready: ")
+        }
     }
 
     @Test
     fun `invoke should display error message when no meals found`() {
         // Given
         val errorMessage = "No seafood meals available"
-        every { mockUseCase.getSeafoodMealsByProteinContent() } throws
+        every { getSeafoodByProteinContentUseCase.getSeafoodMealsByProteinContent() } throws
                 Exceptions.NoMealsFoundException(errorMessage)
 
         // When
-        ui.invoke()
+        getSeaFoodMealsUITest.invoke()
 
         // Then
-        val output = consoleIO.outputs
-        assertEquals(3, output.size)
-        assertEquals("Finding all seafood meals sorted by protein content...", output[0])
-        assertEquals(errorMessage, output[2])
+        verifySequence {
+            consoleIO.write("Finding all seafood meals sorted by protein content...")
+            getSeafoodByProteinContentUseCase.getSeafoodMealsByProteinContent()
+            consoleIO.write("Your order is ready: ")
+            consoleIO.write(errorMessage)
+        }
     }
 
     @Test
     fun `invoke should maintain proper message sequence`() {
         // Given
-        every { mockUseCase.getSeafoodMealsByProteinContent() } returns emptyList()
+        every { getSeafoodByProteinContentUseCase.getSeafoodMealsByProteinContent() } returns emptyList()
 
         // When
-        ui.invoke()
+        getSeaFoodMealsUITest.invoke()
 
         // Then
-        val output = consoleIO.outputs
-        assertEquals(2, output.size)
-        assertEquals("Finding all seafood meals sorted by protein content...", output[0])
-        assertEquals("Your order is ready: ", output[1])
+        verifySequence {
+            consoleIO.write("Finding all seafood meals sorted by protein content...")
+            getSeafoodByProteinContentUseCase.getSeafoodMealsByProteinContent()
+            consoleIO.write("Your order is ready: ")
+        }
     }
 
     @Test
-    fun `invoke should catch IllegalStateException from consoleIO write`() {
+    fun `invoke should display seafood meals sorted by protein content`() {
         // Given
         val testMeals = listOf(createMeal("Salmon", nutrition = logic.usecases.createNutrition(protein = 25.0)))
-        every { mockUseCase.getSeafoodMealsByProteinContent() } returns testMeals
-
-        ui = GetSeaFoodMealsUI(mockUseCase, consoleIO)
+        every { getSeafoodByProteinContentUseCase.getSeafoodMealsByProteinContent() } returns testMeals
 
         // When
-        ui.invoke()
+        getSeaFoodMealsUITest.invoke()
 
         // Then
-        val output = consoleIO.outputs
-        assertEquals(2, output.size)
-        assertEquals("Finding all seafood meals sorted by protein content...", output[0])
+        verifySequence {
+            consoleIO.write("Finding all seafood meals sorted by protein content...")
+            getSeafoodByProteinContentUseCase.getSeafoodMealsByProteinContent()
+            consoleIO.write("Your order is ready: ")
+            // The meals would be displayed here, typically via an extension function
+            consoleIO.write("Total number of meals: ${testMeals.size}")
+        }
     }
 }
 
-fun createNutrition(
-    calories: Double? = null,
-    totalFat: Double? = null,
-    sugar: Double? = null,
-    sodium: Double? = null,
-    protein: Double? = null,
-    saturatedFat: Double? = null,
-    carbohydrates: Double? = null,
-) = Nutrition(
-    calories = calories,
-    totalFat = totalFat,
-    sugar = sugar,
-    sodium = sodium,
-    protein = protein,
-    saturatedFat = saturatedFat,
-    carbohydrates = carbohydrates,
-)
