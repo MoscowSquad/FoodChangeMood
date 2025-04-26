@@ -1,52 +1,58 @@
 package presentation
 
-import com.google.common.truth.Truth
-import io.mockk.every
-import io.mockk.mockk
+import io.mockk.*
 import logic.usecases.acceptedMeals
 import org.example.logic.usecases.EasyFoodSuggestionUseCase
 import org.example.presentation.EasyFoodSuggestionUI
+import org.example.presentation.io.ConsoleIO
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import java.util.*
 
 class EasyFoodSuggestionUITest {
-    lateinit var easyFoodSuggestionUI: EasyFoodSuggestionUI
-    lateinit var easyFoodSuggestionUseCase: EasyFoodSuggestionUseCase
-    lateinit var consoleIO: FakeConsoleIO
+    private lateinit var easyFoodSuggestionUI: EasyFoodSuggestionUI
+    private lateinit var easyFoodSuggestionUseCase: EasyFoodSuggestionUseCase
+    private lateinit var consoleIO: ConsoleIO
 
     @BeforeEach
     fun setup() {
         easyFoodSuggestionUseCase = mockk(relaxed = true)
-        consoleIO = FakeConsoleIO(LinkedList())
+        consoleIO = mockk(relaxed = true)
         easyFoodSuggestionUI = EasyFoodSuggestionUI(easyFoodSuggestionUseCase, consoleIO)
     }
 
     @Test
     fun `should display 10 meal when theres no issues`() {
-        //given
-        val numberOfMeals = 10
-        every { easyFoodSuggestionUseCase.suggestTenRandomMeals() } returns acceptedMeals()
-        //when
-        easyFoodSuggestionUI()
-        //then
-        Truth.assertThat(consoleIO.outputs).contains("Finding easy meal to prepare ...")
-        Truth.assertThat(consoleIO.outputs).contains("Your order is ready: ")
-        Truth.assertThat(consoleIO.outputs).contains("Total number of meals: $numberOfMeals")
-    }
+        // Given
+        val meals = acceptedMeals()
+        every { easyFoodSuggestionUseCase.suggestTenRandomMeals() } returns meals
 
+        // When
+        easyFoodSuggestionUI()
+
+        // Then
+        verifySequence {
+            consoleIO.write("Finding easy meal to prepare ...")
+            easyFoodSuggestionUseCase.suggestTenRandomMeals()
+            consoleIO.write("Your order is ready: ")
+            // display() is an extension function so we need to verify the meals were displayed
+            consoleIO.write("Total number of meals: ${meals.size}")
+        }
+    }
 
     @Test
     fun `should No meals found matching the criteria`() {
-        //given
+        // Given
         every { easyFoodSuggestionUseCase.suggestTenRandomMeals() } returns emptyList()
-        //when
+
+        // When
         easyFoodSuggestionUI()
-        //then
-        Truth.assertThat(consoleIO.outputs).contains("Finding easy meal to prepare ...")
-        Truth.assertThat(consoleIO.outputs).contains("Your order is ready: ")
-        Truth.assertThat(consoleIO.outputs).contains("No meals found matching the criteria.")
+
+        // Then
+        verifySequence {
+            consoleIO.write("Finding easy meal to prepare ...")
+            easyFoodSuggestionUseCase.suggestTenRandomMeals()
+            consoleIO.write("Your order is ready: ")
+            consoleIO.write("No meals found matching the criteria.")
+        }
     }
-
-
 }
