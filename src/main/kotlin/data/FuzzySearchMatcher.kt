@@ -27,8 +27,8 @@ class FuzzySearchMatcher(private val threshold: Int = 2) : SearchMatcher {
         val formattedKeyword = keyword.trim().lowercase()
         val depth = prepareBaseArray(formattedText, formattedKeyword)
 
-        for (i in 1..formattedText.length) {
-            for (j in 1..formattedKeyword.length) {
+        (1..formattedText.length).forEach { i ->
+            (1..formattedKeyword.length).forEach { j ->
                 if (formattedText[i - 1] == formattedKeyword[j - 1]) {
                     depth[i][j] = depth[i - 1][j - 1]
                 } else {
@@ -47,10 +47,10 @@ class FuzzySearchMatcher(private val threshold: Int = 2) : SearchMatcher {
     private fun prepareBaseArray(formattedText: String, formattedKeyword: String): Array<IntArray> {
         val depth = Array(formattedText.length + 1) { IntArray(formattedKeyword.length + 1) }
 
-        for (i in 0..formattedText.length) {
+        (0..formattedText.length).forEach { i ->
             depth[i][0] = i
         }
-        for (j in 0..formattedKeyword.length) {
+        (0..formattedKeyword.length).forEach { j ->
             depth[0][j] = j
         }
 

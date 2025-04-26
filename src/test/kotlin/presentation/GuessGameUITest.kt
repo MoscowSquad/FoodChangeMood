@@ -12,25 +12,29 @@ import java.util.*
 import kotlin.test.assertEquals
 
 class GuessGameUITest {
- private val mockRandomMealUseCase: RandomMealNameProviderUseCase = mockk()
+ private lateinit var randomMealNameProviderUseCase: RandomMealNameProviderUseCase
  private lateinit var consoleIO: FakeConsoleIO
  private lateinit var guessGameUI: GuessGameUI
 
  @BeforeEach
  fun setUp() {
+  randomMealNameProviderUseCase= mockk(relaxed = true)
   consoleIO = FakeConsoleIO(LinkedList())
-  guessGameUI = GuessGameUI(mockRandomMealUseCase, consoleIO)
+  guessGameUI = GuessGameUI(randomMealNameProviderUseCase, consoleIO)
  }
  @Test
  fun `guessGame should catch IllegalStateException from consoleIO read`() {
   val testMeal = createMeal("Sushi", 12)
 
+  // Create a custom ConsoleIO implementation that throws an exception
   consoleIO = object : FakeConsoleIO(LinkedList()) {
    override fun read(): String {
     throw IllegalStateException("Simulated input failure")
    }
   }
-  guessGameUI = GuessGameUI(mockRandomMealUseCase, consoleIO)
+
+  // Recreate the guessGameUI with our modified consoleIO
+  guessGameUI = GuessGameUI(randomMealNameProviderUseCase, consoleIO)
 
   guessGameUI.guessGame(testMeal)
 
@@ -42,8 +46,8 @@ class GuessGameUITest {
  @Test
  fun `invoke should display welcome and prompt for guess`() {
   val testMeal = createMeal("Pizza", 30)
-  every { mockRandomMealUseCase.getRandomMeal() } returns testMeal
-  every { mockRandomMealUseCase.isSuggestRight(30) } returns true
+  every { randomMealNameProviderUseCase.getRandomMeal() } returns testMeal
+  every { randomMealNameProviderUseCase.isSuggestRight(30) } returns true
   consoleIO.inputs.add("30")
 
   guessGameUI()
@@ -58,7 +62,7 @@ class GuessGameUITest {
  @Test
  fun `guessGame should accept correct first attempt`() {
   val testMeal = createMeal("Pasta", 15)
-  every { mockRandomMealUseCase.isSuggestRight(15) } returns true
+  every { randomMealNameProviderUseCase.isSuggestRight(15) } returns true
   consoleIO.inputs.add("15")
 
   guessGameUI.guessGame(testMeal)
@@ -72,9 +76,9 @@ class GuessGameUITest {
  @Test
  fun `guessGame should handle multiple attempts`() {
   val testMeal = createMeal("Salad", 10)
-  every { mockRandomMealUseCase.isSuggestRight(5) } returns false
-  every { mockRandomMealUseCase.isSuggestRight(8) } returns false
-  every { mockRandomMealUseCase.isSuggestRight(10) } returns true
+  every { randomMealNameProviderUseCase.isSuggestRight(5) } returns false
+  every { randomMealNameProviderUseCase.isSuggestRight(8) } returns false
+  every { randomMealNameProviderUseCase.isSuggestRight(10) } returns true
   consoleIO.inputs.addAll(listOf("5", "8", "10"))
 
   guessGameUI.guessGame(testMeal)
@@ -86,7 +90,7 @@ class GuessGameUITest {
 
  @Test
  fun `invoke should handle meal provider exception`() {
-  every { mockRandomMealUseCase.getRandomMeal() } throws Exceptions.NoMealsFoundException("No meals available")
+  every { randomMealNameProviderUseCase.getRandomMeal() } throws Exceptions.NoMealsFoundException("No meals available")
   consoleIO.inputs.add("") // Dummy input
 
   guessGameUI()
@@ -100,7 +104,7 @@ class GuessGameUITest {
  @Test
  fun `guessGame should end after 3 incorrect attempts`() {
   val testMeal = createMeal("Burger", 20)
-  every { mockRandomMealUseCase.isSuggestRight(any()) } returns false
+  every { randomMealNameProviderUseCase.isSuggestRight(any()) } returns false
   consoleIO.inputs.addAll(listOf("10", "15", "25"))
 
   guessGameUI.guessGame(testMeal)
@@ -113,8 +117,8 @@ class GuessGameUITest {
  @Test
  fun `should handle invalid number input`() {
   val testMeal = createMeal("Steak", 25)
-  every { mockRandomMealUseCase.isSuggestRight(null) } throws NumberFormatException("Invalid number")
-  every { mockRandomMealUseCase.isSuggestRight(25) } returns true
+  every { randomMealNameProviderUseCase.isSuggestRight(null) } throws NumberFormatException("Invalid number")
+  every { randomMealNameProviderUseCase.isSuggestRight(25) } returns true
   consoleIO.inputs.addAll(listOf("invalid", "25"))
 
   guessGameUI.guessGame(testMeal)
