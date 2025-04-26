@@ -7,7 +7,6 @@ import logic.usecases.createMeal
 import org.example.logic.usecases.GetRandomMealsHavePotatoesUseCase
 import org.example.model.Exceptions
 import org.example.presentation.ILovePotatoUI
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.*

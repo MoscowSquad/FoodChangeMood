@@ -1,14 +1,11 @@
 package presentation
 
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import logic.usecases.createMeal
-import org.example.logic.repository.MealRepository
 import org.example.logic.usecases.GetIraqiMealsUseCase
-import org.example.model.Exceptions
-import org.example.model.Meal
 import org.example.presentation.IraqiMealsUI
-import org.example.utils.display
-import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.util.*
