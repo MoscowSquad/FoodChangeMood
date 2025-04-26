@@ -2,7 +2,6 @@ package presentation
 
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import io.mockk.verifySequence
 import logic.usecases.createMeal
 import org.example.logic.usecases.GetHealthyFastFoodMealsUseCase
@@ -36,7 +35,7 @@ class HealthyFastFoodMealsUITest {
         healthyFastFoodMealsUI.invoke()
 
         // Then
-        verifySequence{
+        verifySequence {
             getHealthyFastFoodMealsUseCase.getHealthyMeals()
             consoleIO.write("")
             consoleIO.write("")
