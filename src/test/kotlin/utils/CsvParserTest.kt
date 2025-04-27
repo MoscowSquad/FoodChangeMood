@@ -237,4 +237,132 @@ class CsvParserTest {
             csvFileParser.getLines()
         }
     }
+
+    @Test
+    fun `should limit processing to 500 lines`() {
+        val header =
+            "name,id,minutes,contributor_id,submitted,tags,nutrition,n_steps,steps,description,ingredients,n_ingredients"
+        val validLine =
+            "Pasta,1,15,101,2023-06-01,\"['easy','quick']\",\"[250.0,8.0,3.0,500.0,7.0,2.0,30.0]\",3,\"['Boil','Mix','Serve']\",\"Simple pasta dish\",\"['pasta','oil','salt']\",3\n"
+
+        val lines = mutableListOf(header)
+        repeat(600) { // Add more than 500 lines
+            lines.add(validLine)
+        }
+
+        every { csvFileParser.getLines() } returns lines
+
+        val meals = csvParser.parseMealsCsv()
+        // Should only process 500 lines
+        Truth.assertThat(meals).hasSize(500)
+    }
+
+    @Test
+    fun `should handle explicitly testing parseInt edge cases`() {
+        every { csvFileParser.getLines() } returns listOf(
+            "name,id,minutes,contributor_id,submitted,tags,nutrition,n_steps,steps,description,ingredients,n_ingredients",
+            "Pasta,123,15abc,101,2023-06-01,\"['easy']\",\"[250.0]\",3,\"['Boil']\",\"Desc\",\"['pasta']\",3\n" // "15abc" tests toIntOrNull() returning null
+        )
+
+        val meals = csvParser.parseMealsCsv()
+        Truth.assertThat(meals).hasSize(1)
+        Truth.assertThat(meals[0].id).isEqualTo(123)
+        Truth.assertThat(meals[0].minutes).isNull()
+    }
+
+    @Test
+    fun `should test parseString with quoted and empty strings`() {
+        every { csvFileParser.getLines() } returns listOf(
+            "name,id,minutes,contributor_id,submitted,tags,nutrition,n_steps,steps,description,ingredients,n_ingredients",
+            "\"Quoted Pasta\",1,15,101,\"\",\"['easy']\",\"[250.0]\",3,\"['Boil']\",\"Desc\",\"['pasta']\",3\n" // Quoted name, empty submitted
+        )
+
+        val meals = csvParser.parseMealsCsv()
+        Truth.assertThat(meals).hasSize(1)
+        Truth.assertThat(meals[0].name).isEqualTo("Quoted Pasta")
+        Truth.assertThat(meals[0].submitted).isEqualTo("")
+    }
+
+    @Test
+    fun `should test nutrition parsing with invalid numeric values`() {
+        every { csvFileParser.getLines() } returns listOf(
+            "name,id,minutes,contributor_id,submitted,tags,nutrition,n_steps,steps,description,ingredients,n_ingredients",
+            "Pasta,1,15,101,2023-06-01,\"['easy']\",\"[250.0,notANumber,3.0,500.0,7.0,2.0,30.0]\",3,\"['Boil']\",\"Desc\",\"['pasta']\",3\n"
+        )
+
+        val meals = csvParser.parseMealsCsv()
+        Truth.assertThat(meals).hasSize(1)
+        Truth.assertThat(meals[0].nutrition?.calories).isEqualTo(250.0)
+        Truth.assertThat(meals[0].nutrition?.totalFat).isNull()
+        Truth.assertThat(meals[0].nutrition?.sugar).isEqualTo(3.0)
+    }
+
+    @Test
+    fun `should handle CsvParsingException when index is out of bounds`() {
+        every { csvFileParser.getLines() } returns listOf(
+            "name,id,minutes,contributor_id,submitted,tags,nutrition,n_steps,steps,description,ingredients,n_ingredients",
+            "Pasta"
+        )
+
+        val meals = csvParser.parseMealsCsv()
+        Truth.assertThat(meals).isEmpty()
+    }
+
+    @Test
+    fun `should handle newlines in CSV values`() {
+        every { csvFileParser.getLines() } returns listOf(
+            "name,id,minutes,contributor_id,submitted,tags,nutrition,n_steps,steps,description,ingredients,n_ingredients",
+            "\nPasta,1\n,15,101,2023-06-01,\"['easy']\",\"[250.0]\",3,\"['Boil']\",\"Desc\",\"['pasta']\",3\n" // Newlines in values
+        )
+
+        val meals = csvParser.parseMealsCsv()
+        Truth.assertThat(meals).hasSize(1)
+        Truth.assertThat(meals[0].name).isEqualTo("Pasta")
+        Truth.assertThat(meals[0].id).isEqualTo(1)
+    }
+
+    @Test
+    fun `should properly handle newlines in integer values and convert them correctly`() {
+        every { csvFileParser.getLines() } returns listOf(
+            "name,id,minutes,contributor_id,submitted,tags,nutrition,n_steps,steps,description,ingredients,n_ingredients",
+            "Pasta,12\n3,15,10\n1,2023-06-01,\"['easy']\",\"[250.0]\",\n3,\"['Boil']\",\"Desc\",\"['pasta']\",3abc\n"
+        )
+
+        val meals = csvParser.parseMealsCsv()
+        Truth.assertThat(meals).hasSize(1)
+        Truth.assertThat(meals[0].id).isEqualTo(123)
+        Truth.assertThat(meals[0].contributorId).isEqualTo(101)
+        Truth.assertThat(meals[0].nSteps).isEqualTo(3)
+        Truth.assertThat(meals[0].nIngredients).isNull()
+    }
+
+    @Test
+    fun `should test parseString edge cases`() {
+        // Test index out of bounds exception handling
+        every { csvFileParser.getLines() } returns listOf(
+            "name,id",
+            "Pasta"
+        )
+        val mealsWithMissingFields = csvParser.parseMealsCsv()
+        Truth.assertThat(mealsWithMissingFields).isEmpty()
+
+
+        every { csvFileParser.getLines() } returns listOf(
+            "name,id,minutes,contributor_id,submitted,tags,nutrition,n_steps,steps,description,ingredients,n_ingredients",
+            "Pasta,1,15,101,   ,\"['easy']\",\"[250.0]\",3,\"['Boil']\",\"Desc\",\"['pasta']\",3\n"
+        )
+        val mealsWithBlankField = csvParser.parseMealsCsv()
+        Truth.assertThat(mealsWithBlankField).hasSize(1)
+        Truth.assertThat(mealsWithBlankField[0].submitted).isNull()
+
+
+        every { csvFileParser.getLines() } returns listOf(
+            "name,id,minutes,contributor_id,submitted,tags,nutrition,n_steps,steps,description,ingredients,n_ingredients",
+            "\"Pasta with sauce\",1,15,101,\"2023-06-01\",\"['easy']\",\"[250.0]\",3,\"['Boil']\",\"Desc\",\"['pasta']\",3\n" // Quoted name and date
+        )
+        val mealsWithQuotes = csvParser.parseMealsCsv()
+        Truth.assertThat(mealsWithQuotes).hasSize(1)
+        Truth.assertThat(mealsWithQuotes[0].name).isEqualTo("Pasta with sauce")
+        Truth.assertThat(mealsWithQuotes[0].submitted).isEqualTo("2023-06-01")
+    }
 }
