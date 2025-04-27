@@ -10,11 +10,10 @@ class GetSeafoodByProteinContentUseCase(private val repository: MealRepository) 
             .filter(::bySeafood)
             .filter { it.nutrition?.protein != null }
             .ifEmpty { throw NoMealsFoundException() }
-            .sortedByDescending { it.nutrition?.protein }
+             }
     }
 
     private fun bySeafood(meal: Meal): Boolean {
         return meal.tags?.contains("seafood") ?: false
                 || meal.description?.contains("seafood") ?: false
     }
-}

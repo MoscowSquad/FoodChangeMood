@@ -18,8 +18,8 @@ class GymHelperUI(
         val proteinInput = consoleIO.read()
 
         try {
-            val nutration = NutritionRequest(caloriesInput.toDouble(), proteinInput.toDouble())
-            val matchingMeals = gymMealsUseCase.invoke(nutration)
+            val nutrition = NutritionRequest(caloriesInput.toDouble(), proteinInput.toDouble())
+            val matchingMeals = gymMealsUseCase.invoke(nutrition)
             consoleIO.write("Meals matching your criteria (Calories: $caloriesInput, Protein: $proteinInput g):")
             matchingMeals.display()
             consoleIO.write("Total matching meals found: ${matchingMeals.size}")

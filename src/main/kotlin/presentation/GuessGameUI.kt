@@ -27,7 +27,7 @@ class GuessGameUI(
         consoleIO.write("Preparation time:")
         val suggestion = try {
             consoleIO.read()
-        } catch (e: IllegalStateException) {
+        } catch (_: IllegalStateException) {
             consoleIO.write("Error: No input provided")
             return
         }
@@ -39,7 +39,7 @@ class GuessGameUI(
                 consoleIO.write("Not correct. Guess again, ")
                 guessGame(meal, time + 1)
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             consoleIO.write("Invalid input. Please enter a number.")
             guessGame(meal, time) // Retry without incrementing attempts
         }

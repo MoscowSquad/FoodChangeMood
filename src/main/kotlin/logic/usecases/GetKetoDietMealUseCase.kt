@@ -29,11 +29,6 @@ class GetKetoDietMealUseCase(private val repository: MealRepository) {
             ?: throw Exceptions.NoMealsFoundException("No more keto-friendly meals available.")
     }
 
-    // Check if the meal is keto-friendly based on the nutritional info
-    private fun Meal.notInSuggestedMeals(): Boolean {
-        return suggestedMeals.contains(this).not()
-    }
-
     // Mark the current meal as liked (e.g., show full details)
     fun likeMeal(): Meal {
         return currentMeal ?: throw Exceptions.NoMealsFoundException("No meal is currently suggested.")
@@ -48,7 +43,7 @@ class GetKetoDietMealUseCase(private val repository: MealRepository) {
 
         return try {
             getKetoMeal()
-        } catch (e: Exceptions.NoMealsFoundException) {
+        } catch (_: Exceptions.NoMealsFoundException) {
             throw Exceptions.NoMealsFoundException("No more keto-friendly meals available after disliking current meal.")
         }
     }
