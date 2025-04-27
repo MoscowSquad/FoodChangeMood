@@ -6,17 +6,17 @@ import org.example.utils.display
 
 class EasyFoodSuggestionUI(
     private val easyFoodSuggestionUseCase: EasyFoodSuggestionUseCase,
-    private val consoleIO: ConsoleIO
-) {
+    consoleIO: ConsoleIO
+) : ConsoleIO by consoleIO {
     operator fun invoke() {
-        consoleIO.write("Finding easy meal to prepare ...")
+        write("Finding easy meal to prepare ...")
         val meals = easyFoodSuggestionUseCase.suggestTenRandomMeals()
-        consoleIO.write("Your order is ready: ")
+        write("Your order is ready: ")
         if (meals.isEmpty()) {
-            consoleIO.write("No meals found matching the criteria.")
+            write("No meals found matching the criteria.")
         } else {
             meals.display()
-            consoleIO.write("Total number of meals: ${meals.size}")
+            write("Total number of meals: ${meals.size}")
         }
     }
 }

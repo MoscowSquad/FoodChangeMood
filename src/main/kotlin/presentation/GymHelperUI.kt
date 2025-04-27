@@ -7,24 +7,23 @@ import org.example.utils.display
 
 class GymHelperUI(
     private val gymMealsUseCase: GetGymMealsUseCase,
-    private val consoleIO: ConsoleIO
-) {
-
+    consoleIO: ConsoleIO
+) : ConsoleIO by consoleIO {
     operator fun invoke() {
-        consoleIO.write("--- Gym Helper ---")
-        consoleIO.write("Enter calories: ")
-        val caloriesInput = consoleIO.read()
-        consoleIO.write("Enter protein: ")
-        val proteinInput = consoleIO.read()
+        write("--- Gym Helper ---")
+        write("Enter calories: ")
+        val caloriesInput = read()
+        write("Enter protein: ")
+        val proteinInput = read()
 
         try {
             val nutrition = NutritionRequest(caloriesInput.toDouble(), proteinInput.toDouble())
             val matchingMeals = gymMealsUseCase.invoke(nutrition)
-            consoleIO.write("Meals matching your criteria (Calories: $caloriesInput, Protein: $proteinInput g):")
+            write("Meals matching your criteria (Calories: $caloriesInput, Protein: $proteinInput g):")
             matchingMeals.display()
-            consoleIO.write("Total matching meals found: ${matchingMeals.size}")
+            write("Total matching meals found: ${matchingMeals.size}")
         } catch (e: Exception) {
-            consoleIO.write("Error: ${e.message}")
+            write("Error: ${e.message}")
         }
 
     }

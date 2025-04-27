@@ -6,19 +6,19 @@ import org.example.utils.display
 
 class ILovePotatoUI(
     private val getRandomMealsHavePotatoesUseCase: GetRandomMealsHavePotatoesUseCase,
-    private val consoleIO: ConsoleIO
-) {
+    consoleIO: ConsoleIO
+) : ConsoleIO by consoleIO {
     operator fun invoke() {
-        consoleIO.write("🥔 -- I LOVE POTATO -- 🥔")
+        write("🥔 -- I LOVE POTATO -- 🥔")
 
         runCatching { getRandomMealsHavePotatoesUseCase() }
             .onSuccess { potatoMeals ->
-                consoleIO.write("Here are some tasty meals with potatoes:")
+                write("Here are some tasty meals with potatoes:")
                 potatoMeals.display()
-                consoleIO.write("Total shown: ${potatoMeals.size}")
+                write("Total shown: ${potatoMeals.size}")
             }
             .onFailure {
-                consoleIO.write(it.message)
+                write(it.message)
             }
     }
 }

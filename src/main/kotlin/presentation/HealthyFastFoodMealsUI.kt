@@ -6,18 +6,18 @@ import org.example.utils.display
 
 class HealthyFastFoodMealsUI(
     private val getHealthyFastFoodMealsUseCase: GetHealthyFastFoodMealsUseCase,
-    private val consoleIO: ConsoleIO
-) {
+    consoleIO: ConsoleIO
+) : ConsoleIO by consoleIO {
     operator fun invoke() {
-        consoleIO.write("Finding healthy fast food meals that can be prepared in 15 minutes or less...")
+        write("Finding healthy fast food meals that can be prepared in 15 minutes or less...")
         val healthyMeals = getHealthyFastFoodMealsUseCase.getHealthyMeals()
 
         if (healthyMeals.isEmpty()) {
-            consoleIO.write("No meals found matching the criteria.")
+            write("No meals found matching the criteria.")
         } else {
-            consoleIO.write("Your order is ready: ")
+            write("Your order is ready: ")
             healthyMeals.display()
-            consoleIO.write("Total number of meals: ${healthyMeals.size}")
+            write("Total number of meals: ${healthyMeals.size}")
         }
     }
 }

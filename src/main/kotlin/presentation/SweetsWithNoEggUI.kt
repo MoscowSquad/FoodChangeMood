@@ -6,17 +6,17 @@ import org.example.utils.display
 
 class SweetsWithNoEggUI(
     private val sweetsWithNoEggUseCase: SweetsWithNoEggUseCase,
-    private val consoleIO: ConsoleIO
-) {
+    consoleIO: ConsoleIO
+) : ConsoleIO by consoleIO {
     operator fun invoke() {
-        consoleIO.write("🍬--- Sweets Without Eggs ---🍬")
+        write("🍬--- Sweets Without Eggs ---🍬")
         runCatching { sweetsWithNoEggUseCase() }
             .onSuccess {
-                consoleIO.write("✨ Recommended Sweet:")
+                write("✨ Recommended Sweet:")
                 it.display()
             }
             .onFailure {
-                consoleIO.write(it.message)
+                write(it.message)
             }
     }
 }

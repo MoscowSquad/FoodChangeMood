@@ -5,19 +5,19 @@ import org.example.presentation.io.ConsoleIO
 
 class SearchMealByCountryUI(
     private val searchMealByCountryUseCase: SearchMealByCountryUseCase,
-    private val consoleIO: ConsoleIO
-) {
+    consoleIO: ConsoleIO
+) : ConsoleIO by consoleIO {
     operator fun invoke() {
         print("Enter a country name to explore its food culture: ")
-        val country = consoleIO.read()
+        val country = read()
         val meals = searchMealByCountryUseCase.searchMealsByCountry(country)
 
         if (meals.isEmpty()) {
-            consoleIO.write("No meals found for $country")
+            write("No meals found for $country")
         } else {
-            consoleIO.write("Found ${meals.size} meals related to $country:")
+            write("Found ${meals.size} meals related to $country:")
             meals.forEachIndexed { index, meal ->
-                consoleIO.write("${index + 1}. ${meal.name}")
+                write("${index + 1}. ${meal.name}")
             }
         }
     }

@@ -19,11 +19,11 @@ class ConsoleFoodChangeMoodUI(
     private val highCaloriesMealsUI: HighCaloriesMealsUI,
     private val getSeaFoodMealsUI: GetSeaFoodMealsUI,
     private val findItalianMealsForLargeGroupsUI: FindItalianMealsForLargeGroupsUI,
-    private val consoleIO: ConsoleIO
-) {
+    consoleIO: ConsoleIO
+) : ConsoleIO by consoleIO {
 
     fun start(stopImminently: Boolean = false) {
-        consoleIO.write(
+        write(
             """
 ╔════════════════════════════════════════════╗
 ║      Welcome to Food Change Mood App!      ║
@@ -43,8 +43,8 @@ class ConsoleFoodChangeMoodUI(
         }
     }
 
-    fun goToScreen() {
-        val input = consoleIO.read().toIntOrNull()
+    private fun goToScreen() {
+        val input = read().toIntOrNull()
         when (input) {
             1 -> healthyFastFoodMealsUI()
             2 -> searchMealByNameUI()
@@ -62,16 +62,16 @@ class ConsoleFoodChangeMoodUI(
             14 -> getSeaFoodMealsUI()
             15 -> findItalianMealsForLargeGroupsUI()
             16 -> {
-                consoleIO.write("\n👋 See you soon. Stay healthy!")
+                write("\n👋 See you soon. Stay healthy!")
                 exitProcess(0)
             }
 
-            else -> consoleIO.write("\n❌ Invalid input. Please enter a number between 1 and 16.")
+            else -> write("\n❌ Invalid input. Please enter a number between 1 and 16.")
         }
     }
 
     private fun showOptions() {
-        consoleIO.write(
+        write(
             """
             
 🔸 === Choose an Option === 🔸

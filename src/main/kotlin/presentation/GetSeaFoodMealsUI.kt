@@ -7,16 +7,16 @@ import org.example.utils.display
 
 class GetSeaFoodMealsUI(
     private val getSeafoodByProteinContentUseCase: GetSeafoodByProteinContentUseCase,
-    private val consoleIO: ConsoleIO
-) {
+    consoleIO: ConsoleIO
+) : ConsoleIO by consoleIO {
     operator fun invoke() {
-        consoleIO.write("Finding all seafood meals sorted by protein content...")
+        write("Finding all seafood meals sorted by protein content...")
         try {
-            consoleIO.write("Your order is ready: ")
+            write("Your order is ready: ")
             getSeafoodByProteinContentUseCase.getSeafoodMealsByProteinContent()
                 .also { it.display() }
         } catch (e: Exceptions.NoMealsFoundException) {
-            consoleIO.write(e.message)
+            write(e.message)
         }
     }
 }

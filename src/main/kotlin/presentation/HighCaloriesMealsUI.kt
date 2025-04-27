@@ -7,15 +7,15 @@ import org.example.utils.display
 
 class HighCaloriesMealsUI(
     private val getHighCaloriesMealsUseCase: GetHighCaloriesMealsUseCase,
-    private val consoleIO: ConsoleIO
-) {
+    consoleIO: ConsoleIO
+) : ConsoleIO by consoleIO {
     operator fun invoke() {
-        consoleIO.write("Finding high calories meals...")
+        write("Finding high calories meals...")
         try {
             println("Your order is ready: ")
             getHighCaloriesMealsUseCase.nextMeal().also { it.display() }
         } catch (e: Exceptions.NoMealsFoundException) {
-            consoleIO.showError(e.message)
+            showError(e.message)
         }
     }
 }

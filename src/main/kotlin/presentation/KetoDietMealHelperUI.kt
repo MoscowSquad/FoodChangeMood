@@ -7,16 +7,16 @@ import org.example.utils.display
 
 class KetoDietMealHelperUI(
     private val getKetoDietMealUseCase: GetKetoDietMealUseCase,
-    private val consoleIO: ConsoleIO
-) {
+    consoleIO: ConsoleIO
+) : ConsoleIO by consoleIO {
     operator fun invoke() {
-        consoleIO.write("Finding Keto-diet meal...")
+        write("Finding Keto-diet meal...")
         try {
-            consoleIO.write("Your order is ready: ")
+            write("Your order is ready: ")
             getKetoDietMealUseCase.getKetoMeal()
                 .also { it.display() }
         } catch (e: Exceptions.NoMealsFoundException) {
-            consoleIO.write(e.message)
+            write(e.message)
         }
     }
 }
